@@ -2,16 +2,14 @@ import { Fragment, FunctionComponent, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { BellIcon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, MenuAlt2Icon, UsersIcon, XIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
-import { Route, Routes } from "react-router-dom";
-import { DashboardOverview } from "../../pages";
+import { NavLink, Route, Routes } from "react-router-dom";
+import { DashboardOverview, RidesPage } from "../../pages";
+import { routes } from "../../config";
 
 const navigation = [
-    { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-    { name: "Team", href: "#", icon: UsersIcon, current: false },
-    { name: "Projects", href: "#", icon: FolderIcon, current: false },
-    { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-    { name: "Documents", href: "#", icon: InboxIcon, current: false },
-    { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
+    { name: "Overview", href: routes.dashboard.index, icon: HomeIcon, current: true },
+    { name: "All Rides", href: "rides", icon: HomeIcon, current: true },
+    { name: "Calendar", href: "#", icon: HomeIcon, current: true },
 ];
 const userNavigation = [
     { name: "Your Profile", href: "#" },
@@ -28,7 +26,7 @@ export const DashboardScaffold: FunctionComponent = () => {
 
     return (
         <>
-            <div>
+            <div className={`bg-white p-6 min-h-screen`}>
                 <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
                         <Transition.Child
@@ -51,7 +49,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                             leaveFrom="translate-x-0"
                             leaveTo="-translate-x-full"
                         >
-                            <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-indigo-700">
+                            <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-purple-700">
                                 <Transition.Child
                                     as={Fragment}
                                     enter="ease-in-out duration-300"
@@ -101,33 +99,33 @@ export const DashboardScaffold: FunctionComponent = () => {
                 </Transition.Root>
 
                 {/* Static sidebar for desktop */}
-                <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
+                <div className="hidden overflow-hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 mb-6 min-h-screen">
                     {/* Sidebar component, swap this element with another sidebar if you like */}
-                    <div className="flex flex-col flex-grow pt-5 bg-indigo-700 overflow-y-auto">
-                        <div className="flex items-center flex-shrink-0 px-4">
+                    <div className="flex flex-col flex-grow pt-5 bg-[#f7f7f7] rounded-xl overflow-y-auto mt-6 mr-6">
+                        <div className="flex items-center flex-shrink-0 px-4 border-b pb-5">
                             <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg" alt="Workflow" />
                         </div>
-                        <div className="mt-5 flex-1 flex flex-col">
-                            <nav className="flex-1 px-2 pb-4 space-y-1">
+                        <div className="mt-8 flex-1 flex flex-col">
+                            <nav className="flex-1 px-2 pb-4 space-y-2">
                                 {navigation.map((item) => (
-                                    <a
-                                        key={item.name}
-                                        href={item.href}
-                                        className={classNames(
-                                            item.current ? "bg-indigo-800 text-white" : "text-indigo-100 hover:bg-indigo-600",
-                                            "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                                        )}
-                                    >
-                                        <item.icon className="mr-3 flex-shrink-0 h-6 w-6 text-indigo-300" aria-hidden="true" />
-                                        {item.name}
-                                    </a>
+                                    <NavLink className={`block`} key={item.name} to={item.href}>
+                                        <a
+                                            className={classNames(
+                                                item.current ? "bg-indigo-800 text-white" : "text-indigo-100 hover:bg-indigo-600",
+                                                "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                            )}
+                                        >
+                                            <item.icon className="mr-3 flex-shrink-0 h-6 w-6 text-indigo-300" aria-hidden="true" />
+                                            {item.name}
+                                        </a>
+                                    </NavLink>
                                 ))}
                             </nav>
                         </div>
                     </div>
                 </div>
                 <div className="md:pl-64 flex flex-col flex-1">
-                    <div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
+                    <div className="sticky top-0 z-10 flex-shrink-0 flex h-20 bg-[#f7f7f7] rounded-xl">
                         <button
                             type="button"
                             className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
@@ -136,8 +134,8 @@ export const DashboardScaffold: FunctionComponent = () => {
                             <span className="sr-only">Open sidebar</span>
                             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
                         </button>
-                        <div className="flex-1 px-4 flex justify-between">
-                            <div className="flex-1 flex">
+                        <div className="flex-1 px-4 flex justify-between py-4">
+                            <div className="w-8/12 flex rounded-lg overflow-hidden px-3 py-1 bg-white border border-[#C5C5C5">
                                 <form className="w-full flex md:ml-0" action="#" method="GET">
                                     <label htmlFor="search-field" className="sr-only">
                                         Search
@@ -148,7 +146,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                                         </div>
                                         <input
                                             id="search-field"
-                                            className="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm"
+                                            className="block w-full h-full pl-8 lg:pl- pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent text-xs"
                                             placeholder="Search"
                                             type="search"
                                             name="search"
@@ -156,22 +154,28 @@ export const DashboardScaffold: FunctionComponent = () => {
                                     </div>
                                 </form>
                             </div>
-                            <div className="ml-4 flex items-center md:ml-6">
+                            <div className="flex items-center md:ml-6 divide-x divide-[#C5C5C5] space-x-4">
                                 <button type="button" className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <span className="sr-only">View notifications</span>
                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                                 </button>
 
                                 {/* Profile dropdown */}
-                                <Menu as="div" className="ml-3 relative">
+                                <Menu as="div" className="relative pl-3">
                                     <div>
-                                        <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        <Menu.Button className="max-w-xs flex items-center space-x-3 bg-transparent text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                             <span className="sr-only">Open user menu</span>
-                                            <img
-                                                className="h-8 w-8 rounded-full"
-                                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                alt=""
-                                            />
+                                            <span className={`overflow-hidden bg-gray-300 rounded-full`}>
+                                                <img
+                                                    className="h-12 w-12 rounded-full"
+                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                    alt=""
+                                                />
+                                            </span>
+                                            <div className={`flex flex-col items-start`}>
+                                                <div className={`text-[#343434] text-lg font-bold`}>Icheka Ozuru</div>
+                                                <div className={`text-[#100DB1] text-md`}>Engineer</div>
+                                            </div>
                                         </Menu.Button>
                                     </div>
                                     <Transition
@@ -201,15 +205,13 @@ export const DashboardScaffold: FunctionComponent = () => {
                     </div>
 
                     <main>
-                        <div className="py-6">
-                            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                                <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-                            </div>
+                        <div className="py-2">
                             <div className="max-w-7xl mx-auto px-4 sm:pl-5 md:pl-6 sm:pr-2">
                                 {/* PAGE CONTENT  */}
                                 <div className="py-4">
                                     <Routes>
-                                        <Route path={"/"} element={<DashboardOverview />} />
+                                        <Route index element={<DashboardOverview />} />
+                                        <Route path={"rides"} element={<RidesPage />} />
                                     </Routes>
                                 </div>
                                 {/* END PAGE CONTENT  */}

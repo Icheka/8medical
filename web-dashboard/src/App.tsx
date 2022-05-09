@@ -1,17 +1,16 @@
-import React from "react";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import logo from "./logo.svg";
 import "./App.css";
 import { routes } from "./config";
 import { DashboardScaffold } from "./components/layout";
+import { LoginPage } from "./pages";
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path={routes.dashboard.index} element={<DashboardScaffold />} />
+                <Route path={`/login`} element={<LoginPage />} />
+                <Route path={routes.dashboard.index + "/*"} element={<DashboardScaffold />} />
             </Routes>
         </BrowserRouter>
     );

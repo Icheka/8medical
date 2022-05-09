@@ -6,6 +6,9 @@ module.exports = {
     extend: {
       boxShadow: {
         card: '0px 3px 8px  #d4dc36'
+      },
+      fontSize: {
+        md: '16px'
       }
     },
   },
