@@ -1,1 +1,2 @@
-export * from './DashboardScaffold'
+export * from "./DashboardHeader";
+export * from "./DashboardScaffold";

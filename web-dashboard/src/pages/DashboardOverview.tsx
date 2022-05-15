@@ -1,32 +1,35 @@
-import { FunctionComponent } from "react";
-import { Card, PrimaryButton } from "../components/base";
+import { FunctionComponent, ReactNode } from "react";
+import { IMAGES } from "../assets/images";
+import { Card, UnderlinedButton } from "../components/base";
 import { LineGraph } from "../components/charts";
-import { AiOutlineDownload } from "react-icons/ai";
+import { RidesTable } from "../components/domains";
+import { DashboardHeader } from "../components/layout";
 
 export const DashboardOverview: FunctionComponent = () => {
     return (
         <div>
-            <div className={`flex items-center justify-between`}>
-                <h1 className={`text-[#4F03A4] font-bold text-2xl`}>Dashboard Overview</h1>
-                <div>
-                    <PrimaryButton leftIcon={<AiOutlineDownload color={"white"} />} text={"Download report"} className={`px-4 py-2`} />
-                </div>
-            </div>
+            <DashboardHeader title={"Dashboard Overview"} />
             <div className={`flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 h-full mt-8`}>
                 <div className={`flex flex-col justify-between items-start w-full sm:w-7/12 space-y-4`}>
                     <div className={`flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 h-[128px] sm:h-[70px]`}>
                         {[
-                            { label: "Total Balance", value: 2000000 },
-                            { label: "Total Earned", value: 2000000 },
-                            { label: "Total Withdrawn", value: 2000000 },
+                            { label: "Total Balance", value: 2000000, icon: IMAGES.AccountBalance, background: "bg-[#542BE7]" },
+                            { label: "Total Earned", value: 2000000, icon: IMAGES.MoneyWithdrawn, background: "bg-[#82A608]" },
+                            { label: "Total Withdrawn", value: 2000000, icon: IMAGES.MoneyEarned, background: "bg-[#FE5164]" },
                         ].map((r, i) => (
                             <BalanceCard {...r} key={i} />
                         ))}
                     </div>
                     <div className={`h-[570px] w-full`}>
-                        <Card className={`flex w-full h-full items-center !p-0`}>
-                            <div className={`w-11/12 -ml-5 h-full`}>
-                                <LineGraph tooltip />
+                        <Card className={`w-full h-full !p-0`}>
+                            <div className={`py-4`}>
+                                <div className={`flex px-4 pb-4 justify-between items-center border-b border-[#e2e8ef]`}>
+                                    <span className={`font-bold text-[#4F03A4] text-2xl`}>Rides</span>
+                                    <UnderlinedButton text={"View all"} />
+                                </div>
+                                <div className={`px-4`}>
+                                    <RidesTable />
+                                </div>
                             </div>
                         </Card>
                     </div>
@@ -38,7 +41,9 @@ export const DashboardOverview: FunctionComponent = () => {
                             background: `linear-gradient(0deg, #6D09F9 2.47%, #4300A2 58.86%)`,
                         }}
                     ></Card>
-                    <Card className={`w-full !h-[418.74px]`}></Card>
+                    <Card className={`w-full !h-[418.74px]`}>
+                        
+                    </Card>
                 </div>
             </div>
         </div>
@@ -48,13 +53,17 @@ export const DashboardOverview: FunctionComponent = () => {
 interface IBalanceCard {
     label: string;
     value: number;
+    icon?: string;
+    background?: string;
 }
 
-const BalanceCard: FunctionComponent<IBalanceCard> = ({ label, value }) => {
+const BalanceCard: FunctionComponent<IBalanceCard> = ({ label, value, icon = "", background }) => {
     return (
-        <Card className={`w-full flex justify-center items-center pt-2`}>
+        <Card className={`w-full flex justify-center items-center pt-2 ${background} text-white`}>
             <div className={`flex space-x-2`}>
-                <div className={`bg-[#100DB1] w-9 h-9 rounded-sm`}></div>
+                <div className={`w-7 h-7 rounded-sm`}>
+                    <img src={icon} />
+                </div>
                 <div>
                     <div className={`capitalize text-xs`}>{label}</div>
                     <div className={`font-bold text-lg`}>₦{value}</div>

@@ -4,12 +4,14 @@ import "./App.css";
 import { routes } from "./config";
 import { DashboardScaffold } from "./components/layout";
 import { LoginPage } from "./pages";
+import { SignupPage } from "./pages/Signup";
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path={`/login`} element={<LoginPage />} />
+                <Route path={`/signup`} element={<SignupPage />} />
                 <Route path={routes.dashboard.index + "/*"} element={<DashboardScaffold />} />
             </Routes>
         </BrowserRouter>
