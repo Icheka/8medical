@@ -5,11 +5,13 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { NavLink, Route, Routes } from "react-router-dom";
 import { DashboardOverview, RidesPage } from "../../pages";
 import { routes } from "../../config";
+import { IMAGES } from "../../assets/images";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const navigation = [
-    { name: "Overview", href: routes.dashboard.index, icon: HomeIcon, current: true },
-    { name: "All Rides", href: "rides", icon: HomeIcon, current: true },
-    { name: "Calendar", href: "#", icon: HomeIcon, current: true },
+let navigation = [
+    { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
+    { name: "All Rides", href: "rides", icon: IMAGES.Riders, current: false },
+    { name: "Calendar", href: "#", icon: IMAGES.Calendar, current: false },
 ];
 const userNavigation = [
     { name: "Your Profile", href: "#" },
@@ -22,6 +24,26 @@ function classNames(...classes: Array<string>) {
 }
 
 export const DashboardScaffold: FunctionComponent = () => {
+    // vars
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    navigation = navigation.map((nav, i) => {
+        nav.current = false;
+
+        const path = location.pathname;
+
+        if (i === 0 && path === "/dashboard") {
+            nav.current = true;
+            return nav;
+        }
+
+        nav.current = path === "/dashboard/".concat(nav.href);
+        console.log(path, "/dashboard/".concat(nav.href), path === "/dashboard/".concat(nav.href));
+        return nav;
+    });
+
+    // state
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
@@ -84,8 +106,8 @@ export const DashboardScaffold: FunctionComponent = () => {
                                                     "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                                                 )}
                                             >
-                                                <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-indigo-300" aria-hidden="true" />
-                                                {item.name}
+                                                <item.icon />
+                                                {/* {item.name} */}
                                             </a>
                                         ))}
                                     </nav>
@@ -106,16 +128,18 @@ export const DashboardScaffold: FunctionComponent = () => {
                             <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg" alt="Workflow" />
                         </div>
                         <div className="mt-8 flex-1 flex flex-col">
-                            <nav className="flex-1 px-2 pb-4 space-y-2">
+                            <nav className="flex-1 px-2 pb-4 space-y-5">
                                 {navigation.map((item) => (
                                     <NavLink className={`block`} key={item.name} to={item.href}>
                                         <a
                                             className={classNames(
-                                                item.current ? "bg-indigo-800 text-white" : "text-indigo-100 hover:bg-indigo-600",
+                                                item.current ? "bg-[#DFE0E2] text-purple-600" : "text-[#979797] hover:bg-indigo-600",
                                                 "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                                             )}
                                         >
-                                            <item.icon className="mr-3 flex-shrink-0 h-6 w-6 text-indigo-300" aria-hidden="true" />
+                                            <span className={`w-6 h-6 mr-6`}>
+                                                <item.icon />
+                                            </span>
                                             {item.name}
                                         </a>
                                     </NavLink>
@@ -190,7 +214,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                                         <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                             {userNavigation.map((item) => (
                                                 <Menu.Item key={item.name}>
-                                                    {({ active }) => (
+                                                    {({ active }: { active: boolean }) => (
                                                         <a href={item.href} className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700")}>
                                                             {item.name}
                                                         </a>

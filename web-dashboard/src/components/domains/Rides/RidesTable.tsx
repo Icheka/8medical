@@ -1,5 +1,16 @@
 import { FunctionComponent } from "react";
-import { StripedTable } from "../../base";
+import { PrimaryButton, StripedTable } from "../../base";
+
+const rows = [
+    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
+    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
+    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
+    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
+    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
+    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
+    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
+    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
+];
 
 export const RidesTable: FunctionComponent = () => {
     // vars
@@ -12,7 +23,7 @@ export const RidesTable: FunctionComponent = () => {
                     {h}
                 </div>
             ))}
-            rows={[]}
+            rows={rows}
         />
     );
 };
