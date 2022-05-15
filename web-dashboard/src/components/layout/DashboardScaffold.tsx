@@ -3,7 +3,7 @@ import { Dialog, Menu, Transition } from "@headlessui/react";
 import { BellIcon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, MenuAlt2Icon, UsersIcon, XIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
 import { NavLink, Route, Routes } from "react-router-dom";
-import { DashboardOverview, RidesPage } from "../../pages";
+import { CalendarPage, DashboardOverview, RidesPage } from "../../pages";
 import { routes } from "../../config";
 import { IMAGES } from "../../assets/images";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -11,7 +11,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
     { name: "All Rides", href: "rides", icon: IMAGES.Riders, current: false },
-    { name: "Calendar", href: "#", icon: IMAGES.Calendar, current: false },
+    { name: "Calendar", href: "calendar", icon: IMAGES.Calendar, current: false },
 ];
 const userNavigation = [
     { name: "Your Profile", href: "#" },
@@ -39,7 +39,6 @@ export const DashboardScaffold: FunctionComponent = () => {
         }
 
         nav.current = path === "/dashboard/".concat(nav.href);
-        console.log(path, "/dashboard/".concat(nav.href), path === "/dashboard/".concat(nav.href));
         return nav;
     });
 
@@ -236,6 +235,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                                     <Routes>
                                         <Route index element={<DashboardOverview />} />
                                         <Route path={"rides"} element={<RidesPage />} />
+                                        <Route path={"calendar"} element={<CalendarPage />} />
                                     </Routes>
                                 </div>
                                 {/* END PAGE CONTENT  */}

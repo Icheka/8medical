@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import { routes } from "./config";
 import { DashboardScaffold } from "./components/layout";
 import { LoginPage } from "./pages";
