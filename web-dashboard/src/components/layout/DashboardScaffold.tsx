@@ -1,12 +1,14 @@
 import { Fragment, FunctionComponent, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { BellIcon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, MenuAlt2Icon, UsersIcon, XIcon } from "@heroicons/react/outline";
+import { BellIcon, MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
 import { NavLink, Route, Routes } from "react-router-dom";
 import { CalendarPage, DashboardOverview, RidesPage } from "../../pages";
-import { routes } from "../../config";
 import { IMAGES } from "../../assets/images";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { BiPhoneCall } from "react-icons/bi";
+import { _8MedicalLinks } from "../../config";
+import { FormatNigerianNumber } from "../../utils";
 
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
@@ -17,6 +19,10 @@ const userNavigation = [
     { name: "Your Profile", href: "#" },
     { name: "Settings", href: "#" },
     { name: "Sign out", href: "#" },
+];
+const accountNavigation = [
+    { name: "Settings", href: "settings", icon: IMAGES.Settings },
+    { name: "Logout", href: "logout", icon: IMAGES.Logout },
 ];
 
 function classNames(...classes: Array<string>) {
@@ -47,7 +53,7 @@ export const DashboardScaffold: FunctionComponent = () => {
 
     return (
         <>
-            <div className={`bg-white p-6 min-h-screen`}>
+            <div className={`bg-white p-6 h-screen`}>
                 <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
                         <Transition.Child
@@ -110,6 +116,15 @@ export const DashboardScaffold: FunctionComponent = () => {
                                             </a>
                                         ))}
                                     </nav>
+                                    <nav>
+                                        <div className={`font-bold text-sm text-gray-800`}>Account</div>
+                                        {accountNavigation.map(({ name, href, ...item }, i) => (
+                                            <Link className={`flex items-center space-x-4`} to={href}>
+                                                <item.icon />
+                                                <span>{name}</span>
+                                            </Link>
+                                        ))}
+                                    </nav>
                                 </div>
                             </div>
                         </Transition.Child>
@@ -126,8 +141,8 @@ export const DashboardScaffold: FunctionComponent = () => {
                         <div className="flex items-center flex-shrink-0 px-4 border-b pb-5">
                             <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg" alt="Workflow" />
                         </div>
-                        <div className="mt-8 flex-1 flex flex-col">
-                            <nav className="flex-1 px-2 pb-4 space-y-5">
+                        <div className="mt-8 flex-1 flex flex-col relative">
+                            <nav className="px-2 pb-4 space-y-5">
                                 {navigation.map((item) => (
                                     <NavLink className={`block`} key={item.name} to={item.href}>
                                         <a
@@ -136,13 +151,41 @@ export const DashboardScaffold: FunctionComponent = () => {
                                                 "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                                             )}
                                         >
-                                            <span className={`w-6 h-6 mr-6`}>
+                                            <span className={`w-6 h-6 flex items-center justify-center mr-4`}>
                                                 <item.icon />
                                             </span>
                                             {item.name}
                                         </a>
                                     </NavLink>
                                 ))}
+                            </nav>
+                            <nav className={`px-4 mt-10 space-y-5`}>
+                                <div className={`font-bold text-sm text-gray-800`}>Account</div>
+                                {accountNavigation.map(({ name, href, ...item }, i) => (
+                                    <Link className={`flex items-center space-x-4 text-[#979797] text-sm`} to={href} key={i}>
+                                        <span className={`w-6 h-6 flex items-center justify-center`}>
+                                            <item.icon />
+                                        </span>
+                                        <span>{name}</span>
+                                    </Link>
+                                ))}
+                            </nav>
+                            <nav className={`border-t pt-6 pb-8 absolute left-0 w-full bottom-0`}>
+                                <div className={`text-xs flex items-center space-x-3 pl-4`}>
+                                    <div className={`flex justify-center items-center rounded-md bg-purple-500 p-[7px]`}>
+                                        <BiPhoneCall className={`text-lg text-white`} />
+                                    </div>
+                                    <div>
+                                        <div className={`text-red-500 italic font-semibold mb-1`}>Emergency Hotlines:</div>
+                                        <div className={`text-indigo-700 flex items-center flex-col`}>
+                                            {_8MedicalLinks.emergencyHotlines.map((phone, i) => (
+                                                <a key={i} href={`tel:${phone}`} className={`underline`}>
+                                                    {FormatNigerianNumber(phone, { withCountryCode: true })}
+                                                </a>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                             </nav>
                         </div>
                     </div>
@@ -228,7 +271,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                     </div>
 
                     <main>
-                        <div className="py-2">
+                        <div className="mt-4 h-[85vh] overflow-y-scroll">
                             <div className="max-w-7xl mx-auto px-4 sm:pl-5 md:pl-6 sm:pr-2">
                                 {/* PAGE CONTENT  */}
                                 <div className="py-4">

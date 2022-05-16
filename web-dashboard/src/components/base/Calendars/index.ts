@@ -1,1 +1,1 @@
-export * from "./MonthCalendar";
+export * from "./CalendarView";

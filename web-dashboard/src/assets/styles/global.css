@@ -1,0 +1,19 @@
+.rbc-calendar .rbc-btn-group {
+    font-size: 12px;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    border-color: #eee !important;
+}
+.rbc-calendar .rbc-active {
+    background: red !important;
+    color: white !important;
+}
+.rbc-event {
+    background-color: #82a608 !important;
+}
+.rbc-event-content {
+    background-color: #82a608 !important;
+}
+.rbc-today {
+    background-color: #e0f2a4 !important;
+}

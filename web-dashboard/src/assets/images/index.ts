@@ -1,6 +1,8 @@
 import DashboardOverview from "./dashboard-overview";
 import Riders from "./riders";
 import Calendar from "./calendar";
+import Settings from "./settings";
+import Logout from "./logout";
 
 const r = require;
 
@@ -13,6 +15,6 @@ export const IMAGES = {
     DashboardOverview,
     Riders,
     Calendar,
-    Settings: r("./settings"),
-    Logout: r("./logout"),
+    Settings,
+    Logout,
 };

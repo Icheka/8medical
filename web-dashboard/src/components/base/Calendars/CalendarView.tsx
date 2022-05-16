@@ -19,6 +19,16 @@ export const CalendarView: FunctionComponent<IMonthCalendar> = ({ events }) => {
             end,
             title: "Lunch with Icheka",
         },
+        {
+            start,
+            end,
+            title: "Dinner with Gamal",
+        },
+        {
+            start: new Date(start.getTime() + 27 * 60 * 60 * 1000),
+            end: new Date(end.getTime() + 30 * 60 * 60 * 1000),
+            title: "Dinner with Ibukun",
+        },
     ];
 
     return (
