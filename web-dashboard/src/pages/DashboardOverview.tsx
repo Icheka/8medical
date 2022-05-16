@@ -10,7 +10,7 @@ export const DashboardOverview: FunctionComponent = () => {
     return (
         <div>
             <DashboardHeader title={"Dashboard Overview"} />
-            <div className={`flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 h-full mt-8`}>
+            <div className={`flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 h-full`}>
                 <div className={`flex flex-col justify-between items-start w-full sm:w-7/12 space-y-4`}>
                     <div className={`flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 h-[128px] sm:h-[70px]`}>
                         <BalanceCard label="Balance" value={200000} icon={IMAGES.AccountBalance} background={"blue"} />

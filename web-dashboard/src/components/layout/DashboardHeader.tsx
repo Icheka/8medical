@@ -4,15 +4,18 @@ import { PrimaryButton } from "../base";
 
 interface IDashboardHeader {
     title?: string;
+    hideActionButtons?: boolean;
 }
 
-export const DashboardHeader: FunctionComponent<IDashboardHeader> = ({ title = "" }) => {
+export const DashboardHeader: FunctionComponent<IDashboardHeader> = ({ title = "", hideActionButtons = false }) => {
     return (
-        <div className={`flex items-center justify-between`}>
+        <div className={`flex items-center justify-between mb-5`}>
             <h1 className={`text-[#4F03A4] font-bold text-2xl`}>{title}</h1>
-            <div>
-                <PrimaryButton leftIcon={<AiOutlineDownload color={"white"} />} text={"Download report"} className={`px-4 py-2`} />
-            </div>
+            {!hideActionButtons && (
+                <div>
+                    <PrimaryButton leftIcon={<AiOutlineDownload color={"white"} />} text={"Download report"} className={`px-4 py-2`} />
+                </div>
+            )}
         </div>
     );
 };

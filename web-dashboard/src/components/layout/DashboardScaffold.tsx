@@ -9,6 +9,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { BiPhoneCall } from "react-icons/bi";
 import { _8MedicalLinks } from "../../config";
 import { FormatNigerianNumber } from "../../utils";
+import { SettingsPage } from "../../pages/Settings";
 
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
@@ -227,10 +228,9 @@ export const DashboardScaffold: FunctionComponent = () => {
                                 </button>
 
                                 {/* Profile dropdown */}
-                                <Menu as="div" className="relative pl-3">
+                                <div className="relative pl-3">
                                     <div>
-                                        <Menu.Button className="max-w-xs flex items-center space-x-3 bg-transparent text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                            <span className="sr-only">Open user menu</span>
+                                        <div className="max-w-xsc flex items-center space-x-3 bg-transparent text-sm rounded-full">
                                             <span className={`overflow-hidden bg-gray-300 rounded-full`}>
                                                 <img
                                                     className="h-12 w-12 rounded-full"
@@ -242,30 +242,9 @@ export const DashboardScaffold: FunctionComponent = () => {
                                                 <div className={`text-[#343434] text-lg font-bold`}>Icheka Ozuru</div>
                                                 <div className={`text-[#100DB1] text-md`}>Engineer</div>
                                             </div>
-                                        </Menu.Button>
+                                        </div>
                                     </div>
-                                    <Transition
-                                        as={Fragment}
-                                        enter="transition ease-out duration-100"
-                                        enterFrom="transform opacity-0 scale-95"
-                                        enterTo="transform opacity-100 scale-100"
-                                        leave="transition ease-in duration-75"
-                                        leaveFrom="transform opacity-100 scale-100"
-                                        leaveTo="transform opacity-0 scale-95"
-                                    >
-                                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                            {userNavigation.map((item) => (
-                                                <Menu.Item key={item.name}>
-                                                    {({ active }: { active: boolean }) => (
-                                                        <a href={item.href} className={classNames(active ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700")}>
-                                                            {item.name}
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
-                                            ))}
-                                        </Menu.Items>
-                                    </Transition>
-                                </Menu>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -279,6 +258,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                                         <Route index element={<DashboardOverview />} />
                                         <Route path={"rides"} element={<RidesPage />} />
                                         <Route path={"calendar"} element={<CalendarPage />} />
+                                        <Route path={"settings"} element={<SettingsPage />} />
                                     </Routes>
                                 </div>
                                 {/* END PAGE CONTENT  */}

@@ -12,13 +12,10 @@ export interface IInputField extends DetailedHTMLProps<InputHTMLAttributes<HTMLI
     rightIcon?: ReactNode;
 }
 
-export const InputField: FunctionComponent<IInputField> = ({ className, leftIcon, rightIcon, showLabel, label, error, description, variant = "primary", ...props }) => {
-    const classNames = [];
-    if (variant === "clear")
-        classNames.push(
-            "block w-full px-4 py-3 rounded-md border-0 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 focus:ring-offset-gray-900"
-        );
-    if (variant === "primary") classNames.push("appearance-none block w-full px-1 py-2 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm");
+export const InputField: FunctionComponent<IInputField> = ({ className = "", leftIcon, rightIcon, showLabel, label, error, description, variant = "primary", ...props }) => {
+    const classNames = ["focus:outline-none"];
+    if (variant === "clear") classNames.push("block w-full px-4 py-3 rounded-md !border-0 !outline-none text-base text-gray-900 placeholder-gray-500");
+    if (variant === "primary") classNames.push("!border-0 !outline-none block w-full px-1 py-2 rounded-md placeholder-gray-400 sm:text-sm");
     classNames.push(className);
 
     return (
