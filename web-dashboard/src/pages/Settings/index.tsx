@@ -9,7 +9,7 @@ export const SettingsPage: FunctionComponent = () => {
     return (
         <div>
             <DashboardHeader title={"Settings"} hideActionButtons />
-            <div className={`border rounded-2xl overflow-hidden pt-0 h-full divide-y`}>
+            <div className={`border rounded-2xl px-2 overflow-hidden pt-0 h-full divide-y`}>
                 <ProfileSettingsPage />
                 <BankSettingsPage />
                 <PasswordSettingsPage />

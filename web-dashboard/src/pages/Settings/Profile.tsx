@@ -9,7 +9,7 @@ export const ProfileSettingsPage: FunctionComponent = () => {
     return (
         <SettingsPageAccordion label={"Profile Details"}>
             <div className={`w-full flex justify-center relative`}>
-                <div className={`w-full max-w-[400px] ml-0`}>
+                <div className={`w-full max-w-[400px] ml-0 mt-20 xl:mt-0`}>
                     <Formik
                         initialValues={{
                             email: "",
@@ -42,7 +42,7 @@ export const ProfileSettingsPage: FunctionComponent = () => {
                     </Formik>
                 </div>
 
-                <div className={`-top-6 left-14 absolute`}>
+                <div className={`-top-7 left-[50%] -ml-[15%] xl:ml-0 xl:-top-6 xl:left-14 absolute`}>
                     <ChangeableProfilePicture />
                 </div>
             </div>

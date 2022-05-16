@@ -1,14 +1,15 @@
 import moment from "moment";
 import { FunctionComponent } from "react";
-import { Calendar, momentLocalizer, Event } from "react-big-calendar";
+import { Calendar, momentLocalizer, Event, View } from "react-big-calendar";
 
 const localizer = momentLocalizer(moment);
 
 interface IMonthCalendar {
     events?: Array<Event>;
+    view?: View;
 }
 
-export const CalendarView: FunctionComponent<IMonthCalendar> = ({ events }) => {
+export const CalendarView: FunctionComponent<IMonthCalendar> = ({ events, view }) => {
     // vars
     const now = new Date().getTime();
     const start = new Date(now - 2 * 60 * 60 * 1000);
@@ -33,7 +34,7 @@ export const CalendarView: FunctionComponent<IMonthCalendar> = ({ events }) => {
 
     return (
         <div className={`w-full h-full`}>
-            <Calendar localizer={localizer} events={events} startAccessor="start" endAccessor="end" style={{ height: "100%" }} />
+            <Calendar view={view}  localizer={localizer} events={events} startAccessor="start" endAccessor="end" style={{ height: "100%" }} />
         </div>
     );
 };

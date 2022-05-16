@@ -10,6 +10,7 @@ import { BiPhoneCall } from "react-icons/bi";
 import { _8MedicalLinks } from "../../config";
 import { FormatNigerianNumber } from "../../utils";
 import { SettingsPage } from "../../pages/Settings";
+import { Logo } from "../brand";
 
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
@@ -77,7 +78,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                             leaveFrom="translate-x-0"
                             leaveTo="-translate-x-full"
                         >
-                            <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-purple-700">
+                            <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-white">
                                 <Transition.Child
                                     as={Fragment}
                                     enter="ease-in-out duration-300"
@@ -88,36 +89,34 @@ export const DashboardScaffold: FunctionComponent = () => {
                                     leaveTo="opacity-0"
                                 >
                                     <div className="absolute top-0 right-0 -mr-12 pt-2">
-                                        <button
-                                            type="button"
-                                            className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                                            onClick={() => setSidebarOpen(false)}
-                                        >
+                                        <button type="button" className="ml-1 flex items-center justify-center h-10 w-10 rounded-full" onClick={() => setSidebarOpen(false)}>
                                             <span className="sr-only">Close sidebar</span>
                                             <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                         </button>
                                     </div>
                                 </Transition.Child>
-                                <div className="flex-shrink-0 flex items-center px-4">
-                                    <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg" alt="Workflow" />
+                                <div className={`scale-75 -ml-8`}>
+                                    <Logo />
                                 </div>
-                                <div className="mt-5 flex-1 h-0 overflow-y-auto">
-                                    <nav className="px-2 space-y-1">
+                                <div className="mt-5 flex-1 h-0 overflow-y-auto space-y-6">
+                                    <nav className="px-2 space-y-10 flex-1">
                                         {navigation.map((item) => (
-                                            <a
-                                                key={item.name}
-                                                href={item.href}
-                                                className={classNames(
-                                                    item.current ? "bg-indigo-800 text-white" : "text-indigo-100 hover:bg-indigo-600",
-                                                    "group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                                                )}
-                                            >
-                                                <item.icon />
-                                                {/* {item.name} */}
-                                            </a>
+                                            <NavLink key={item.name} to={item.href}>
+                                                <a
+                                                    className={classNames(
+                                                        item.current ? "bg-purple-100 text-purple-600" : "text-[#979797] hover:bg-indigo-600",
+                                                        "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                                                    )}
+                                                >
+                                                    <span className={`w-6 h-6 flex items-center justify-center mr-4`}>
+                                                        <item.icon />
+                                                    </span>
+                                                    {item.name}
+                                                </a>
+                                            </NavLink>
                                         ))}
                                     </nav>
-                                    <nav>
+                                    <nav className="px-4 space-y-3">
                                         <div className={`font-bold text-sm text-gray-800`}>Account</div>
                                         {accountNavigation.map(({ name, href, ...item }, i) => (
                                             <Link className={`flex items-center space-x-4`} to={href}>
@@ -125,6 +124,23 @@ export const DashboardScaffold: FunctionComponent = () => {
                                                 <span>{name}</span>
                                             </Link>
                                         ))}
+                                    </nav>
+                                    <nav className={`border-t pt-6 pb-8 absolute left-0 w-full bottom-0`}>
+                                        <div className={`text-xs flex items-center space-x-3 pl-4`}>
+                                            <div className={`flex justify-center items-center rounded-md bg-purple-500 p-[7px]`}>
+                                                <BiPhoneCall className={`text-lg text-white`} />
+                                            </div>
+                                            <div>
+                                                <div className={`text-red-500 italic font-semibold mb-1`}>Emergency Hotlines:</div>
+                                                <div className={`text-indigo-700 flex items-center flex-col`}>
+                                                    {_8MedicalLinks.emergencyHotlines.map((phone, i) => (
+                                                        <a key={i} href={`tel:${phone}`} className={`underline`}>
+                                                            {FormatNigerianNumber(phone, { withCountryCode: true })}
+                                                        </a>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </nav>
                                 </div>
                             </div>
@@ -139,8 +155,8 @@ export const DashboardScaffold: FunctionComponent = () => {
                 <div className="hidden overflow-hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 mb-6 min-h-screen">
                     {/* Sidebar component, swap this element with another sidebar if you like */}
                     <div className="flex flex-col flex-grow pt-5 bg-[#f7f7f7] rounded-xl overflow-y-auto mt-6 mr-6">
-                        <div className="flex items-center flex-shrink-0 px-4 border-b pb-5">
-                            <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg" alt="Workflow" />
+                        <div className={`transform scale-75 -ml-4`}>
+                            <Logo />
                         </div>
                         <div className="mt-8 flex-1 flex flex-col relative">
                             <nav className="px-2 pb-4 space-y-5">
@@ -193,16 +209,12 @@ export const DashboardScaffold: FunctionComponent = () => {
                 </div>
                 <div className="md:pl-64 flex flex-col flex-1">
                     <div className="sticky top-0 z-10 flex-shrink-0 flex h-20 bg-[#f7f7f7] rounded-xl">
-                        <button
-                            type="button"
-                            className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
-                            onClick={() => setSidebarOpen(true)}
-                        >
+                        <button type="button" className="px-4 border-r border-gray-200 text-gray-500 md:hidden" onClick={() => setSidebarOpen(true)}>
                             <span className="sr-only">Open sidebar</span>
                             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
                         </button>
                         <div className="flex-1 px-4 flex justify-between py-4">
-                            <div className="w-8/12 flex rounded-lg overflow-hidden px-3 py-1 bg-white border border-[#C5C5C5">
+                            <div className="w-10/12 xl:w-8/12 flex rounded-lg overflow-hidden px-3 py-1 bg-white border border-[#C5C5C5]">
                                 <form className="w-full flex md:ml-0" action="#" method="GET">
                                     <label htmlFor="search-field" className="sr-only">
                                         Search
@@ -228,7 +240,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                                 </button>
 
                                 {/* Profile dropdown */}
-                                <div className="relative pl-3">
+                                <div className="relative pl-3 hidden xl:block">
                                     <div>
                                         <div className="max-w-xsc flex items-center space-x-3 bg-transparent text-sm rounded-full">
                                             <span className={`overflow-hidden bg-gray-300 rounded-full`}>
@@ -251,7 +263,7 @@ export const DashboardScaffold: FunctionComponent = () => {
 
                     <main>
                         <div className="mt-4 h-[85vh] overflow-y-scroll">
-                            <div className="max-w-7xl mx-auto px-4 sm:pl-5 md:pl-6 sm:pr-2">
+                            <div className="max-w-7xl mx-auto xl:px-4 sm:pl-5 md:pl-6 sm:pr-2">
                                 {/* PAGE CONTENT  */}
                                 <div className="py-4">
                                     <Routes>
