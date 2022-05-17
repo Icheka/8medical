@@ -1,0 +1,29 @@
+import { EUserTypes } from "./user";
+
+export enum ETransactionTypes {
+    deposit = "deposit",
+    withdrawal = "withdrawal",
+    investment = "investment",
+    sentGift = "sent_gift",
+    receivedGift = "received_gift",
+}
+
+export enum ESupportedCurrencies {
+    NGN = "NGN",
+    USD = "USD",
+}
+
+export interface TTransaction {
+    _id: string;
+    transactionRef: string;
+    status: "successful" | "failed" | "pending";
+    message: string;
+    amount: number;
+    currency: ESupportedCurrencies;
+    senderId: string;
+    senderType: EUserTypes;
+    recipientId?: string;
+    recipientType?: EUserTypes;
+    transactionType: ETransactionTypes;
+    fee: number;
+}

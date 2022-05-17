@@ -1,0 +1,66 @@
+### SIGN UP
+POST {{baseUrl}}/vest-admin
+Content-Type: application/json
+
+{
+    "firstName": "Icheka",
+    "lastName": "Ozuru",
+    "email": "icheka@getvest.app",
+    "password": "password"
+}
+
+### SIGN IN
+POST {{baseUrl}}/vest-admin/sign-in
+Content-Type: application/json
+
+{
+    "email": "icheka@getvest.app",
+    "password": "password"
+}
+
+### VERIFY EMAIL
+GET {{baseUrl}}/vest-admin/account/624f3dc91b236d1fbefdda4e/verify
+
+### FETCH ALL 
+GET {{baseUrl}}/vest-admin/accounts
+
+### DELETE ALL 
+DELETE {{baseUrl}}/vest-admin/accounts
+
+### WHOAMI
+GET {{baseUrl}}/vest-admin/whoami 
+Authorization: Bearer {{adminToken}}
+
+### Fetch all rounds
+GET {{baseUrl}}/rounds 
+Authorization: Bearer {{adminToken}}
+
+### Fetch buyable companies
+GET {{baseUrl}}/venture/listing/buyable
+Authorization: Bearer {{adminToken}}
+
+### Fetch new companies
+GET {{baseUrl}}/venture/listing/new-comers
+Authorization: Bearer {{adminToken}}
+
+### Fetch complete listing
+GET {{baseUrl}}/venture/listing
+Authorization: Bearer {{adminToken}}
+
+### Update round
+PATCH {{baseUrl}}/rounds/round/625918e186fa2b7e809e8ecf
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "status": "closed"
+}
+
+### Update round status
+PUT {{baseUrl}}/rounds/round/625918e186fa2b7e809e8ecf/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "status": "closed"
+}

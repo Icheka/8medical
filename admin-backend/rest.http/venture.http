@@ -1,0 +1,35 @@
+### Fetch all Ventures
+GET {{baseUrl}}/venture/accounts
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+### Delete all Ventures
+DELETE  {{baseUrl}}/venture
+Content-Type: application/json
+
+### Whoami
+GET  {{baseUrl}}/venture/whoami
+Content-Type: application/json
+Authorization: Bearer {{ventureToken}}
+
+### Sign in
+POST {{baseUrl}}/venture/sign-in
+Content-Type: application/json
+
+{
+    "email": "team@getvest.app",
+    "password": "zlcmGLffa9NV00KegoxYeNh5"
+}
+
+### Create Venture
+POST {{baseUrl}}/venture
+Content-Type: application/json
+
+### Update Venture
+PATCH {{baseUrl}}/venture/accounts/account/6255fbc11cacdc35ad5eb61c
+Content-Type: application/json 
+Authorization: Bearer {{adminToken}}
+
+{
+    
+}

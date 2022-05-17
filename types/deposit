@@ -1,0 +1,10 @@
+import { IModelDocument } from "./common";
+import { ESupportedCurrencies } from "./transaction";
+
+export interface TDeposit extends IModelDocument {
+    investorId: string;
+    amount: number;
+    currency: ESupportedCurrencies;
+    fee: number;
+    usd: number;
+}

@@ -1,0 +1,24 @@
+export interface UserType {
+    _id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    referredBy?: string;
+    password: string;
+    createdAt: Date;
+    updatedAt: Date;
+    emailVerified: boolean;
+    activityStatus: string;
+    expoPushTokens?: string[];
+}
+
+export type AddToWaitlistPayload = {
+    email: string;
+    referredBy?: string;
+};
+
+export enum EUserTypes {
+    Investor = "investor",
+    VestAdmin = "vest_admin",
+    Founder = "founder"
+}

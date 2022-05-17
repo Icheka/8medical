@@ -1,0 +1,10 @@
+### fetch all
+GET {{baseUrl}}/waitlist
+
+### insert one
+POST {{baseUrl}}/waitlist
+Content-Type: application/json
+
+{
+    "email": "rhemafortune@gmail.com"
+}

@@ -1,0 +1,50 @@
+import { IModelDocument } from "./common";
+import { TFounder } from "./venture";
+
+export interface TCompanyApplication extends IModelDocument {
+    legalName: string;
+    email: string;
+    address?: string;
+    website?: string;
+    isIncorporated: boolean;
+    inceptedAt: string; // Date-ISO string
+    regionalFocus: string;
+    cityFocus: string;
+    countryFocus: string;
+    description: string;
+    blurb: string;
+    pitchDeck?: string;
+    incorporationDocument?: string;
+    logo?: string;
+    industries: string;
+    problemStatement: string;
+    founders: Array<TFounder>;
+    teamSize: number;
+    teamDuration: string;
+    teamRelationshipDescription: string;
+    productStage: string;
+    productTechnology: string;
+    businessModel: string;
+    productMonetisationChannels: string;
+    productMarketingChannel: string;
+    achievedProductMilestones: string;
+    competition: string;
+    industryRegulators: string;
+    competitiveAdvantage: string;
+    marketOverview: string;
+    customerPersona: string;
+    marketSize: string;
+    acquiredUsers: number;
+    costOfUserAcquisition: number;
+    totalRevenue: number;
+    otherTraction: string;
+    valuation?: number;
+    heardFrom: string;
+    applicationReviewed: boolean;
+    links?: {
+        notion?: string;
+        twitter?: string;
+        linkedin?: string;
+        crunchbase?: string;
+    };
+}

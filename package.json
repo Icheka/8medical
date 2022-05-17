@@ -1,0 +1,19 @@
+{
+    "name": "root",
+    "version": "1.0.0",
+    "description": "Root contains all our code organised as sub-repositories.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "copy-types:web-dashboard": "node types/script.js --to=web-dashboard",
+        "copy-types:backend": "node types/script.js --to=backend",
+        "copy-utils:web-dashboard": "node utils/script.js --to=web-dashboard",
+        "copy-utils:backend": "node utils/script.js --to=backend"
+    },
+    "author": "Icheka Ozuru",
+    "license": "ISC",
+    "dependencies": {
+        "handlebars": "^4.7.7",
+        "nodemailer": "^6.7.3"
+    }
+}

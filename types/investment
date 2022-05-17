@@ -1,0 +1,18 @@
+import { IModelDocument } from "./common";
+import { ESupportedCurrencies } from "./transaction";
+
+export interface IInvestment extends IModelDocument {
+    roundId: string;
+    investorId: string;
+    amount: number;
+    currency: ESupportedCurrencies;
+    transactionId: string;
+}
+
+export interface INewInvestmentPayload {
+    roundId: string;
+    investorId: string;
+    amount: number;
+    currency: ESupportedCurrencies;
+    transactionRef: string;
+}

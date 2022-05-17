@@ -1,0 +1,26 @@
+import { IModelDocument } from "./common";
+import { TCompanyApplication } from "./companyApplication";
+
+export type TFounder = {
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    email: string;
+    role: string;
+    linkedin: string;
+    website?: string;
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+export interface TVenture extends IModelDocument, TCompanyApplication {
+    emailVerified: boolean;
+    activityStatus: string;
+    password: string;
+    tokenPrice?: number;
+    symbol?: string;
+    overview: string;
+    ceo: string;
+    industry: string;
+    shares: number;
+}

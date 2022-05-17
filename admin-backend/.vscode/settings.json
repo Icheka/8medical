@@ -1,0 +1,14 @@
+{
+    "rest-client.environmentVariables": {
+        "$shared": {},
+        "development": {
+            "baseUrl": "http://localhost:4000/api",
+            "investorToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjYxMjhiODJmYWM4N2JkMjhiYzk2NTkiLCJlbWFpbCI6ImljaGVrYUBnZXR2ZXN0LmFwcCIsInJvbGUiOiJpbnZlc3RvciIsImlhdCI6MTY1MTk4MjExNiwiZXhwIjoxNjU0NTc0MTE2fQ.vn7HdHgjg7mETrx7vjdbRuxwb9ngUex1ylx3RAH1B24",
+            "adminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjRmNTgyOGZiODBhNmY2NDhmNmEzMTMiLCJlbWFpbCI6ImljaGVrYUBnZXR2ZXN0LmFwcCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0OTc5NDQxMSwiZXhwIjoxNjUyMzg2NDExfQ._21y6d9fn0DsQlzf_Xghj3Bu-w652xj9CqdU9K9Jje0",
+            "ventureToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjU0MjJjZTc5YjkwYzRmMTZlMDVjNWYiLCJlbWFpbCI6InRlYW1AZ2V0dmVzdC5hcHAiLCJyb2xlIjoidmVudHVyZSIsImlhdCI6MTY0OTc5MzEyOCwiZXhwIjoxNjUyMzg1MTI4fQ.4XhX3mnRtAvtFRjZCiSxxGo5Ihe-N3Uhh4IhFWPUGPI"
+        },
+        "test": {
+            "baseUrl": "http://localhost:4002/api"
+        }
+    }
+}
