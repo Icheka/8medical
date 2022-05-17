@@ -26,6 +26,7 @@ exports.Disperse = (from, to) => {
             throw 'RS::' + err;
         });
 
+        if (file.endsWith('.ts')) file = file.slice(0, -3);
         const ws = fs.createWriteStream(path.resolve(to, file + '.ts'));
 
         ws.on("error", (err) => {

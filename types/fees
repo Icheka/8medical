@@ -1,4 +1,0 @@
-export const VestFees = {
-    investmentTransaction: 2.3,
-    depositTransaction: 2.3,
-};
