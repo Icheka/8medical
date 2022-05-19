@@ -7,7 +7,9 @@ export type RequestUser = {
     _id: string;
     role: RequestUserRoles;
 };
-export enum RequestUserRoles {}
+export enum RequestUserRoles {
+    responder = "responder",
+}
 
 class AuthMiddleware {
     /**
@@ -55,6 +57,10 @@ class AuthMiddleware {
             if (!valid) return res.status(401).send(`Invalid access token`);
             else return next();
         });
+    }
+
+    public static async responderAuth(req: Request, res: Response, next: NextFunction) {
+        return AuthMiddleware.authenticate(req, res, next, RequestUserRoles.responder);
     }
 }
 

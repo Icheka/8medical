@@ -4,7 +4,7 @@ import Crypt from "../../helpers/crypt";
 import SchemaValidator from "../../helpers/joi";
 import { BaseModel, HydratedDocumentType } from "../../models";
 import { EmailLib } from "../../lib/email";
-import { emailValidationSchema, passwordValidation } from "../../lib/validations";
+import { emailValidationSchema, passwordValidation, phoneValidation } from "../../lib/validations";
 import { RequestUserRoles } from "../../middleware/auth";
 import AccessTokens from "../../helpers/authTokens";
 import { join } from "path";

@@ -4,6 +4,7 @@ import Crypt from "../../helpers/crypt";
 import SchemaValidator from "../../helpers/joi";
 import { BaseModel } from "../../models";
 import { EmailLib } from "../../lib/email";
+import { SendMailWorker } from "../../lib/workers";
 
 interface IConstructor<T, Y> {
     payload: T;
@@ -73,6 +74,7 @@ export class SignUpClass<T extends { email: string; password: string; firstName?
         obj.password = hash;
         const user = new model.model(obj);
         user.save();
+        console.log("new user ID ->", user.id);
 
         // 5.
         const payload = this.email?.payload ?? {
@@ -84,7 +86,7 @@ export class SignUpClass<T extends { email: string; password: string; firstName?
         if (this.customEmailer) {
             this.customEmailer();
         } else {
-            await EmailLib.sendEmail({
+            new SendMailWorker({
                 address: obj.email,
                 subject: "Verify your Vest account",
                 payload,
@@ -93,6 +95,6 @@ export class SignUpClass<T extends { email: string; password: string; firstName?
         }
         if (this.onSignup) this.onSignup();
 
-        return { data: "You signed up successfully! An email and a link to verify your account has been sent to the address you provided." };
+        return { data: "You signed up successfully! An email with a link to verify your account has been sent to the address you provided." };
     }
 }

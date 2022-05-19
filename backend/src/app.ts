@@ -9,6 +9,8 @@ const ENV_FILE = process.argv.length > 2 ? process.argv[2] : undefined;
 _error.guard();
 ENV_FILE && dotenv.config({ path: path.join(process.cwd(), ENV_FILE) });
 
+import { KEYS } from "./keys";
+
 import express from "express";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
@@ -17,8 +19,10 @@ import requestIP from "request-ip";
 import Log from "./lib/logger";
 import dbConnect from "./helpers/dbConnect";
 
-import { API_ROUTER } from "./routes";
 import { RequestUser } from "./middleware/auth";
+
+import { RedisClient } from "./controllers/non-models/Redis";
+export const redisClient = new RedisClient();
 
 const app = express();
 dbConnect.connect();
@@ -58,20 +62,18 @@ app.use("/", (req, res, next) => {
     next();
 });
 
+import { API_ROUTER } from "./routes";
+
 // routes
 // APIS
 app.use(`/api`, API_ROUTER);
 
-import { RedisClient } from "./controllers/non-models";
-import { KEYS } from "./keys";
-// export const redisClient = new RedisClient();
-
-// if (KEYS().ENVIRONMENT.stage === "development") {
-//     redisClient.set("test", "test");
-//     (async () => {
-//         if ((await redisClient.get("test")) === "test") console.log(">>>>>>>>>>>>>>\n\n", "Redis is up!", "\n\n>>>>>>>>>>>>>");
-//     })();
-// }
+if (KEYS().ENVIRONMENT.stage === "development") {
+    redisClient.set("test", "test");
+    (async () => {
+        if ((await redisClient.get("test")) === "test") console.log(">>>>>>>>>>>>>>\n\n", "Redis is up!", "\n\n>>>>>>>>>>>>>");
+    })();
+}
 
 // startup/exit
 const port = process.env.PORT;

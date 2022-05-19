@@ -167,7 +167,7 @@ export class BaseModel<T> implements IBaseModel<T> {
     UpdateOne: (id: string, obj: Partial<T>) => Promise<FetchOpReturnType<T>> = async (id, obj) => {
         try {
             const res = await this.model.findByIdAndUpdate(id, obj);
-            return { data: res };
+            return { data: { ...(res ? res.toObject() : null), ...obj } } as FetchOpReturnType<T>;
         } catch (err) {
             return { error: err as string, data: null };
         }

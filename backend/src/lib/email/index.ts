@@ -13,7 +13,7 @@ type FromField = {
     email: string;
 };
 
-type MailPayloadType = {
+export type MailPayloadType = {
     address: string;
     subject: string;
     payload: Record<string, any>;
