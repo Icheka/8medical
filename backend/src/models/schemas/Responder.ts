@@ -43,6 +43,14 @@ export const ResponderSchema = new Schema<IResponder>(
             required: true,
             default: [],
         },
+        responderTypes: {
+            type: [String],
+            required: false,
+        },
+        gender: {
+            type: String,
+            required: false,
+        },
     },
     {
         timestamps: true,

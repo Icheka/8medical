@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            {{documentTitle}}
+        </title>
+        {{> pdf-css-utilities}}
+    </head>
+    <body>
+        <div>
+            <h1>Profile</h1>
+
+            <section class="flex column gap-4px page fieldset-card">
+                {{#each profile}}
+                    <div class="flex row items-bottom gap-4px">
+                        <div class="bold normal" style="margin-right: 4px">
+                            {{this.key}}:
+                        </div>
+                        <div class="small">
+                            {{this.value}}
+                        </div>
+                    </div>
+                {{/each}}
+            </section>
+
+            <h1>Missions</h1>
+
+            <section class="flex column gap-4px page fieldset-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Status</th>
+                            <th>Time</th>
+                            <th>Duration</th>
+                            <th>Address</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each missions}}
+                            <tr class="small">
+                                <td>{{@index}}</td>
+                                <td>{{this.status}}</td>
+                                <td>
+                                    {{this.startTime}}
+                                </td>
+                                <td></td>
+                                <td>
+                                    {{this.address}}
+                                </td>
+                                <td>
+                                    {{this.description}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                {{#each missions}}
+                {{this.address}}
+                {{/each}}
+            </section>
+        </div>
+    </body>
+</html>

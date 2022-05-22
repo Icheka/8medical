@@ -1,7 +1,16 @@
 import { IUser } from "./user";
 
+export enum EResponderTypes {
+    doctor = "doctor",
+    nurse = "nurse",
+    paramedic = "paramedic",
+    firstResponder = "first responder",
+}
+
 export interface IResponder extends IUser {
     phone: string;
+    responderTypes?: Array<EResponderTypes>;
+    gender?: string;
 }
 
 export interface IResponderSignupPayload {

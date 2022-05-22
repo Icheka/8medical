@@ -1,0 +1,41 @@
+.flex {
+    display: -webkit-flex;
+}
+.column {
+    flex-direction: column;
+    -webkit-flex-direction: column;
+}
+.row {
+    flex-direction: row;
+    -webkit-flex-direction: row;
+}
+.items-center {
+    align-items: center;
+    -webkit-align-items: center;
+}
+.gap-4px {
+    gap: 4px;
+    -webkit-gap: 4px;
+}
+.bold {
+    font-weight: extrabold;
+    -webkit-font-weight: extrabold;
+}
+.page {
+    height: 100vh;
+}
+.fieldset-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+}
+.small {
+    font-size: 12px;
+}
+.normal {
+    font-size: 14px;
+}
+.items-bottom {
+    align-items: flex-end;
+    -webkit-align-items: flex-end;
+}

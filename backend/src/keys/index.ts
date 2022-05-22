@@ -1,5 +1,6 @@
 export const KEYS = () => ({
     APP_DOMAIN: process.env.APP_DOMAIN,
+    PORT: process.env.PORT,
     WEBSITE_URL: process.env.CLIENT_URL,
     REDIS: {
         host: process.env.REDIS_HOST!,
@@ -10,3 +11,5 @@ export const KEYS = () => ({
         stage: process.env.NODE_ENV as "production" | "development" | "stage",
     },
 });
+
+export const keys = KEYS();

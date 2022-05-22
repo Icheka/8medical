@@ -63,6 +63,7 @@ app.use("/", (req, res, next) => {
 });
 
 import { API_ROUTER } from "./routes";
+import { registerHandlebarsHelpers } from "./utils";
 
 // routes
 // APIS
@@ -78,6 +79,9 @@ if (KEYS().ENVIRONMENT.stage === "development") {
 // startup/exit
 const port = process.env.PORT;
 if (!port) throw `Application PORT must be defined!`;
+
+// register Handlebars helpers
+registerHandlebarsHelpers();
 
 // const server = app.listen(port, () => {
 //     Admins.createIfNotExists();

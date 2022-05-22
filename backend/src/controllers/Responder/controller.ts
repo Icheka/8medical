@@ -35,7 +35,7 @@ class Responder extends BaseModel<IResponder> {
         const f = new ForgotPasswordClass({
             email: email!,
             model: this,
-            path: "/responder/accounts/account/s/forgot-password/change",
+            path: "/responder/account/forgot-password/change",
         });
         return await f.go();
     }
@@ -46,7 +46,7 @@ class Responder extends BaseModel<IResponder> {
             _id,
             model: _Responder,
             activateAccount: true,
-            loginLink: `${KEYS().WEBSITE_URL}/responder/sign-in`,
+            loginLink: `${KEYS().WEBSITE_URL}/responder/account/sign-in`,
         });
         return v.verify().then(async (data) => {
             return data;
@@ -69,7 +69,7 @@ class Responder extends BaseModel<IResponder> {
         const s = new SignUpClass<IResponderSignupPayload, IResponder>({
             model: _Responder,
             payload,
-            verificationRoute: (id) => `${KEYS().APP_DOMAIN}/api/responder/accounts/account/${id}/verify`,
+            verificationRoute: (id) => `${KEYS().APP_DOMAIN}/api/responder/account/verify/${id}`,
             validator: ResponderValidations.SignUp,
         });
         return s.signup();

@@ -41,6 +41,7 @@ export class BackgroundWorker {
                 connection: redisConnection,
             }
         );
+
         return this;
     }
 
