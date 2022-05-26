@@ -3,9 +3,11 @@ import { IMAGES } from "../assets/images";
 import { CalendarView, Card, UnderlinedButton } from "../components/base";
 import { EarningsLiteTable, RidesTable } from "../components/domains";
 import { DashboardHeader } from "../components/layout";
+import { useResponder } from "../context";
 
 export const DashboardOverview: FunctionComponent = () => {
     // state
+    const responder = useResponder();
 
     return (
         <div>

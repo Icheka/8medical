@@ -6,7 +6,7 @@ export const FormatNigerianNumber = (
         withCountryCode?: boolean;
     }
 ) => {
-    phone = phone.replace(/[\+]/, "");
+    phone = phone.replace(/[+]/, "");
     phone = phone.split(" ").join("");
 
     if (phone.startsWith("234")) {

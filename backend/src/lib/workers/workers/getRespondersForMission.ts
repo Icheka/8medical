@@ -45,7 +45,7 @@ export const contactRespondersForMission = async (missionId: string) => {
         if (count[key] < permutations[key]) {
             const remainder = permutations[key] - count[key];
 
-            await ResponderModel.find({ responderTypes: key, _id: { $nin: mission.respondersContacted } })
+            await ResponderModel.find({ responderTypes: capsToSpace(key), _id: { $nin: mission.respondersContacted } })
                 .limit(remainder)
                 .then((responders) => {
                     console.log("responders ->", responders);
@@ -57,10 +57,10 @@ export const contactRespondersForMission = async (missionId: string) => {
 
 const findCountOfResponders = (team: Array<IMissionTeamMember>, count?: IResponderPermutations) => {
     count = count ?? {
-        doctors: 0,
-        nurses: 0,
-        firstResponders: 0,
-        paramedics: 0,
+        doctor: 0,
+        nurse: 0,
+        firstResponder: 0,
+        paramedic: 0,
     };
 
     for (const responder of team) {

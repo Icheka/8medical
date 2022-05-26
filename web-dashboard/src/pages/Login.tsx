@@ -1,5 +1,6 @@
+import { FunctionComponent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
-import { FunctionComponent } from "react";
 import { IMAGES } from "../assets/images";
 import { FormikField } from "../components/base/InputField";
 import { LoginValidations } from "../formik-validations";
@@ -7,8 +8,38 @@ import { BiEnvelope } from "react-icons/bi";
 import { MdVpnKey } from "react-icons/md";
 import { AiFillEye } from "react-icons/ai";
 import { OutlineButton, PrimaryButton } from "../components/base";
+import { IResponderSigninPayload } from "../types/service-types";
+import { ResponderAccountService } from "../services";
+import { toast } from "react-toastify";
+import { useResponder } from "../context";
+import { routes } from "../config";
 
 export const LoginPage: FunctionComponent = () => {
+    // vars
+    const navigate = useNavigate();
+
+    // state
+    const responderContext = useResponder();
+    const [isLoading, setLoading] = useState(false);
+
+    // utils
+    const handleLogin = async (values: IResponderSigninPayload) => {
+        setLoading(true);
+
+        const [code, data] = await ResponderAccountService.signin(values);
+
+        setLoading(false);
+
+        if (code !== 0) {
+            return toast.error(data);
+        }
+
+        responderContext!.updateContext((draft) => {
+            draft!.currentResponder = data;
+        });
+        navigate(routes.dashboard.index);
+    };
+
     return (
         <div>
             <div className={`flex h-screen`}>
@@ -24,10 +55,15 @@ export const LoginPage: FunctionComponent = () => {
                                 password: "",
                             }}
                             validationSchema={LoginValidations}
-                            onSubmit={async () => null}
+                            onSubmit={handleLogin}
                         >
                             {(formik) => (
-                                <form>
+                                <form
+                                    onSubmit={(e) => {
+                                        e.preventDefault();
+                                        formik.handleSubmit();
+                                    }}
+                                >
                                     <div className={`font-bold text-md text-gray-500 uppercase`}>Welcome back, Icheka</div>
                                     <div className={`font-bold text-4xl mt-7 mb-6 text-gray-900`}>Log in to your account</div>
                                     <div className={`w-full space-y-4`}>
@@ -46,8 +82,8 @@ export const LoginPage: FunctionComponent = () => {
                                         />
                                     </div>
                                     <div className={`flex items-center justify-between space-x-12 mt-10 mb-6`}>
-                                        <OutlineButton className={`w-full py-3 flex justify-center items-center font-bold text-md`} text={"Register"} />
-                                        <PrimaryButton className={`w-full py-3 flex justify-center items-center font-bold text-md`} text={"Log in"} />
+                                        <OutlineButton type={"button"} className={`w-full py-3 flex justify-center items-center font-bold text-md`} text={"Register"} />
+                                        <PrimaryButton loading={isLoading} type={"submit"} className={`w-full py-3 flex justify-center items-center font-bold text-md`} text={"Log in"} />
                                     </div>
                                     <div className={`flex items-center justify-between text-[#D3D3D3] font-medium text-md`}>
                                         <div className={`flex items-center space-x-3`}>
@@ -55,7 +91,7 @@ export const LoginPage: FunctionComponent = () => {
                                             <span>Remember me</span>
                                         </div>
                                         <div>
-                                            <button>Forgot password?</button>
+                                            <button type={'button'}>Forgot password?</button>
                                         </div>
                                     </div>
                                 </form>

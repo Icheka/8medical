@@ -51,6 +51,10 @@ export const ResponderSchema = new Schema<IResponder>(
             type: String,
             required: false,
         },
+        address: {
+            type: String,
+            required: false,
+        },
     },
     {
         timestamps: true,

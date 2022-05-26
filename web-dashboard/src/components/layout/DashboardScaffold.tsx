@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useState } from "react";
+import { Fragment, FunctionComponent, useState, useEffect } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
@@ -11,6 +11,9 @@ import { _8MedicalLinks } from "../../config";
 import { FormatNigerianNumber } from "../../utils";
 import { SettingsPage } from "../../pages/Settings";
 import { Logo } from "../brand";
+import { useResponder } from "../../context";
+import { ResponderAccountService } from "../../services";
+import { IResponder } from "../../types/service-types";
 
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
@@ -35,6 +38,7 @@ export const DashboardScaffold: FunctionComponent = () => {
     // vars
     const navigate = useNavigate();
     const location = useLocation();
+    const responder = useResponder();
 
     navigation = navigation.map((nav, i) => {
         nav.current = false;
@@ -52,6 +56,19 @@ export const DashboardScaffold: FunctionComponent = () => {
 
     // state
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState<IResponder>();
+
+    // hooks
+    useEffect(() => {
+        setIsLoggedIn(responder!.isLoggedIn());
+        setUser(responder?.currentResponder?.user);
+    }, [JSON.stringify(responder)]);
+    useEffect(() => {
+        ResponderAccountService.whoami(responder);
+    }, [JSON.stringify(location)]);
+
+    if (!isLoggedIn) return <h1>Loading</h1>;
 
     return (
         <>
@@ -251,8 +268,8 @@ export const DashboardScaffold: FunctionComponent = () => {
                                                 />
                                             </span>
                                             <div className={`flex flex-col items-start`}>
-                                                <div className={`text-[#343434] text-lg font-bold`}>Icheka Ozuru</div>
-                                                <div className={`text-[#100DB1] text-md`}>Engineer</div>
+                                                <div className={`text-[#343434] text-md font-bold line-clamp-2`}>{`${user!.firstName} ${user!.lastName}`}</div>
+                                                <div className={`text-[#100DB1] text-sm uppercase`}>{user?.responderTypes ? user?.responderTypes[0] : "Responder"}</div>
                                             </div>
                                         </div>
                                     </div>

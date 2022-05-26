@@ -1,20 +1,52 @@
-import { FunctionComponent } from "react";
-import { PrimaryButton, StripedTable } from "../../base";
-
-const rows = [
-    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
-    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
-    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
-    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
-    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
-    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
-    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
-    ["39 Ada George Rd., Port Harcourt", "NiMSA Games 2021", "29 September, 2021", "10:00 AM", "Completed", <PrimaryButton text={"View details"} className={`px-2 text-xs`} />],
-];
+import { FunctionComponent, ReactNode, useEffect, useState } from "react";
+import { ResponderMissionsService } from "../../../services";
+import { EMissionStatus, IMission } from "../../../types/service-types";
+import { StripedTable } from "../../base";
 
 export const RidesTable: FunctionComponent = () => {
     // vars
     const headers = ["Location", "Description", "Date", "Time", "Status", ""];
+
+    // state
+    const [rows, setRows] = useState<Array<Array<string | ReactNode>>>([]);
+
+    // utils
+    const fetchMissions = async () => {
+        const [code, data] = await ResponderMissionsService.fetchMissions();
+        if (code === 0) setRows(cleanseMissionsData(data));
+    };
+    const cleanseMissionsData = (missions: Array<IMission>) => {
+        return missions.map((mission) => {
+            const color = missionStatusColor(mission.status);
+            const textColor = "text-".concat(color, "-500");
+            const bgColor = "!bg-".concat(color, "-200");
+
+            return [
+                mission.address,
+                mission.description,
+                new Date(mission.startTime).toLocaleDateString("en-GB"),
+                new Date(mission.startTime).toLocaleTimeString("en-GB", { hour12: true }),
+                <div className={`${bgColor} ${textColor} border px-3 py-1 rounded-lg uppercase text-sm`}>{mission.status}</div>,
+            ];
+        });
+    };
+    const missionStatusColor = (status: EMissionStatus) => {
+        switch (status) {
+            case EMissionStatus.active:
+                return "blue";
+            case EMissionStatus.cancelled:
+                return "red";
+            case EMissionStatus.completed:
+                return "green";
+            case EMissionStatus.scheduled:
+                return "yellow";
+        }
+    };
+
+    // hooks
+    useEffect(() => {
+        fetchMissions();
+    }, []);
 
     return (
         <StripedTable

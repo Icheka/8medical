@@ -11,6 +11,7 @@ export interface IResponder extends IUser {
     phone: string;
     responderTypes?: Array<EResponderTypes>;
     gender?: string;
+    address?: string;
 }
 
 export interface IResponderSignupPayload {

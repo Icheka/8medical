@@ -32,7 +32,7 @@ r.get(`/export`, ResponderAuth, async (req, res) => {
     const pdf: string | null = await (await new ExportResponderToPDF().setResponder(id)).export();
 
     const d = {
-        pdf: pdf === null ? undefined : `${req.protocol}://${req.hostname}${keys.ENVIRONMENT.stage === 'development' ? `:${keys.PORT}` : ''}/${pdf}`,
+        pdf: pdf === null ? undefined : `${req.protocol}://${req.hostname}${keys.ENVIRONMENT.stage === "development" ? `:${keys.PORT}` : ""}/${pdf}`,
     };
 
     return res.send(d);
@@ -48,10 +48,10 @@ r.patch(`/`, ResponderAuth, async (req, res) => {
     res.send(d);
 });
 
-// @route POST /api/responder/account/change-password
+// @route PATCH /api/responder/account/password
 // @desc Change password
 // @access Responder
-r.post(`/change-password`, ResponderAuth, async (req, res) => {
+r.patch(`/password`, ResponderAuth, async (req, res) => {
     const [isValidSchema, validityError] = await SchemaValidator.validate(ChangePasswordValidationSchema, req.body);
     if (!isValidSchema) return res.status(406).send({ error: validityError });
 
@@ -64,10 +64,10 @@ r.post(`/change-password`, ResponderAuth, async (req, res) => {
     res.send(d);
 });
 
-// @route POST /api/responder/account/forgot-password/change
+// @route POST /api/responder/account/password
 // @desc Reset password
 // @access Responder
-r.get(`/forgot-password/change`, async (req, res) => {
+r.get(`/password`, async (req, res) => {
     const url: URL = new URL(process.env.APP_DOMAIN! + "/api" + req.url);
     const d = await ForgotPasswordClass.reset<IResponder>({
         link: url.search,
@@ -78,10 +78,10 @@ r.get(`/forgot-password/change`, async (req, res) => {
     res.send(d);
 });
 
-// @route POST /api/responder/account/forgot-password
+// @route POST /api/responder/account/password
 // @desc Get 'reset password' link
 // @access Responder
-r.post(`/forgot-password`, async (req, res) => {
+r.post(`/password`, async (req, res) => {
     const user = req.context?.user;
     if (user && user._id) req.body.id = user._id;
     const d = await R.ForgotPassword(req.body);

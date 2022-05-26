@@ -26,10 +26,10 @@ export enum EMissionType {
 }
 
 export interface IResponderPermutations {
-    doctors: number;
-    nurses: number;
-    paramedics: number;
-    firstResponders: number;
+    doctor: number;
+    nurse: number;
+    paramedic: number;
+    firstResponder: number;
 }
 
 export interface IMission extends IModelDocument {

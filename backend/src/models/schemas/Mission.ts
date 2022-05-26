@@ -52,10 +52,10 @@ export const MissionSchema = new Schema<IMission>(
             type: {},
             required: true,
             default: {
-                doctors: 0,
-                firstResponders: 0,
-                nurses: 0,
-                paramedics: 0,
+                doctor: 0,
+                firstResponder: 0,
+                nurse: 0,
+                paramedic: 0,
             },
         },
     },
@@ -65,3 +65,4 @@ export const MissionSchema = new Schema<IMission>(
 );
 
 export const MissionModel = model("Mission", MissionSchema);
+    

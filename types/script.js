@@ -23,7 +23,7 @@ function Disperse(to) {
 function getServiceTypesDir(to) {
     switch (to) {
         case "web-dashboard":
-            return ["web-dashboard", "types", "service-types"];
+            return ["web-dashboard", "src", "types", "service-types"];
         case "backend":
             return ["backend", "src", "types", "service-types"];
 

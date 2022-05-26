@@ -35,7 +35,7 @@ class Responder extends BaseModel<IResponder> {
         const f = new ForgotPasswordClass({
             email: email!,
             model: this,
-            path: "/responder/account/forgot-password/change",
+            path: "/responder/account/password",
         });
         return await f.go();
     }
