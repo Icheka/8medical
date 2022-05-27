@@ -15,6 +15,7 @@ import { useResponder } from "../../context";
 import { ResponderAccountService } from "../../services";
 import { IResponder } from "../../types/service-types";
 import { LogoutPage } from "../../pages/Logout";
+import { VerificationNotificationModal, VerifiedBadge } from "../verification";
 
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
@@ -59,6 +60,7 @@ export const DashboardScaffold: FunctionComponent = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState<IResponder>();
+    const [showVerificationPopup, setShowVerificationPopup] = useState(false);
 
     // hooks
     useEffect(() => {
@@ -175,6 +177,15 @@ export const DashboardScaffold: FunctionComponent = () => {
                     <div className="flex flex-col flex-grow pt-5 bg-[#f7f7f7] rounded-xl overflow-y-auto mt-6 mr-6">
                         <div className={`transform scale-75 -ml-4`}>
                             <Logo />
+                        </div>
+                        <div className={`mt-4`}>
+                            <VerifiedBadge onClick={() => setShowVerificationPopup(true)} />
+                            <VerificationNotificationModal
+                                isOpen={showVerificationPopup}
+                                onClose={() => setShowVerificationPopup(false)}
+                                isVerified={user!.accountVerified}
+                                verifiedAt={user!.verifiedAt}
+                            />
                         </div>
                         <div className="mt-8 flex-1 flex flex-col relative">
                             <nav className="px-2 pb-4 space-y-5">

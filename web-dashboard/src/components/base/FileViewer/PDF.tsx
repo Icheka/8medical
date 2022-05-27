@@ -31,7 +31,7 @@ export const PdfDocument: FunctionComponent<IPdfDocument> = ({ showControls, url
     };
 
     return (
-        <div className={`relative`}>
+        <div className={`relative inset-0`}>
             <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>
                 <Page pageNumber={pageNumber} />
             </Document>

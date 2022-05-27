@@ -56,17 +56,35 @@ export const ResponderSchema = new Schema<IResponder>(
             required: false,
         },
         idDocument: {
-            type: String,
+            type: Object,
             required: false,
         },
         driversLicence: {
-            type: String,
+            type: Object,
             required: false,
         },
         otherDocuments: {
-            type: [String],
+            type: [Object],
             required: true,
             default: [],
+        },
+        accountVerified: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
+        verificationRequestPending: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
+        profilePicture: {
+            type: String,
+            required: false,
+        },
+        verifiedAt: {
+            type: Date,
+            required: false,
         },
     },
     {

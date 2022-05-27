@@ -1,3 +1,4 @@
+import { UploadedFile } from "./files";
 import { IUser } from "./user";
 
 export enum EResponderTypes {
@@ -12,10 +13,13 @@ export interface IResponder extends IUser {
     responderTypes?: Array<EResponderTypes>;
     gender?: string;
     address?: string;
-    account_verified: boolean;
-    idDocument?: string;
-    driversLicence?: string;
-    otherDocuments: Array<string>;
+    idDocument?: UploadedFile;
+    driversLicence?: UploadedFile;
+    otherDocuments: Array<UploadedFile>;
+    accountVerified: boolean;
+    verificationRequestPending: boolean;
+    profilePicture?: string;
+    verifiedAt?: Date;
 }
 
 export interface IResponderSignupPayload {

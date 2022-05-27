@@ -11,9 +11,13 @@ import { DashboardScaffold } from "./components/layout";
 import { LoginPage } from "./pages";
 import { SignupPage } from "./pages/Signup";
 import { ResponderContextProvider } from "./context";
+// @ts-ignore
+import { WidgetLoader, Widget } from 'react-cloudinary-upload-widget'
 
 function App() {
     return (
+        <>
+        <WidgetLoader />
         <ResponderContextProvider>
             <ToastContainer />
             <BrowserRouter>
@@ -24,6 +28,7 @@ function App() {
                 </Routes>
             </BrowserRouter>
         </ResponderContextProvider>
+        </>
     );
 }
 
