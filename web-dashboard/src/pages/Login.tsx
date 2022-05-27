@@ -1,18 +1,19 @@
 import { FunctionComponent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import { IMAGES } from "../assets/images";
 import { FormikField } from "../components/base/InputField";
 import { LoginValidations } from "../formik-validations";
 import { BiEnvelope } from "react-icons/bi";
 import { MdVpnKey } from "react-icons/md";
-import { AiFillEye } from "react-icons/ai";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { OutlineButton, PrimaryButton } from "../components/base";
 import { IResponderSigninPayload } from "../types/service-types";
 import { ResponderAccountService } from "../services";
 import { toast } from "react-toastify";
 import { useResponder } from "../context";
 import { routes } from "../config";
+import { ForgotPasswordModal } from "../components/domains/ForgotPassword";
 
 export const LoginPage: FunctionComponent = () => {
     // vars
@@ -21,6 +22,8 @@ export const LoginPage: FunctionComponent = () => {
     // state
     const responderContext = useResponder();
     const [isLoading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
 
     // utils
     const handleLogin = async (values: IResponderSigninPayload) => {
@@ -75,23 +78,30 @@ export const LoginPage: FunctionComponent = () => {
                                             showLabel
                                             leftIcon={<MdVpnKey color={`#DFE2E6`} />}
                                             rightIcon={
-                                                <button>
-                                                    <AiFillEye color={`#DFE2E6`} />
+                                                <button type={"button"} onClick={() => setShowPassword(!showPassword)}>
+                                                    {showPassword ? <AiFillEyeInvisible color={`#DFE2E6`} /> : <AiFillEye color={`#DFE2E6`} />}
                                                 </button>
                                             }
+                                            type={showPassword ? "text" : "password"}
                                         />
                                     </div>
                                     <div className={`flex items-center justify-between space-x-12 mt-10 mb-6`}>
-                                        <OutlineButton type={"button"} className={`w-full py-3 flex justify-center items-center font-bold text-md`} text={"Register"} />
+                                        <OutlineButton type={"button"} className={`w-full py-3 flex justify-center items-center font-bold text-md`}>
+                                            <Link to={routes.responder.signup}>Register</Link>
+                                        </OutlineButton>
                                         <PrimaryButton loading={isLoading} type={"submit"} className={`w-full py-3 flex justify-center items-center font-bold text-md`} text={"Log in"} />
                                     </div>
-                                    <div className={`flex items-center justify-between text-[#D3D3D3] font-medium text-md`}>
+                                    <div className={`flex items-center justify-between text-[#bebcbc] font-medium text-md`}>
                                         <div className={`flex items-center space-x-3`}>
-                                            <input type={"checkbox"} className={`border border-purple-700 rounded-sm`} />
+                                            <span className={`border border-purple-700 p-0 flex items-center justify-center outline-purple-600 rounded-sm`}>
+                                                <input type={"checkbox"} />
+                                            </span>
                                             <span>Remember me</span>
                                         </div>
                                         <div>
-                                            <button type={'button'}>Forgot password?</button>
+                                            <button onClick={() => setShowForgotPassword(true)} type={"button"}>
+                                                Forgot password?
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -110,6 +120,8 @@ export const LoginPage: FunctionComponent = () => {
                     }}
                 />
             </div>
+
+            <ForgotPasswordModal isOpen={showForgotPassword} onClose={() => setShowForgotPassword(false)} />
         </div>
     );
 };

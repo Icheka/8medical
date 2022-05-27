@@ -14,6 +14,7 @@ import { Logo } from "../brand";
 import { useResponder } from "../../context";
 import { ResponderAccountService } from "../../services";
 import { IResponder } from "../../types/service-types";
+import { LogoutPage } from "../../pages/Logout";
 
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
@@ -288,6 +289,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                                         <Route path={"rides"} element={<RidesPage />} />
                                         <Route path={"calendar"} element={<CalendarPage />} />
                                         <Route path={"settings"} element={<SettingsPage />} />
+                                        <Route path={"logout"} element={<LogoutPage />} />
                                     </Routes>
                                 </div>
                                 {/* END PAGE CONTENT  */}

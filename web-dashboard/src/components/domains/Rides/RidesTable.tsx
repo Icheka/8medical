@@ -3,7 +3,11 @@ import { ResponderMissionsService } from "../../../services";
 import { EMissionStatus, IMission } from "../../../types/service-types";
 import { StripedTable } from "../../base";
 
-export const RidesTable: FunctionComponent = () => {
+interface IRidesTable {
+    limitRows?: number;
+}
+
+export const RidesTable: FunctionComponent<IRidesTable> = ({ limitRows }) => {
     // vars
     const headers = ["Location", "Description", "Date", "Time", "Status", ""];
 
@@ -22,7 +26,7 @@ export const RidesTable: FunctionComponent = () => {
             const bgColor = "!bg-".concat(color, "-200");
 
             return [
-                mission.address,
+                <div className={"w-full max-w-[180px] h-full overflow-hidden text-ellipsis"}>{mission.address}</div>,
                 mission.description,
                 new Date(mission.startTime).toLocaleDateString("en-GB"),
                 new Date(mission.startTime).toLocaleTimeString("en-GB", { hour12: true }),
@@ -55,7 +59,7 @@ export const RidesTable: FunctionComponent = () => {
                     {h}
                 </div>
             ))}
-            rows={rows}
+            rows={limitRows ? rows.slice(0, limitRows) : rows}
         />
     );
 };

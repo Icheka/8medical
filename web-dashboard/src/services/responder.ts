@@ -33,6 +33,15 @@ export class ResponderAccountService {
         });
     }
 
+    public static async signout() {
+        localStorage.removeItem("responder_auth");
+        return ResponderHttps.query({
+            service: account.revoke,
+        })
+            .then(() => (window.location.href = ResponderHttps.signInRoute ?? "/"))
+            .catch(() => null);
+    }
+
     public static async signin(payload: IResponderSigninPayload) {
         const [code, data] = await ResponderHttps.query({
             service: account.login,
@@ -53,7 +62,7 @@ export class ResponderAccountService {
 
     public static async export(formats: Array<"pdf" | "csv">) {
         return ResponderHttps.query({
-            service: account.update,
+            service: account.export,
             buildPath: (path) => path.concat(`?formats=${formats.join(",")}`),
         });
     }

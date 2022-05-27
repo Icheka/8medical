@@ -1,11 +1,16 @@
 import { FunctionComponent } from "react";
+import { useNavigate } from "react-router-dom";
 import { IMAGES } from "../assets/images";
 import { CalendarView, Card, UnderlinedButton } from "../components/base";
 import { EarningsLiteTable, RidesTable } from "../components/domains";
 import { DashboardHeader } from "../components/layout";
+import { routes } from "../config";
 import { useResponder } from "../context";
 
 export const DashboardOverview: FunctionComponent = () => {
+    // vars
+    const navigate = useNavigate();
+
     // state
     const responder = useResponder();
 
@@ -15,19 +20,19 @@ export const DashboardOverview: FunctionComponent = () => {
             <div className={`flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 h-full`}>
                 <div className={`flex order-2 xl:order-1 flex-col justify-between items-start w-full sm:w-7/12 space-y-4`}>
                     <div className={`hidden xl:flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 h-[128px] sm:h-[70px]`}>
-                        <BalanceCard label="Balance" value={200000} icon={IMAGES.AccountBalance} background={"blue"} />
-                        <BalanceCard label="Total Earned" value={200000} icon={IMAGES.MoneyWithdrawn} background={"green"} />
-                        <BalanceCard label="Total Withdrawn" value={200000} icon={IMAGES.MoneyEarned} background={"red"} />
+                        <BalanceCard label="Balance" value={0} icon={IMAGES.AccountBalance} background={"blue"} />
+                        <BalanceCard label="Total Earned" value={0} icon={IMAGES.MoneyWithdrawn} background={"green"} />
+                        <BalanceCard label="Total Withdrawn" value={0} icon={IMAGES.MoneyEarned} background={"red"} />
                     </div>
                     <div className={`xl:h-[570px] w-full`}>
                         <Card className={`w-full h-full !p-0`}>
                             <div className={`py-4`}>
-                                <div className={`flex px-4 pb-4 justify-between items-center border-b border-[#e2e8ef]`}>
+                                <div onClick={() => navigate(routes.responder.ridesPage)} className={`flex px-4 pb-4 justify-between items-center border-b border-[#e2e8ef]`}>
                                     <span className={`font-bold text-[#4F03A4] text-2xl`}>Rides</span>
                                     <UnderlinedButton text={"View all"} />
                                 </div>
                                 <div className={`xl:px-4 pt-8`}>
-                                    <RidesTable />
+                                    <RidesTable limitRows={6} />
                                 </div>
                             </div>
                         </Card>
@@ -41,9 +46,9 @@ export const DashboardOverview: FunctionComponent = () => {
                 </div>
                 <div className={`w-full order-1 xl:order-2 sm:w-5/12 space-y-4`}>
                     <div className={`flex xl:hidden flex-col justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 h-64`}>
-                        <BalanceCard label="Balance" value={200000} icon={IMAGES.AccountBalance} background={"blue"} />
-                        <BalanceCard label="Total Earned" value={200000} icon={IMAGES.MoneyWithdrawn} background={"green"} />
-                        <BalanceCard label="Total Withdrawn" value={200000} icon={IMAGES.MoneyEarned} background={"red"} />
+                        <BalanceCard label="Balance" value={0} icon={IMAGES.AccountBalance} background={"blue"} />
+                        <BalanceCard label="Total Earned" value={0} icon={IMAGES.MoneyWithdrawn} background={"green"} />
+                        <BalanceCard label="Total Withdrawn" value={0} icon={IMAGES.MoneyEarned} background={"red"} />
                     </div>
                     <Card className={`w-full !h-[218.74px] bg-purple-100`}>
                         <div className={`-mt-[58px] h-full w-full`}>

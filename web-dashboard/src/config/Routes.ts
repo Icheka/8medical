@@ -11,4 +11,10 @@ export const routes = {
             index: bases.rides,
         },
     },
+    responder: {
+        signup: "/dashboard/sign-up",
+        signin: "/dashboard/sign-in",
+        signout: "/dashboard/sign-out",
+        ridesPage: "/dashboard/rides",
+    },
 };

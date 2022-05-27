@@ -12,6 +12,10 @@ export interface IResponder extends IUser {
     responderTypes?: Array<EResponderTypes>;
     gender?: string;
     address?: string;
+    account_verified: boolean;
+    idDocument?: string;
+    driversLicence?: string;
+    otherDocuments: Array<string>;
 }
 
 export interface IResponderSignupPayload {

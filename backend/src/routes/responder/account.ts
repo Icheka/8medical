@@ -35,7 +35,9 @@ r.get(`/export`, ResponderAuth, async (req, res) => {
         pdf: pdf === null ? undefined : `${req.protocol}://${req.hostname}${keys.ENVIRONMENT.stage === "development" ? `:${keys.PORT}` : ""}/${pdf}`,
     };
 
-    return res.send(d);
+    return res.send({
+        data: d,
+    });
 });
 
 // @route PATCH /api/responder/account
@@ -136,4 +138,12 @@ r.post(`/sign-in`, async (req, res) => {
 r.post("/", async (req, res) => {
     const d = await R.SignUp(req.body);
     return res.send(d).status(d.error ? 406 : 200);
+});
+
+// @route GET /api/responder/account/revoke
+// @desc Sign out as a Responder
+// @access Responder
+r.get("/revoke", async (req, res) => {
+    res.clearCookie("responder-auth");
+    return res.send();
 });

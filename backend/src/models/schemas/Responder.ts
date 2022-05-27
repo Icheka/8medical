@@ -55,6 +55,19 @@ export const ResponderSchema = new Schema<IResponder>(
             type: String,
             required: false,
         },
+        idDocument: {
+            type: String,
+            required: false,
+        },
+        driversLicence: {
+            type: String,
+            required: false,
+        },
+        otherDocuments: {
+            type: [String],
+            required: true,
+            default: [],
+        },
     },
     {
         timestamps: true,

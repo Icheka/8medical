@@ -23,6 +23,10 @@ export const SERVICE_PATHS = {
                     method: "post",
                     path: base,
                 },
+                signout: {
+                    method: "get",
+                    path: base.concat('/revoke'),
+                },
                 login: {
                     method: "post",
                     path: base.concat("/sign-in"),
