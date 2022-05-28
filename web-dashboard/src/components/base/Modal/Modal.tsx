@@ -12,9 +12,18 @@ export interface IModal {
     width?: string;
 }
 
-export const Modal: FunctionComponent<IModal> = ({ header, width, isOpen, onClose, closeButtonPosition = "header", portal = false, children }) => {
+export const Modal: FunctionComponent<IModal> = ({ header, width, isOpen, onClose, closeButtonPosition = "header", portal = true, children }) => {
     return (
-        <PureModal width={width} header={header} isOpen={isOpen} onClose={onClose} closeButton={<FaTimes className={`text-gray-700`} />} closeButtonPosition={closeButtonPosition} portal={portal}>
+        <PureModal
+            className="!z-50"
+            width={width}
+            header={header}
+            isOpen={isOpen}
+            onClose={onClose}
+            closeButton={<FaTimes className={`text-gray-700`} />}
+            closeButtonPosition={closeButtonPosition}
+            portal={portal}
+        >
             <div>{children}</div>
         </PureModal>
     );

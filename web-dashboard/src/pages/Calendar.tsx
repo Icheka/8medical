@@ -1,11 +1,11 @@
 import { FunctionComponent } from "react";
-import { CalendarView } from "../components/base";
+import { ResponderCalendar } from "../components/base/Calendars";
 
 export const CalendarPage: FunctionComponent = () => {
     return (
         <div>
             <div className={`h-screen `}>
-                <CalendarView />
+                <ResponderCalendar />
             </div>
         </div>
     );

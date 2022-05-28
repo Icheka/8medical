@@ -7,12 +7,12 @@ export type TServicePath = {
     path: string;
 };
 
-const base_responder_path = "/responder";
+const baseResponderPath = "/responder";
 
 export const SERVICE_PATHS = {
     Responder: {
         account: (): Record<string, TServicePath> => {
-            const base = base_responder_path.concat("/account");
+            const base = baseResponderPath.concat("/account");
 
             return {
                 whoami: {
@@ -25,7 +25,7 @@ export const SERVICE_PATHS = {
                 },
                 signout: {
                     method: "get",
-                    path: base.concat('/revoke'),
+                    path: base.concat("/revoke"),
                 },
                 login: {
                     method: "post",
@@ -50,11 +50,21 @@ export const SERVICE_PATHS = {
             };
         },
         missions: (): Record<string, TServicePath> => {
-            const base = base_responder_path.concat("/missions");
+            const base = baseResponderPath.concat("/missions");
 
             return {
                 fetchAll: {
                     method: "get",
+                    path: base,
+                },
+            };
+        },
+        calendar: (): Record<string, TServicePath> => {
+            const base = baseResponderPath.concat("/events");
+
+            return {
+                fetchAll: {
+                    method: "get",  
                     path: base,
                 },
             };
