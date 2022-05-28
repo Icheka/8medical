@@ -30,8 +30,23 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
             key: "selection",
         },
     ]);
+    const [maxDate, setMaxDate] = useState<Date>();
 
     // utils
+    const getMaximumMonthAsDate = () => {
+        const now = new Date();
+        const then = new Date();
+
+        then.setMonth((now.getMonth() % 10) + 1);
+        then.setDate(1);
+        then.setHours(0);
+        then.setMinutes(0);
+        then.setSeconds(0);
+        then.setMilliseconds(0);
+        then.setFullYear(then.getMonth() < now.getMonth() ? now.getFullYear() + 1 : now.getFullYear());
+
+        return addMilliseconds(then, -1);
+    };
     const handleRangeSelect = (selection: Range) => {
         if (!(selection && selection.startDate && selection.endDate)) {
             console.log("ghost selection", selection);
@@ -40,26 +55,21 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
         const { startDate, endDate, key } = selection;
         if (!startDate || !endDate) return;
         if (startDate.getTime() < addMilliseconds(new Date(), -1).getTime()) return;
-        console.log("end ->", startDate, endDate);
 
         const [inRange, indexFoundIn] = isInPreviousSelection(startDate, endDate);
         if (!inRange) return setRanges([...ranges, { startDate, endDate, key, color: "blue" }]);
 
-        console.log("in range");
-
         const foundRange = ranges[indexFoundIn as number];
         const sortedRange = sortDatesDesc(startDate, endDate, foundRange.startDate!, foundRange.endDate!);
-        console.log("sorted range", sortedRange);
         const newRange: Range = {
             startDate: sortedRange[0],
             endDate: sortedRange[sortedRange.length - 1],
             key: foundRange.key,
             color: colors.selection,
         };
-        console.log("new range", newRange, indexFoundIn);
         const replacement = Array.from(ranges);
         replacement.splice(indexFoundIn!, 1, newRange);
-        console.log("replacement", ranges, replacement);
+
         setRanges(replacement);
     };
     const isInPreviousSelection = (...dates: Array<Date>): [boolean, number | null] => {
@@ -99,19 +109,23 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
         setUser(user);
         fetchEvents();
     }, [JSON.stringify(responderContext?.currentResponder?.user)]);
+    useEffect(() => {
+        setMaxDate(getMaximumMonthAsDate());
+    }, []);
 
     return (
         <Modal width={"964px"} isOpen={showModal} onClose={onClose}>
             <div>
-                <div>What days are you available?</div>
+                <div>What days are you available this month?</div>
                 <DateRangePicker
                     onChange={(item) => handleRangeSelect(item.selection)}
                     editableDateInputs
                     moveRangeOnFirstSelection={false}
                     ranges={ranges}
                     direction={"horizontal"}
-                    months={2}
+                    months={1}
                     minDate={addMilliseconds(new Date(), -1)}
+                    maxDate={maxDate}
                 />
                 <div className={`flex justify-end`}>
                     <PrimaryButton className={`px-5 !rounded-0 py-1`} text={"Save"} />
