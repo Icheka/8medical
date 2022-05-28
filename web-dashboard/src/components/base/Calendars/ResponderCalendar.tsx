@@ -13,7 +13,7 @@ interface IResponderCalendarView {
 export const ResponderCalendar: FunctionComponent<IResponderCalendarView> = ({ view }) => {
     // state
     const [events, setEvents] = useState<Array<Event>>([]);
-    const [showSelectAvailaibilty, setShowSelectAvailaibilty] = useState(true);
+    const [showSelectAvailaibilty, setShowSelectAvailaibilty] = useState(false);
 
     // utils
     const fetchEvents = async () => {
@@ -33,6 +33,10 @@ export const ResponderCalendar: FunctionComponent<IResponderCalendarView> = ({ v
 
         return extracted;
     };
+    const handleSelectAvailabilityClose = () => {
+        setShowSelectAvailaibilty(false);
+        fetchEvents();
+    };
 
     // hooks
     useEffect(() => {
@@ -44,8 +48,10 @@ export const ResponderCalendar: FunctionComponent<IResponderCalendarView> = ({ v
             <div className={`mb-4`}>
                 <PrimaryButton onClick={() => setShowSelectAvailaibilty(true)} className={`px-3 py-1`} text={"Select availability"} />
             </div>
-            <CalendarView events={events} />
-            <SelectAvailability showModal={showSelectAvailaibilty} onClose={() => setShowSelectAvailaibilty(!showSelectAvailaibilty)} />
+            <div className={`h-[310px] lg:h-full`}>
+                <CalendarView events={events} />
+            </div>
+            <SelectAvailability showModal={showSelectAvailaibilty} onClose={handleSelectAvailabilityClose} />
         </div>
     );
 };

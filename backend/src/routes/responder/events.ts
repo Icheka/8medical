@@ -2,6 +2,7 @@ import { Router } from "express";
 import { IResponderCalendar } from "../../types";
 import AuthMiddleware from "../../middleware/auth";
 import { _ResponderCalendar } from "../../controllers";
+import { HydratedDocumentType } from "models";
 
 export const EVENTS_ROUTER = Router();
 
@@ -13,12 +14,9 @@ const R = _ResponderCalendar;
 // @desc Add event to calendar
 // @access Responder
 r.post(`/`, ResponderAuth, async (req, res) => {
-    const payload: IResponderCalendar = {
-        ...req.body,
-        responderId: req.context.user!._id,
-    };
+    const events = req.body.events.map((event: any) => ({ ...event, responderId: req.context.user!._id }));
 
-    const d = await R.addEvent(payload);
+    const d = await R.addEvents(events);
     return res.send(d).status(d.error ? 406 : 200);
 });
 
@@ -43,6 +41,15 @@ r.patch(`/:id`, ResponderAuth, async (req, res) => {
 // @access Responder
 r.get(`/:id`, ResponderAuth, async (req, res) => {
     const d = await R.FetchOne(req.params.id);
+    return res.send(d).status(d.error ? 406 : 200);
+});
+
+// @route DELETE /api/responder/events
+// @desc Clear schedule
+// @access Responder
+r.delete(`/`, ResponderAuth, async (req, res) => {
+    const ids: Array<string> = ((await R.FetchManyBy({ responderId: req.context.user!._id })).data as Array<HydratedDocumentType<IResponderCalendar>>).map((event) => String(event!._id));
+    const d = await R.DeleteMany(ids);
     return res.send(d).status(d.error ? 406 : 200);
 });
 

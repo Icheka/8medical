@@ -16,5 +16,6 @@ export const routes = {
         signin: "/dashboard/sign-in",
         signout: "/dashboard/sign-out",
         ridesPage: "/dashboard/rides",
+        calendarPage: "/dashboard/calendar",
     },
 };

@@ -10,12 +10,12 @@ export interface IModal {
     portal?: boolean;
     children?: any;
     width?: string;
+    className?: string;
 }
-
-export const Modal: FunctionComponent<IModal> = ({ header, width, isOpen, onClose, closeButtonPosition = "header", portal = true, children }) => {
+export const Modal: FunctionComponent<IModal> = ({ header, width, isOpen, className, onClose, closeButtonPosition = "header", portal = true, children }) => {
     return (
         <PureModal
-            className="!z-50"
+            className={`!z-50`}
             width={width}
             header={header}
             isOpen={isOpen}

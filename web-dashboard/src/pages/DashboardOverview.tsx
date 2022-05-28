@@ -50,12 +50,20 @@ export const DashboardOverview: FunctionComponent = () => {
                         <BalanceCard label="Total Earned" value={0} icon={IMAGES.MoneyWithdrawn} background={"green"} />
                         <BalanceCard label="Total Withdrawn" value={0} icon={IMAGES.MoneyEarned} background={"red"} />
                     </div>
-                    <Card className={`w-full !h-[218.74px] bg-purple-100`}>
-                        <div className={`-mt-[58px] h-full w-full`}>
-                            <CalendarView view={`month`} />
+                    <div>
+                        <div className={`w-full flex pt-4 pb-2 justify-between items-center border-b border-[#e2e8ef]`}>
+                            <span className={`font-bold text-[#4F03A4] text-2xl`}>Your Schedule</span>
+                            <button onClick={() => navigate(`${routes.responder.calendarPage}`)} className={`text-purple-600 underline`}>
+                                View
+                            </button>
                         </div>
-                    </Card>
-                    <Card className={`w-full !h-[420px] !p-0 hidden xl:flex flex-col justify-start`}>
+                        <Card className={`w-full !h-full bg-purple-100`}>
+                            <div className={`-mt-[68px] h-[305px] w-full`}>
+                                <CalendarView view={`month`} />
+                            </div>
+                        </Card>
+                    </div>
+                    <Card className={`w-full !h-[405px] !py-0 px-2 hidden xl:flex flex-col justify-start`}>
                         <EarningsLiteTable />
                     </Card>
                 </div>

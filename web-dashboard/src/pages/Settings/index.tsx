@@ -50,8 +50,8 @@ export const SettingsPage: FunctionComponent = () => {
             </div>
 
             {!user.accountVerified && (
-                <div className={`absolute bottom-[8vh] w-full flex justify-end`}>
-                    <PrimaryButton onClick={handleRequestVerification} className={`px-4 py-1 mr-[270px] text-md font-semibold`} text={"Request Verification"} />
+                <div className={`absolute bottom-[8vh] w-full flex justify-center lg:justify-end`}>
+                    <PrimaryButton onClick={handleRequestVerification} className={`px-4 py-1 lg:mr-[270px] text-md font-semibold`} text={"Request Verification"} />
                 </div>
             )}
 

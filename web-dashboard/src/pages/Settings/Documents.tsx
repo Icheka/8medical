@@ -79,7 +79,7 @@ export const DocumentsSettingsPage: FunctionComponent = () => {
         <SettingsPageAccordion label={"Documents & Certification"}>
             <div className={`w-full lg:w-10/12`}>
                 {!idDocument && (
-                    <div className={`space-y-2`}>
+                    <div className={`space-y-2 pl-3`}>
                         <div className={`text-purple-800`}>Upload a valid means of identification. Document must be issued by the government or a reputable public agency.</div>
                         <PrimaryButton
                             className={`w-32 bg-green-600 hover:bg-green-500 flex justify-center items-center py-1 rounded-sm border-none outline-0 transition duration-700`}
@@ -95,10 +95,10 @@ export const DocumentsSettingsPage: FunctionComponent = () => {
                         ))}
                     </Grid>
                 </div>
-                <div className={`mb-2 mt-12`}>
+                <div className={`mb-2 mt-12 lg:pl-3`}>
                     <div className={`text-purple-800`}>Upload supporting documents and certifications (PDF, JPEG and PNG formats only)</div>
                 </div>
-                <div>
+                <div className={`lg:pl-3`}>
                     <CommonCloudinaryWidget onSuccess={handleMultiUpdate} onFailure={() => null} multipleUploads />
                 </div>
             </div>
@@ -136,7 +136,7 @@ const Document: FunctionComponent<IDocumentComponent> = ({ document, onButtonCli
                     {file.type == "image" ? (
                         <img className={`w-[90%] h-[90%] object-contain`} src={file.url} alt={title} />
                     ) : (
-                        <div className={`relative w-28 -pl-[40px] scale-[15%] border`}>
+                        <div className={`relative w-28 -left-8 -pl-[40px] scale-[15%] border`}>
                             <PdfDocument url={file.url} showControls />
                         </div>
                     )}
@@ -152,5 +152,5 @@ const Document: FunctionComponent<IDocumentComponent> = ({ document, onButtonCli
 };
 
 const Grid: FunctionComponent<{ children?: any }> = ({ children }) => {
-    return <div className={`grid grid-cols-4 h-40`}>{children}</div>;
+    return <div className={`grid grid-cols-2 lg:grid-cols-4 h-40`}>{children}</div>;
 };

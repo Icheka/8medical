@@ -17,3 +17,18 @@
 .rbc-today {
     background-color: #e0f2a4 !important;
 }
+@media only screen and (max-width: 728px) {
+    .rbc-month-header {
+        max-height: 40px !important;
+        height: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        padding-top: 10px;
+    }
+    .rbc-month-row {
+        max-height: 40px !important;
+    }
+    .rbc-toolbar {
+        flex-direction: column;
+    }
+}

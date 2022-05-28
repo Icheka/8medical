@@ -12,6 +12,13 @@ export class ResponderCalendar extends BaseModel<IResponderCalendar> {
         const event = await this.InsertOne(payload);
         return { error: event.error ? String(event.error) : undefined, data: event.data };
     }
+
+    // add events
+    public async addEvents(payload: Array<Partial<IResponderCalendar>>): Promise<TControllerReturnType> {
+        const result = await this.InsertMany(payload.filter((event) => SchemaValidator.validate(ResponderCalendarValidations.addEvent, event)[0]) as Array<IResponderCalendar>);
+        console.log(result);
+        return { error: !result.inserted ? String(result.error) : undefined, data: result.data };
+    }
 }
 
 export const _ResponderCalendar = new ResponderCalendar({

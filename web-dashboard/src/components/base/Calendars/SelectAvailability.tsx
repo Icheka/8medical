@@ -1,7 +1,9 @@
 import { addMilliseconds, isWithinInterval } from "date-fns";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { DateRange, DateRangePicker, Range } from "react-date-range";
+import { toast } from "react-toastify";
 import { useResponder } from "../../../context";
+import { useWindowWidth } from "../../../hooks";
 import { ResponderCalendarService, ResponderMissionsService } from "../../../services";
 import { EResponderCalendarEventType, IResponder, IResponderCalendar } from "../../../types/service-types";
 import { PrimaryButton } from "../Buttons";
@@ -11,6 +13,10 @@ interface ISelectAvailability {
     showModal: boolean;
     onClose: VoidFunction;
 }
+interface IRange extends Range {
+    saved?: boolean;
+    default?: boolean;
+}
 
 export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ showModal, onClose }) => {
     // vars
@@ -19,20 +25,48 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
         missions: "purple",
         available: "lightgreen",
     };
+    const defaultSelection: IRange = {
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection",
+        default: true,
+    };
+    const windowWidth = useWindowWidth();
 
     // state
     const responderContext = useResponder();
     const [user, setUser] = useState<IResponder>();
-    const [ranges, setRanges] = useState<Array<Range>>([
-        {
-            startDate: new Date(),
-            endDate: new Date(),
-            key: "selection",
-        },
-    ]);
+    const [ranges, setRanges] = useState<Array<IRange>>([defaultSelection]);
     const [maxDate, setMaxDate] = useState<Date>();
+    const [page, setPage] = useState(1);
+    const [savedRanges, setSavedRanges] = useState<Array<Range>>([]);
+    const [saving, setSaving] = useState(false);
 
     // utils
+    const getModalWidth = useMemo(() => {
+        if (windowWidth < 390) return "96%";
+        if (windowWidth < 528) return "90%";
+        if (windowWidth < 1024) return "380px";
+        return "590px";
+    }, [windowWidth]);
+    const saveChanges = async () => {
+        setSaving(true);
+
+        const events: Array<Partial<IResponderCalendar>> = ranges
+            .filter((range) => !range.default)
+            .map((range) => ({
+                end: range.endDate,
+                start: range.startDate,
+                title: "Available for missions",
+                type: EResponderCalendarEventType.available,
+            }));
+        const [code, data] = await ResponderCalendarService.addEvents(events);
+        setSaving(false);
+
+        if (code !== 0) return toast.error("An error occurred. Please, try again.");
+        toast("Your calendar has been updated");
+        onClose();
+    };
     const getMaximumMonthAsDate = () => {
         const now = new Date();
         const then = new Date();
@@ -49,9 +83,9 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
     };
     const handleRangeSelect = (selection: Range) => {
         if (!(selection && selection.startDate && selection.endDate)) {
-            console.log("ghost selection", selection);
             return;
         }
+
         const { startDate, endDate, key } = selection;
         if (!startDate || !endDate) return;
         if (startDate.getTime() < addMilliseconds(new Date(), -1).getTime()) return;
@@ -91,14 +125,19 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
 
         const savedEvents = (data as Array<IResponderCalendar>).filter((event) => event.type !== EResponderCalendarEventType.unavailable);
 
-        const eventsAsRanges: Array<Range> = savedEvents.map(({ start, end, ...event }) => ({
+        const eventsAsRanges: Array<Range & { saved?: boolean }> = savedEvents.map(({ start, end, ...event }) => ({
             startDate: new Date(start),
             endDate: new Date(end),
             key: "selection",
             color: event.type === EResponderCalendarEventType.mission ? "green" : colors.available,
+            saved: true,
         }));
-        console.log(eventsAsRanges);
-        setRanges(eventsAsRanges);
+
+        if (eventsAsRanges.length > 0) setRanges(eventsAsRanges);
+        setSavedRanges(eventsAsRanges);
+    };
+    const clearUnsavedSelections = () => {
+        setRanges([defaultSelection, ...savedRanges]);
     };
 
     // hooks
@@ -114,23 +153,116 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
     }, []);
 
     return (
-        <Modal width={"964px"} isOpen={showModal} onClose={onClose}>
-            <div>
-                <div>What days are you available this month?</div>
-                <DateRangePicker
-                    onChange={(item) => handleRangeSelect(item.selection)}
-                    editableDateInputs
-                    moveRangeOnFirstSelection={false}
-                    ranges={ranges}
-                    direction={"horizontal"}
-                    months={1}
-                    minDate={addMilliseconds(new Date(), -1)}
-                    maxDate={maxDate}
-                />
-                <div className={`flex justify-end`}>
-                    <PrimaryButton className={`px-5 !rounded-0 py-1`} text={"Save"} />
+        <>
+            <Modal width={getModalWidth} isOpen={showModal} onClose={onClose}>
+                <div className={`${page !== 1 && "hidden"}`}>
+                    {/* <div className={`font-semibold text-lg text-purple-700`}>Step 1 of 2</div> */}
+                    <div className={`text-purple-700 font-semibold mt-4 lg:mt-0`}>What days are you available this month?</div>
+                    <div className={`text-gray-700 text-sm italic mb-5 break-normal`}>Tip: You can select a few days now and update your calendar later</div>
+                    <div className={`hidden lg:block`}>
+                        <DateRangePicker
+                            onChange={(item) => handleRangeSelect(item.selection)}
+                            editableDateInputs
+                            moveRangeOnFirstSelection={false}
+                            ranges={ranges}
+                            direction={"horizontal"}
+                            months={1}
+                            minDate={addMilliseconds(new Date(), -1)}
+                            maxDate={maxDate}
+                            retainEndDateOnFirstSelection
+                        />
+                    </div>
+                    <div className={`lg:hidden`}>
+                        <DateRange
+                            // <DateRangePicker
+                            onChange={(item) => handleRangeSelect(item.selection)}
+                            editableDateInputs
+                            moveRangeOnFirstSelection={false}
+                            ranges={ranges as Array<Range>}
+                            direction={"horizontal"}
+                            months={1}
+                            minDate={addMilliseconds(new Date(), -1)}
+                            maxDate={maxDate}
+                            retainEndDateOnFirstSelection
+                        />
+                    </div>
+                    <div>
+                        <div>Colour codes</div>
+                        <div>
+                            {Object.entries(colors).map(([label, colour]) => (
+                                <div className={`flex space-x-2 items-center`}>
+                                    <div style={{ background: colour }} className={`w-4 h-4 rounded-sm`} />
+                                    <div className={`text-gray-800`}>
+                                        {label === "missions" && "days with either completed or scheduled missions (saved)"}
+                                        {label === "available" && "days available (saved)"}
+                                        {label === "selection" && "new selections (unsaved)"}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className={`flex justify-between mt-8`}>
+                        <div className={`flex justify-between space-x-4`}>
+                            <PrimaryButton
+                                onClick={clearUnsavedSelections}
+                                className={`px-5 !rounded-0 py-1 bg-red-400 border-red-400 hover:bg-red-500 border-none outline-none`}
+                                text={"Clear unsaved selections"}
+                            />
+                        </div>
+                        {ranges.filter((range) => range.saved).length !== savedRanges.length ||
+                            (ranges.length > 1 && ranges[0].default && savedRanges.length === 0 && (
+                                <PrimaryButton loading={saving} onClick={saveChanges} className={`px-5 !rounded-0 py-1`} text={"Save"} />
+                            ))}
+                    </div>
                 </div>
-            </div>
-        </Modal>
+
+                <div className={`${page !== 2 && "hidden"}`}>
+                    <div className={`font-semibold text-lg text-purple-700`}>Step 2 of 2</div>
+                    <div className={`text-black font-semibold`}>What times are you available on those days?</div>
+                    <div>
+                        {ranges.map((range, i) => (
+                            <Time key={i} range={range} onChange={() => null} />
+                        ))}
+                    </div>
+                </div>
+            </Modal>
+        </>
     );
 };
+
+interface ITime {
+    range: Range;
+    onChange: (date: Date) => void;
+}
+
+const Time: FunctionComponent<ITime> = ({ range, onChange }) => {
+    // state
+
+    // utils
+    const dateToString = (date: Date) => {
+        const then = new Date(date);
+        return `${then.getDate()}/${then.getMonth() + 1}/${then.getFullYear()}`;
+    };
+
+    return (
+        <div>
+            <div>
+                {dateToString(range.startDate!)} - {dateToString(range.endDate!)}
+            </div>
+            <div>
+                <div>
+                    <div>Hour</div>
+                    {/* <div><TimeInput /></div> */}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+interface ITimeInput {
+    value: number;
+    onChange: (value: string) => void;
+    limits: [number, number];
+}
+
+const TimeInput: FunctionComponent<ITimeInput> = ({ value, onChange, limits }) => <input className={``} value={value} onChange={(e) => onChange(e.target.value)} min={limits[0]} max={limits[1]} />;

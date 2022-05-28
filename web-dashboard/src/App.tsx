@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import "./assets/styles/global.css";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-pure-modal/dist/react-pure-modal.min.css";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import "./assets/styles/global.css";
 import { ToastContainer } from "react-toastify";
 import { routes } from "./config";
 import { DashboardScaffold } from "./components/layout";

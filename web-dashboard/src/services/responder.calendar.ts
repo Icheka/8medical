@@ -1,5 +1,5 @@
 import { ResponderHttps } from "../config/https";
-import { IResponder } from "../types/service-types";
+import { IResponder, IResponderCalendar } from "../types/service-types";
 import { SERVICE_PATHS } from "../types/services";
 
 const services = SERVICE_PATHS.Responder;
@@ -9,6 +9,15 @@ export class ResponderCalendarService {
     public static async fetchAll() {
         return ResponderHttps.query({
             service: calendar.fetchAll,
+        });
+    }
+
+    public static async addEvents(events: Array<Partial<IResponderCalendar>>) {
+        return ResponderHttps.query({
+            service: calendar.addEvents,
+            body: {
+                events,
+            },
         });
     }
 }

@@ -36,7 +36,7 @@ interface IBaseModel<T> {
     FetchOne: (id: string) => Promise<FetchOpReturnType<T>>;
     FetchOneBy: (query: Record<string, any>) => Promise<FetchOpReturnType<T>>;
     FetchMany: (ids: Array<string>) => Promise<FetchOpReturnType<T>>;
-    FetchManyBy: (query: Record<string, any>) => Promise<FetchOpReturnType<T>>;
+    FetchManyBy: (query: Partial<Record<keyof T, any>>) => Promise<FetchOpReturnType<T>>;
     FetchAll: () => Promise<FetchOpReturnType<T>>;
 
     // update
@@ -87,6 +87,7 @@ export class BaseModel<T> implements IBaseModel<T> {
             const res = await this.model.insertMany(objs);
             return { inserted: true, data: res };
         } catch (err) {
+            console.log(err);
             return { inserted: false, error: String(err) };
         }
     };
@@ -110,7 +111,7 @@ export class BaseModel<T> implements IBaseModel<T> {
         }
     };
 
-    FetchManyBy: (query: Record<string, any>) => Promise<FetchOpReturnType<T>> = async (query) => {
+    FetchManyBy: (query: Partial<Record<keyof T, any>>) => Promise<FetchOpReturnType<T>> = async (query) => {
         try {
             const data = await this.model.find(query);
             return { data };
@@ -148,7 +149,7 @@ export class BaseModel<T> implements IBaseModel<T> {
 
     DeleteMany: (ids: Array<string>) => Promise<DeleteOpReturnType<T>> = async (ids) => {
         try {
-            const res = await this.model.deleteMany(ids);
+            const res = await this.model.deleteMany({ _id: ids });
             return { data: res };
         } catch (err) {
             return { error: err as string, data: null };

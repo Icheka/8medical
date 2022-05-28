@@ -119,6 +119,15 @@ export const DashboardScaffold: FunctionComponent = () => {
                                     <Logo />
                                 </div>
                                 <div className="mt-5 flex-1 h-0 overflow-y-auto space-y-6">
+                                    <div className={`pl-2`}>
+                                        <VerifiedBadge onClick={() => setShowVerificationPopup(true)} />
+                                        <VerificationNotificationModal
+                                            isOpen={showVerificationPopup}
+                                            onClose={() => setShowVerificationPopup(false)}
+                                            isVerified={user!.accountVerified}
+                                            verifiedAt={user!.verifiedAt}
+                                        />
+                                    </div>
                                     <nav className="px-2 space-y-10 flex-1">
                                         {navigation.map((item) => (
                                             <NavLink key={item.name} to={item.href}>
@@ -178,7 +187,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                         <div className={`transform scale-75 -ml-4`}>
                             <Logo />
                         </div>
-                        <div className={`mt-4`}>
+                        <div className={`mt-4 pl-2`}>
                             <VerifiedBadge onClick={() => setShowVerificationPopup(true)} />
                             <VerificationNotificationModal
                                 isOpen={showVerificationPopup}

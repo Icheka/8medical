@@ -64,7 +64,11 @@ export const SERVICE_PATHS = {
 
             return {
                 fetchAll: {
-                    method: "get",  
+                    method: "get",
+                    path: base,
+                },
+                addEvents: {
+                    method: "post",
                     path: base,
                 },
             };
