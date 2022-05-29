@@ -45,7 +45,7 @@ export const LoginPage: FunctionComponent = () => {
 
     // hooks
     useEffect(() => {
-        if (!responderContext?.isLoggedIn()) {
+        if (responderContext?.isLoggedIn()) {
             navigate(routes.responder.dashboardOverview);
         }
     }, [JSON.stringify(responderContext?.currentResponder?.token)]);
