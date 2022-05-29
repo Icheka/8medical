@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import { IMAGES } from "../assets/images";
@@ -43,10 +43,17 @@ export const LoginPage: FunctionComponent = () => {
         navigate(routes.dashboard.index);
     };
 
+    // hooks
+    useEffect(() => {
+        if (!responderContext?.isLoggedIn()) {
+            navigate(routes.responder.dashboardOverview);
+        }
+    }, [JSON.stringify(responderContext?.currentResponder?.token), localStorage.getItem('responder_auth')]);
+
     return (
         <div>
-            <div className={`flex h-screen`}>
-                <div className={`w-1/2 bg-white px-28 flex flex-col justify-center`}>
+            <div className={`lg:flex h-screen`}>
+                <div className={`w-full lg:w-1/2 pt-10 h-screen bg-gray-50 pb-8 lg:bg-white lg:pt-0 px-4 lg:px-28 flex flex-col lg:justify-center`}>
                     <div className={`flex space-x-3 items-center mb-16`}>
                         <img className={`w-10`} src={IMAGES.Logo} alt={"8Medical logo"} />
                         <span className={`font-bold text-3xl`}>EightMedical</span>
@@ -110,7 +117,7 @@ export const LoginPage: FunctionComponent = () => {
                     </div>
                 </div>
                 <div
-                    className={`w-1/2`}
+                    className={`hidden lg:block lg:w-1/2`}
                     style={{
                         backgroundImage: `url("${IMAGES.Login}")`,
                         backgroundSize: "cover",

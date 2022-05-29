@@ -12,10 +12,11 @@ export const routes = {
         },
     },
     responder: {
-        signup: "/dashboard/sign-up",
-        signin: "/dashboard/sign-in",
+        signup: "/sign-up",
+        signin: "/sign-in",
         signout: "/dashboard/sign-out",
         ridesPage: "/dashboard/rides",
         calendarPage: "/dashboard/calendar",
+        dashboardOverview: "/dashboard",
     },
 };

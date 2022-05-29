@@ -25,7 +25,7 @@ export const ResponderSchema = new Schema<IResponder>(
         },
         phone: {
             type: String,
-            required: true,
+            required: false,
         },
         emailVerified: {
             type: Boolean,

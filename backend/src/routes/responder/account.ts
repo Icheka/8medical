@@ -137,7 +137,9 @@ r.post(`/sign-in`, async (req, res) => {
 // @access Public
 r.post("/", async (req, res) => {
     const d = await R.SignUp(req.body);
-    return res.send(d).status(d.error ? 406 : 200);
+    console.log(d)
+    
+    return res.status(d.error ? 406 : 200).send(d);
 });
 
 // @route GET /api/responder/account/revoke

@@ -58,7 +58,7 @@ export const DashboardOverview: FunctionComponent = () => {
                             </button>
                         </div>
                         <Card className={`w-full !h-full bg-purple-100`}>
-                            <div className={`-mt-[68px] h-[305px] w-full`}>
+                            <div className={`-mt-[90px] h-[305px] w-full`}>
                                 <CalendarView view={`month`} />
                             </div>
                         </Card>

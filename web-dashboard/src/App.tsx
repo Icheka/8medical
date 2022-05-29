@@ -10,7 +10,7 @@ import "react-date-range/dist/theme/default.css";
 import { ToastContainer } from "react-toastify";
 import { routes } from "./config";
 import { DashboardScaffold } from "./components/layout";
-import { LoginPage } from "./pages";
+import { LoginPage, PageUnfoundPage } from "./pages";
 import { SignupPage } from "./pages/Signup";
 import { ResponderContextProvider } from "./context";
 // @ts-ignore
@@ -24,9 +24,11 @@ function App() {
                 <ToastContainer />
                 <BrowserRouter>
                     <Routes>
+                        <Route path={`/`} element={<LoginPage />} />
                         <Route path={`/sign-in`} element={<LoginPage />} />
                         <Route path={`/sign-up`} element={<SignupPage />} />
                         <Route path={routes.dashboard.index + "/*"} element={<DashboardScaffold />} />
+                        <Route path={"*"} element={<PageUnfoundPage />} />
                     </Routes>
                 </BrowserRouter>
             </ResponderContextProvider>
