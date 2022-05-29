@@ -48,7 +48,7 @@ export const LoginPage: FunctionComponent = () => {
         if (!responderContext?.isLoggedIn()) {
             navigate(routes.responder.dashboardOverview);
         }
-    }, [JSON.stringify(responderContext?.currentResponder?.token), localStorage.getItem('responder_auth')]);
+    }, [JSON.stringify(responderContext?.currentResponder?.token)]);
 
     return (
         <div>
