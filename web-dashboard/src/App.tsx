@@ -24,11 +24,11 @@ function App() {
                 <ToastContainer />
                 <BrowserRouter>
                     <Routes>
+                        <Route path={"*"} element={<PageUnfoundPage />} />
                         <Route path={`/`} element={<LoginPage />} />
                         <Route path={`/sign-in`} element={<LoginPage />} />
                         <Route path={`/sign-up`} element={<SignupPage />} />
                         <Route path={routes.dashboard.index + "/*"} element={<DashboardScaffold />} />
-                        <Route path={"*"} element={<PageUnfoundPage />} />
                     </Routes>
                 </BrowserRouter>
             </ResponderContextProvider>
