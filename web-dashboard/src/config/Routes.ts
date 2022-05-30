@@ -19,4 +19,9 @@ export const routes = {
         calendarPage: "/dashboard/calendar",
         dashboardOverview: "/dashboard",
     },
+    admin: {
+        index: "/admin",
+        enrollees: "/admin/enrollees",
+        responders: "/admin/responders",
+    },
 };

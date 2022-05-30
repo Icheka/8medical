@@ -1,9 +1,13 @@
 import { FunctionComponent } from "react";
 import { FaCamera } from "react-icons/fa";
 
-export const ChangeableProfilePicture: FunctionComponent = () => {
+interface IChangeableProfilePicture {
+    size?: string;
+}
+
+export const ChangeableProfilePicture: FunctionComponent<IChangeableProfilePicture> = ({ size = "h-[100px] xl:h-[150px] w-[100px] xl:w-[150px]" }) => {
     return (
-        <div className={`flex items-center justify-center p-[6px] bg-gray-300 rounded-full h-[100px] xl:h-[150px] w-[100px] xl:w-[150px]`}>
+        <div className={`flex items-center justify-center p-[6px] bg-gray-300 rounded-full ${size}`}>
             <div className={`rounded-full overflow-hidden flex justify-center items-center w-full h-full`}>
                 <Fallback />
             </div>

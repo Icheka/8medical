@@ -17,7 +17,7 @@ export const StripedTable: FunctionComponent<IStripedTable> = ({ headers, rows, 
     return (
         <div className="">
             <div className="flex flex-col">
-                <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="overflow-x-auto">
                     <div className="inline-block min-w-full py-2 align-middle">
                         <div className="overflow-hidden px-2 shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                             <table className="w-full divide-y divide-gray-300">

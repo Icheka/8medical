@@ -14,24 +14,28 @@ import { LoginPage, PageUnfoundPage } from "./pages";
 import { SignupPage } from "./pages/Signup";
 import { ResponderContextProvider } from "./context";
 // @ts-ignore
-import { WidgetLoader, Widget } from "react-cloudinary-upload-widget";
+import { WidgetLoader } from "react-cloudinary-upload-widget";
+import { AdminDashboardScaffold } from "./components/layout/admin";
 
 function App() {
     return (
         <>
             <WidgetLoader />
-            <ResponderContextProvider>
-                <ToastContainer />
-                <BrowserRouter>
+            <ToastContainer />
+            <BrowserRouter>
+                <ResponderContextProvider>
                     <Routes>
-                        <Route path={"*"} element={<PageUnfoundPage />} />
                         <Route path={`/`} element={<LoginPage />} />
                         <Route path={`/sign-in`} element={<LoginPage />} />
                         <Route path={`/sign-up`} element={<SignupPage />} />
                         <Route path={routes.dashboard.index + "/*"} element={<DashboardScaffold />} />
                     </Routes>
-                </BrowserRouter>
-            </ResponderContextProvider>
+                    <Routes>
+                        <Route path={"*"} element={<PageUnfoundPage />} />
+                        <Route path={routes.admin.index + "/*"} element={<AdminDashboardScaffold />} />
+                    </Routes>
+                </ResponderContextProvider>
+            </BrowserRouter>
         </>
     );
 }
