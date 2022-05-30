@@ -32,7 +32,7 @@ export const StripedTable: FunctionComponent<IStripedTable> = ({ headers, rows, 
                                 </thead>
                                 <tbody className="bg-white">
                                     {rows.map((row, i) => (
-                                        <tr key={keys ? keys[i] : i} onClick={() => handleRowClick(keys ? keys[i] : i)} className={`even:bg-gray-50`}>
+                                        <tr key={keys ? keys[i] : i} onClick={() => handleRowClick(keys ? keys[i] : i)} className={`even:bg-gray-50 ${onRowClick && "cursor-pointer"}`}>
                                             {row.map((cell, j) => (
                                                 <td key={`${i}-${j}`} className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                     {cell}

@@ -61,7 +61,7 @@ export const MissionDetails: FunctionComponent = () => {
                                 <Value text={mission.description} />
                             </Row>
                         </div>
-                        <div className={`grid grid-cols-2 h-60 space-x-4`}>
+                        <div className={`grid grid-cols-1 lg:grid-cols-2 h-60 space-x-4`}>
                             <div className={`border rounded-lg px-2 py-2 border-purple-500`}>
                                 <div className={`pb-1 text-sm font-semibold`}>Add Notes</div>
                                 <div className={`mb-2 border rounded-lg border-purple-200`}>
@@ -75,7 +75,7 @@ export const MissionDetails: FunctionComponent = () => {
                                     <PrimaryButton text={"Save"} className={"px-3 py-0.5"} />
                                 </div>
                             </div>
-                            <div className={`w-full border bg-gray-100 h-full`}></div>
+                            <div className={`w-full border bg-gray-100 h-full hidden lg:block`}></div>
                         </div>
                     </div>
                 )}
