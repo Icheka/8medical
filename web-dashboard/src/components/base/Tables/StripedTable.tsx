@@ -3,9 +3,17 @@ import { FunctionComponent, ReactNode } from "react";
 interface IStripedTable {
     headers: Array<string | ReactNode>;
     rows: Array<Array<string | ReactNode>>;
+    keys?: Array<string>;
+    onRowClick?: (key: string | number) => void;
 }
 
-export const StripedTable: FunctionComponent<IStripedTable> = ({ headers, rows }) => {
+export const StripedTable: FunctionComponent<IStripedTable> = ({ headers, rows, keys, onRowClick }) => {
+    // utils
+    const handleRowClick = (key: number | string) => {
+        if (!onRowClick) return;
+        onRowClick(key);
+    };
+
     return (
         <div className="">
             <div className="flex flex-col">
@@ -24,7 +32,7 @@ export const StripedTable: FunctionComponent<IStripedTable> = ({ headers, rows }
                                 </thead>
                                 <tbody className="bg-white">
                                     {rows.map((row, i) => (
-                                        <tr key={i} className={`even:bg-gray-50 `}>
+                                        <tr key={keys ? keys[i] : i} onClick={() => handleRowClick(keys ? keys[i] : i)} className={`even:bg-gray-50`}>
                                             {row.map((cell, j) => (
                                                 <td key={`${i}-${j}`} className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                     {cell}

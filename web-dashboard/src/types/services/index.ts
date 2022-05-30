@@ -57,6 +57,10 @@ export const SERVICE_PATHS = {
                     method: "get",
                     path: base,
                 },
+                fetchOne: {
+                    method: 'get',
+                    path: base.concat('/:id')
+                }
             };
         },
         calendar: (): Record<string, TServicePath> => {

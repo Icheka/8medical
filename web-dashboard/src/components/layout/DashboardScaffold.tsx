@@ -16,6 +16,7 @@ import { ResponderAccountService } from "../../services";
 import { IResponder } from "../../types/service-types";
 import { LogoutPage } from "../../pages/Logout";
 import { VerificationNotificationModal, VerifiedBadge } from "../verification";
+import { MissionDetails } from "../../pages/Rides";
 
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
@@ -307,6 +308,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                                     <Routes>
                                         <Route index element={<DashboardOverview />} />
                                         <Route path={"rides"} element={<RidesPage />} />
+                                        <Route path={"rides/:id"} element={<MissionDetails />} />
                                         <Route path={"calendar"} element={<CalendarPage />} />
                                         <Route path={"settings"} element={<SettingsPage />} />
                                         <Route path={"logout"} element={<LogoutPage />} />

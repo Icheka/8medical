@@ -28,7 +28,7 @@ export const DashboardOverview: FunctionComponent = () => {
                         <Card className={`w-full h-full !p-0`}>
                             <div className={`py-4`}>
                                 <div onClick={() => navigate(routes.responder.ridesPage)} className={`flex px-4 pb-4 justify-between items-center border-b border-[#e2e8ef]`}>
-                                    <span className={`font-bold text-[#4F03A4] text-2xl`}>Rides</span>
+                                    <span className={`font-bold text-[#4F03A4] text-2xl`}>Missions</span>
                                     <UnderlinedButton text={"View all"} />
                                 </div>
                                 <div className={`xl:px-4 pt-8`}>

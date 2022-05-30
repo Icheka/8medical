@@ -10,4 +10,11 @@ export class ResponderMissionsService {
             service: missions.fetchAll,
         });
     }
+
+    public static async fetchMissionDetails(id: string) {
+        return await ResponderHttps.query({
+            service: missions.fetchOne,
+            buildPath: (path) => path.replace(":id", id),
+        });
+    }
 }

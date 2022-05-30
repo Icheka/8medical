@@ -1,4 +1,6 @@
 import { FunctionComponent, ReactNode, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../../config";
 import { ResponderMissionsService } from "../../../services";
 import { EMissionStatus, IMission } from "../../../types/service-types";
 import { StripedTable } from "../../base";
@@ -9,15 +11,20 @@ interface IRidesTable {
 
 export const RidesTable: FunctionComponent<IRidesTable> = ({ limitRows }) => {
     // vars
+    const navigate = useNavigate();
     const headers = ["Location", "Description", "Date", "Time", "Status", ""];
 
     // state
     const [rows, setRows] = useState<Array<Array<string | ReactNode>>>([]);
+    const [missions, setMissions] = useState<Array<IMission>>([]);
 
     // utils
     const fetchMissions = async () => {
         const [code, data] = await ResponderMissionsService.fetchMissions();
-        if (code === 0) setRows(cleanseMissionsData(data));
+        if (code !== 0) return; 
+        
+        setRows(cleanseMissionsData(data));
+        setMissions(data);
     };
     const cleanseMissionsData = (missions: Array<IMission>) => {
         return missions.map((mission) => {
@@ -60,6 +67,8 @@ export const RidesTable: FunctionComponent<IRidesTable> = ({ limitRows }) => {
                 </div>
             ))}
             rows={limitRows ? rows.slice(0, limitRows) : rows}
+            keys={missions.map((mission) => mission._id)}
+            onRowClick={(id) => navigate(`${routes.responder.ridesPage}/${id}`)}
         />
     );
 };
