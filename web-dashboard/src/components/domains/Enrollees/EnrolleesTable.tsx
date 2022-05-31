@@ -5,9 +5,10 @@ import { PrimaryButton, StripedTable } from "../../base";
 
 interface IEnrolleesTable {
     limitRows?: number;
+    hideAddEnrolleeButton?: boolean;
 }
 
-export const EnrolleesTable: FunctionComponent<IEnrolleesTable> = ({ limitRows }) => {
+export const EnrolleesTable: FunctionComponent<IEnrolleesTable> = ({ limitRows, hideAddEnrolleeButton = false }) => {
     // vars
     const navigate = useNavigate();
     const headers = ["ID", "Name", "Email", "Phone", "Address", "Plan", "Status", ""];
@@ -22,11 +23,13 @@ export const EnrolleesTable: FunctionComponent<IEnrolleesTable> = ({ limitRows }
     return (
         <div className={`space-y-3`}>
             <StripedTable headers={headers} rows={limitRows ? rows.slice(0, limitRows) : rows} onRowClick={() => navigate("details/1")} />
-            <div className={`flex justify-end`}>
-                <Link to={"add"}>
-                    <PrimaryButton className={`px-3 py-1`} text={"Add Enrollee"} />
-                </Link>
-            </div>
+            {!hideAddEnrolleeButton && (
+                <div className={`flex justify-end`}>
+                    <Link to={"add"}>
+                        <PrimaryButton className={`px-3 py-1`} text={"Add Enrollee"} />
+                    </Link>
+                </div>
+            )}
         </div>
     );
 };

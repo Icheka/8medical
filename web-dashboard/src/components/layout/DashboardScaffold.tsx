@@ -65,11 +65,14 @@ export const DashboardScaffold: FunctionComponent = () => {
 
     // hooks
     useEffect(() => {
-        setIsLoggedIn(responder!.isLoggedIn());
         setUser(responder?.currentResponder?.user);
     }, [JSON.stringify(responder)]);
     useEffect(() => {
-        ResponderAccountService.whoami(responder);
+        (async () => {
+            await ResponderAccountService.whoami(responder).then(([code, data]) => {
+                if (code === 0) setIsLoggedIn(true);
+            });
+        })();
     }, [JSON.stringify(location)]);
 
     if (!isLoggedIn) return <h1>Loading</h1>;

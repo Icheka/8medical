@@ -30,11 +30,11 @@ export const AdminDashboardOverview: FunctionComponent = () => {
                     </div>
                 </div>
                 <div>
-                    <DashboardHeader title={"Enrollees"} />
-                    <EnrolleesTable limitRows={5} />
+                    <DashboardHeader hideActionButtons title={"Enrollees"} />
+                    <EnrolleesTable hideAddEnrolleeButton limitRows={5} />
                 </div>
                 <div>
-                    <DashboardHeader title={"Responders"} />
+                    <DashboardHeader hideActionButtons title={"Responders"} />
                     <RespondersTable limitRows={5} />
                 </div>
             </div>

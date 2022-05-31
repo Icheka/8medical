@@ -9,7 +9,7 @@ import { BiPhoneCall } from "react-icons/bi";
 import { routes, _8MedicalLinks } from "../../../config";
 import { FormatNigerianNumber } from "../../../utils";
 import { Logo } from "../../brand";
-import { AdminDashboardOverview, EnrolleePage, EnrolleesPage } from "../../../pages/Admin";
+import { AdminDashboardOverview, EnrolleePage, EnrolleesPage, EarningsPage, VehiclesPage } from "../../../pages/Admin";
 import { RespondersPage } from "../../../pages/Admin/Responders";
 import { CreateEnrolleePage } from "../../../pages/Admin/CreateEnrolleePage";
 
@@ -45,12 +45,12 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
 
         const path = location.pathname;
 
-        if (i === 0 && path === "/admin/dashboard") {
+        if (i === 0 && path === "/admin") {
             nav.current = true;
             return nav;
         }
 
-        nav.current = path === "/admin/dashboard/".concat(nav.href);
+        nav.current = path === "/admin/".concat(nav.href);
         return nav;
     });
 
@@ -300,6 +300,8 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                                         <Route path={`enrollees/add`} element={<CreateEnrolleePage />} />
                                         <Route path={`enrollees/details/:id`} element={<EnrolleePage />} />
                                         <Route path={`responders`} element={<RespondersPage />} />
+                                        <Route path={`vehicles`} element={<VehiclesPage />} />
+                                        <Route path={`earnings`} element={<EarningsPage />} />
                                     </Routes>
                                 </div>
                                 {/* END PAGE CONTENT  */}
