@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../../config";
 import { ResponderMissionsService } from "../../../services";
 import { EMissionStatus, IMission } from "../../../types/service-types";
-import { StripedTable } from "../../base";
+import { PaginatedTable } from "../../base";
 
 interface IRidesTable {
     limitRows?: number;
@@ -21,8 +21,8 @@ export const RidesTable: FunctionComponent<IRidesTable> = ({ limitRows }) => {
     // utils
     const fetchMissions = async () => {
         const [code, data] = await ResponderMissionsService.fetchMissions();
-        if (code !== 0) return; 
-        
+        if (code !== 0) return;
+
         setRows(cleanseMissionsData(data));
         setMissions(data);
     };
@@ -60,7 +60,7 @@ export const RidesTable: FunctionComponent<IRidesTable> = ({ limitRows }) => {
     }, []);
 
     return (
-        <StripedTable
+        <PaginatedTable
             headers={headers.map((h, i) => (
                 <div key={i} className={`uppercase text-xs text-[#4B5057]`}>
                     {h}
@@ -69,6 +69,7 @@ export const RidesTable: FunctionComponent<IRidesTable> = ({ limitRows }) => {
             rows={limitRows ? rows.slice(0, limitRows) : rows}
             keys={missions.map((mission) => mission._id)}
             onRowClick={(id) => navigate(`${routes.responder.ridesPage}/${id}`)}
+            showControls={!limitRows}
         />
     );
 };

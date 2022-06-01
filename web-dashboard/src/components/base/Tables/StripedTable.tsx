@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactNode } from "react";
 
-interface IStripedTable {
+export interface IStripedTable {
     headers: Array<string | ReactNode>;
     rows: Array<Array<string | ReactNode>>;
     keys?: Array<string>;

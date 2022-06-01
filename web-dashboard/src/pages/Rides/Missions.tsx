@@ -1,4 +1,5 @@
 import { FunctionComponent } from "react";
+import { DateFilter } from "../../components/base/DateFilter";
 import { RidesTable } from "../../components/domains";
 import { DashboardHeader } from "../../components/layout";
 

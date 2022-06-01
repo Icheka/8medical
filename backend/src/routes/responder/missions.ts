@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { MissionModel } from "../../models";
 import { _Mission } from "../../controllers";
 
 export const MISSION_ROUTER = Router();

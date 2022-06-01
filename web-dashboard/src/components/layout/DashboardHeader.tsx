@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, ReactNode, useState } from "react";
 import { AiOutlineDownload } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { ResponderAccountService } from "../../services";
@@ -7,9 +7,10 @@ import { PrimaryButton } from "../base";
 interface IDashboardHeader {
     title?: string;
     hideActionButtons?: boolean;
+    actionButtons?: ReactNode;
 }
 
-export const DashboardHeader: FunctionComponent<IDashboardHeader> = ({ title = "", hideActionButtons = false }) => {
+export const DashboardHeader: FunctionComponent<IDashboardHeader> = ({ title = "", actionButtons, hideActionButtons = false }) => {
     // state
     const [profileExport, setProfileExport] = useState({
         pdf: "",
@@ -35,7 +36,8 @@ export const DashboardHeader: FunctionComponent<IDashboardHeader> = ({ title = "
         <div className={`flex items-center justify-between mb-5`}>
             <h1 className={`text-[#4F03A4] font-bold text-2xl`}>{title}</h1>
             {!hideActionButtons && (
-                <div className={`hidden xl:block`}>
+                <div className={`hidden xl:flex space-x-3`}>
+                    {actionButtons}
                     <PrimaryButton type={"button"} onClick={handleExportProfile} leftIcon={<AiOutlineDownload color={"white"} />} text={"Download report"} className={`px-4 py-2`} />
                 </div>
             )}
