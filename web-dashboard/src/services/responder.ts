@@ -12,14 +12,8 @@ export class ResponderAccountService {
         });
 
         if (code === 0) {
-            if (context) {
-                if (context?.updateContext) {
-                    context.updateContext((draft: any) => {
-                        if (!draft?.currentResponder) return;
-
-                        draft!.currentResponder!.user = data;
-                    });
-                }
+            if (context && context.setUser) {
+                context.setUser(data);
             }
         }
 
@@ -34,9 +28,9 @@ export class ResponderAccountService {
     }
 
     public static async signout() {
-        localStorage.removeItem("responder_auth");
+        localStorage.clear();
         return ResponderHttps.query({
-            service: account.revoke,
+            service: account.signout,
         })
             .then(() => (window.location.href = ResponderHttps.signInRoute ?? "/"))
             .catch(() => null);

@@ -17,6 +17,8 @@ import { IResponder } from "../../types/service-types";
 import { LogoutPage } from "../../pages/Logout";
 import { VerificationNotificationModal, VerifiedBadge } from "../verification";
 import { MissionDetails } from "../../pages/Rides";
+import { useResponderAuth } from "../../context/responder.auth";
+import { Page } from "./Page";
 
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
@@ -41,7 +43,7 @@ export const DashboardScaffold: FunctionComponent = () => {
     // vars
     const navigate = useNavigate();
     const location = useLocation();
-    const responder = useResponder();
+    const auth = useResponderAuth();
 
     navigation = navigation.map((nav, i) => {
         nav.current = false;
@@ -59,29 +61,21 @@ export const DashboardScaffold: FunctionComponent = () => {
 
     // state
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState<IResponder>();
     const [showVerificationPopup, setShowVerificationPopup] = useState(false);
 
     // hooks
     useEffect(() => {
-        setUser(responder?.currentResponder?.user);
-    }, [JSON.stringify(responder)]);
-    useEffect(() => {
-        (async () => {
-            await ResponderAccountService.whoami(responder).then(([code, data]) => {
-                if (code === 0) setIsLoggedIn(true);
-            });
-        })();
-    }, [JSON.stringify(location)]);
+        setUser(auth?.user);
+    }, [JSON.stringify(auth.user)]);
 
-    if (!isLoggedIn) return <h1>Loading</h1>;
+    if (!user) return <Page loading />;
 
     return (
-        <>
+        <Page loading={!user}>
             <div className={`bg-white p-6 h-screen`}>
                 <Transition.Root show={sidebarOpen} as={Fragment}>
-                    <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
+                    <Dialog as="div" className="fixed inset-0 flex z-40 xl:hidden" onClose={setSidebarOpen}>
                         <Transition.Child
                             as={Fragment}
                             enter="transition-opacity ease-linear duration-300"
@@ -128,7 +122,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                                         <VerificationNotificationModal
                                             isOpen={showVerificationPopup}
                                             onClose={() => setShowVerificationPopup(false)}
-                                            isVerified={user!.accountVerified}
+                                            isVerified={user?.accountVerified ?? false}
                                             verifiedAt={user!.verifiedAt}
                                         />
                                     </div>
@@ -185,7 +179,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                 </Transition.Root>
 
                 {/* Static sidebar for desktop */}
-                <div className="hidden overflow-hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 mb-6 min-h-screen">
+                <div className="hidden overflow-hidden xl:flex xl:w-64 xl:flex-col xl:fixed xl:inset-y-0 mb-6 min-h-screen">
                     {/* Sidebar component, swap this element with another sidebar if you like */}
                     <div className="flex flex-col flex-grow pt-5 bg-[#f7f7f7] rounded-xl overflow-y-auto mt-6 mr-6">
                         <div className={`transform scale-75 -ml-4`}>
@@ -249,9 +243,9 @@ export const DashboardScaffold: FunctionComponent = () => {
                         </div>
                     </div>
                 </div>
-                <div className="md:pl-64 flex flex-col flex-1">
+                <div className="xl:pl-64 flex flex-col flex-1">
                     <div className="sticky top-0 z-10 flex-shrink-0 flex h-20 bg-[#f7f7f7] rounded-xl">
-                        <button type="button" className="px-4 border-r border-gray-200 text-gray-500 md:hidden" onClick={() => setSidebarOpen(true)}>
+                        <button type="button" className="px-4 border-r border-gray-200 text-gray-500 xl:hidden" onClick={() => setSidebarOpen(true)}>
                             <span className="sr-only">Open sidebar</span>
                             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
                         </button>
@@ -275,7 +269,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                                     </div>
                                 </form>
                             </div>
-                            <div className="flex items-center md:ml-6 divide-x divide-[#C5C5C5] space-x-4">
+                            <div className="flex items-center xl:ml-6 divide-x divide-[#C5C5C5] space-x-4">
                                 <button type="button" className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <span className="sr-only">View notifications</span>
                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -288,8 +282,8 @@ export const DashboardScaffold: FunctionComponent = () => {
                                             <span className={`overflow-hidden bg-gray-300 rounded-full`}>
                                                 <img
                                                     className="h-12 w-12 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                    alt=""
+                                                    src={user.profilePicture}
+                                                    alt={`${user.firstName} ${user.lastName}`}
                                                 />
                                             </span>
                                             <div className={`flex flex-col items-start`}>
@@ -323,6 +317,6 @@ export const DashboardScaffold: FunctionComponent = () => {
                     </main>
                 </div>
             </div>
-        </>
+        </Page>
     );
 };

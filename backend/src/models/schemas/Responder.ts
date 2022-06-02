@@ -86,6 +86,18 @@ export const ResponderSchema = new Schema<IResponder>(
             type: Date,
             required: false,
         },
+        bankName: {
+            type: String,
+            required: false,
+        },
+        bankAccountName: {
+            type: String,
+            required: false,
+        },
+        bankAccountNumber: {
+            type: String,
+            required: false,
+        },
     },
     {
         timestamps: true,

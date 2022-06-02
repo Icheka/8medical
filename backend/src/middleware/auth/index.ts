@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { AccessTokenBlockList } from "../../models/schemas/AccessTokenBlockList";
 import Logger from "../../lib/logger";
 
 export type RequestUser = {
@@ -19,10 +20,12 @@ class AuthMiddleware {
      * @param next callback to call if the decomposition operation was possible
      * @returns {any}
      */
-    public static decompose(req: Request, res: Response, next?: (decoded?: RequestUser) => any) {
-        const accessToken = req.body.token || req.query.token || req.headers["x-access-token"] || (req.headers.authorization ? req.headers.authorization.split(" ")[1] : false);
+    public static async decompose(req: Request, res: Response, next?: (decoded?: RequestUser) => any) {
+        const accessToken = req.body.token || req.query.token || req.headers["x-access-token"] || (req.headers.authorization ? req.headers.authorization.split(" ")[1] : false) || req.cookies["auth"];
 
         if (!accessToken) return res.status(403).send("An access token is required for authentication");
+
+        if (await AccessTokenBlockList.findOne({ token: accessToken })) return res.status(403).send("This access token has been revoked");
 
         try {
             const decoded = jwt.verify(accessToken, process.env.JWT_SECRET!);
@@ -43,8 +46,8 @@ class AuthMiddleware {
      * @param roles if Array, an array of RequestUserRoles; else a RequestUserRoles
      * @returns {any}
      */
-    public static authenticate(req: Request, res: Response, next: NextFunction, roles: RequestUserRoles | Array<RequestUserRoles>) {
-        return AuthMiddleware.decompose(req, res, (decoded) => {
+    public static async authenticate(req: Request, res: Response, next: NextFunction, roles: RequestUserRoles | Array<RequestUserRoles>) {
+        return await AuthMiddleware.decompose(req, res, (decoded) => {
             if (decoded === undefined) return res.status(403).send({ error: "This token is expired!" });
 
             let valid = false;
@@ -60,7 +63,7 @@ class AuthMiddleware {
     }
 
     public static async responderAuth(req: Request, res: Response, next: NextFunction) {
-        return AuthMiddleware.authenticate(req, res, next, RequestUserRoles.responder);
+        return await AuthMiddleware.authenticate(req, res, next, RequestUserRoles.responder);
     }
 }
 

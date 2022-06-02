@@ -7,6 +7,7 @@ import { IResponder } from "../../types";
 import { ChangePasswordValidationSchema } from "../../lib/validations";
 import { ExportResponderToPDF } from "../../lib/files";
 import { keys } from "../../keys";
+import { AccessTokenBlockList } from "../../models/schemas/AccessTokenBlockList";
 
 export const ACCOUNT_ROUTER = Router();
 
@@ -144,7 +145,10 @@ r.post("/", async (req, res) => {
 // @route GET /api/responder/account/revoke
 // @desc Sign out as a Responder
 // @access Responder
-r.get("/revoke", async (req, res) => {
+r.get("/revoke", ResponderAuth, async (req, res) => {
     res.clearCookie("responder-auth");
+    const token = new AccessTokenBlockList({ token: req.headers.authorization?.split(" ")[1] });
+    token.save();
+
     return res.send();
 });

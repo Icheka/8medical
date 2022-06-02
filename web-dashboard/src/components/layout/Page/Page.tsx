@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import ReactLoading from "react-loading";
 
 interface IPage {
-    children: any;
+    children?: any;
     loading: boolean;
 }
 

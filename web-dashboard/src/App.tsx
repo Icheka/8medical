@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./assets/styles/global.css";
-import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-pure-modal/dist/react-pure-modal.min.css";
@@ -16,6 +15,7 @@ import { ResponderContextProvider } from "./context";
 // @ts-ignore
 import { WidgetLoader } from "react-cloudinary-upload-widget";
 import { AdminDashboardScaffold } from "./components/layout/admin";
+import { ResponderAuthProvider, ResponderProtectedRoute } from "./context/responder.auth";
 
 function App() {
     return (
@@ -23,18 +23,21 @@ function App() {
             <WidgetLoader />
             <ToastContainer />
             <BrowserRouter>
-                <ResponderContextProvider>
+                <ResponderAuthProvider>
+                    {/* <ResponderContextProvider> */}
                     <Routes>
                         <Route path={`/`} element={<LoginPage />} />
                         <Route path={`/sign-in`} element={<LoginPage />} />
                         <Route path={`/sign-up`} element={<SignupPage />} />
-                        <Route path={routes.dashboard.index + "/*"} element={<DashboardScaffold />} />
+                        {/* <ResponderProtectedRoute path={routes.dashboard.index + "/*"} element={<DashboardScaffold />} /> */}
+                        <Route path={routes.dashboard.index + "/*"} element={<ResponderProtectedRoute element={<DashboardScaffold />} />} />
                     </Routes>
-                    <Routes>
-                        <Route path={"*"} element={<PageUnfoundPage />} />
-                        <Route path={routes.admin.index + "/*"} element={<AdminDashboardScaffold />} />
-                    </Routes>
-                </ResponderContextProvider>
+                    {/* <Routes>
+                            <Route path={"*"} element={<PageUnfoundPage />} />
+                            <Route path={routes.admin.index + "/*"} element={<AdminDashboardScaffold />} />
+                        </Routes> */}
+                    {/* </ResponderContextProvider> */}
+                </ResponderAuthProvider>
             </BrowserRouter>
         </>
     );

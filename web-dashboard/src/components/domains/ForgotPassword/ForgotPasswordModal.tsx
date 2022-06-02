@@ -35,7 +35,7 @@ export const ForgotPasswordModal: FunctionComponent<IForgotPasswordModal> = ({ c
                             <input onChange={(e) => setEmail(e.target.value)} className={`w-full h-full`} required type={"email"} placeholder={"Email"} />
                         </div>
                         <div className={`mt-5`}>
-                            <PrimaryButton type={"submit"} className={`w-full h-12 opacity-40 flex justify-center items-center text-lg`} text={"Submit"} />
+                            <PrimaryButton type={"submit"} className={`w-full h-12 opacity-70 flex justify-center items-center text-lg`} text={"Submit"} />
                         </div>
                     </form>
                 </div>

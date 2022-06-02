@@ -1,8 +1,9 @@
-import { addMilliseconds, isWithinInterval } from "date-fns";
+import { addDays, addMilliseconds, isWithinInterval } from "date-fns";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { DateRange, DateRangePicker, Range } from "react-date-range";
 import { toast } from "react-toastify";
 import { useResponder } from "../../../context";
+import { useResponderAuth } from "../../../context/responder.auth";
 import { useWindowWidth } from "../../../hooks";
 import { ResponderCalendarService, ResponderMissionsService } from "../../../services";
 import { EResponderCalendarEventType, IResponder, IResponderCalendar } from "../../../types/service-types";
@@ -34,7 +35,7 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
     const windowWidth = useWindowWidth();
 
     // state
-    const responderContext = useResponder();
+    const auth = useResponderAuth();
     const [user, setUser] = useState<IResponder>();
     const [ranges, setRanges] = useState<Array<IRange>>([defaultSelection]);
     const [maxDate, setMaxDate] = useState<Date>();
@@ -69,17 +70,18 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
     };
     const getMaximumMonthAsDate = () => {
         const now = new Date();
-        const then = new Date();
+        return addDays(now, 30);
+        // const then = new Date();
 
-        then.setMonth((now.getMonth() % 10) + 1);
-        then.setDate(1);
-        then.setHours(0);
-        then.setMinutes(0);
-        then.setSeconds(0);
-        then.setMilliseconds(0);
-        then.setFullYear(then.getMonth() < now.getMonth() ? now.getFullYear() + 1 : now.getFullYear());
+        // then.setMonth((now.getMonth() % 10) + 1);
+        // then.setDate(1);
+        // then.setHours(0);
+        // then.setMinutes(0);
+        // then.setSeconds(0);
+        // then.setMilliseconds(0);
+        // then.setFullYear(then.getMonth() < now.getMonth() ? now.getFullYear() + 1 : now.getFullYear());
 
-        return addMilliseconds(then, -1);
+        // return addMilliseconds(then, -1);
     };
     const handleRangeSelect = (selection: Range) => {
         if (!(selection && selection.startDate && selection.endDate)) {
@@ -142,12 +144,12 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
 
     // hooks
     useEffect(() => {
-        const user = responderContext?.currentResponder?.user;
+        const user = auth.user;
         if (!user) return;
 
         setUser(user);
         fetchEvents();
-    }, [JSON.stringify(responderContext?.currentResponder?.user)]);
+    }, [JSON.stringify(auth.user)]);
     useEffect(() => {
         setMaxDate(getMaximumMonthAsDate());
     }, []);
@@ -157,8 +159,8 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
             <Modal width={getModalWidth} isOpen={showModal} onClose={onClose}>
                 <div className={`${page !== 1 && "hidden"}`}>
                     {/* <div className={`font-semibold text-lg text-purple-700`}>Step 1 of 2</div> */}
-                    <div className={`text-purple-700 font-semibold mt-4 lg:mt-0`}>What days are you available this month?</div>
-                    <div className={`text-gray-700 text-sm italic mb-5 break-normal`}>Tip: You can select a few days now and update your calendar later</div>
+                    <div className={`text-purple-700 font-semibold mt-4 lg:mt-0`}>What days are you available in the next month?</div>
+                    <div className={`text-gray-700 text-sm italic mb-5 break-normal`}>Tip: You can select a few days now and update your schedule later</div>
                     <div className={`hidden lg:block`}>
                         <DateRangePicker
                             onChange={(item) => handleRangeSelect(item.selection)}
@@ -209,10 +211,11 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
                                 text={"Clear unsaved selections"}
                             />
                         </div>
-                        {ranges.filter((range) => range.saved).length !== savedRanges.length ||
+                        {/* {ranges.filter((range) => range.saved).length !== savedRanges.length ||
                             (ranges.length > 1 && ranges[0].default && savedRanges.length === 0 && (
                                 <PrimaryButton loading={saving} onClick={saveChanges} className={`px-5 !rounded-0 py-1`} text={"Save"} />
-                            ))}
+                            ))} */}
+                        <PrimaryButton loading={saving} onClick={saveChanges} className={`px-5 !rounded-0 py-1`} text={"Save"} />
                     </div>
                 </div>
 

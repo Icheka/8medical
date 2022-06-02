@@ -20,6 +20,9 @@ export interface IResponder extends IUser {
     verificationRequestPending: boolean;
     profilePicture?: string;
     verifiedAt?: Date;
+    bankName?: string;
+    bankAccountName?: string;
+    bankAccountNumber?: string;
 }
 
 export interface IResponderSignupPayload {

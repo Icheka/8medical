@@ -6,7 +6,7 @@ interface IPaginatedTable extends IStripedTable {
     showControls?: boolean;
 }
 
-export const PaginatedTable: FunctionComponent<IPaginatedTable> = ({ showControls, rows, ...stripedTableProps }) => {
+export const PaginatedTable: FunctionComponent<IPaginatedTable> = ({ showControls = true, rows, ...stripedTableProps }) => {
     // vars
     const perPage = 20;
 
@@ -51,11 +51,13 @@ export const PaginatedTable: FunctionComponent<IPaginatedTable> = ({ showControl
     return (
         <div>
             <StripedTable rows={page.rows} {...stripedTableProps} />
-            <div className={`flex space-x-2 items-center justify-end mt-4`}>
-                <ArrowButton disabled={page.page <= 1} direction={"left"} onClick={paginateLeft} />
-                <PageNumber page={page.page} />
-                <ArrowButton disabled={page.page >= rows.length / perPage} direction={"right"} onClick={paginateRight} />
-            </div>
+            {showControls && (
+                <div className={`flex space-x-2 items-center justify-end mt-4`}>
+                    <ArrowButton disabled={page.page <= 1} direction={"left"} onClick={paginateLeft} />
+                    <PageNumber page={page.page} />
+                    <ArrowButton disabled={page.page >= rows.length / perPage} direction={"right"} onClick={paginateRight} />
+                </div>
+            )}
         </div>
     );
 };

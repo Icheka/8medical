@@ -5,7 +5,7 @@
     border-color: #eee !important;
 }
 .rbc-calendar .rbc-active {
-    background: red !important;
+    background: rgb(187, 0, 255) !important;
     color: white !important;
 }
 .rbc-event {
@@ -30,5 +30,14 @@
     }
     .rbc-toolbar {
         flex-direction: column;
+    }
+}
+@media only screen and (min-width: 729px) and (max-width: 1024px) {
+    .rbc-month-header {
+        max-height: 50px !important;
+        height: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        padding-top: 10px;
     }
 }

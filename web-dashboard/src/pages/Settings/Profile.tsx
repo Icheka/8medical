@@ -5,13 +5,14 @@ import { FormikField, PrimaryButton } from "../../components/base";
 import { SettingsPageAccordion } from "../../components/domains";
 import { ChangeableProfilePicture } from "../../components/profile-picture";
 import { useResponder } from "../../context";
+import { useResponderAuth } from "../../context/responder.auth";
 import { ProfileDetailsValidations } from "../../formik-validations";
 import { ResponderAccountService } from "../../services";
 import { IResponder } from "../../types/service-types";
 
 export const ProfileSettingsPage: FunctionComponent = () => {
     // state
-    const responderContext = useResponder();
+    const auth = useResponderAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [user, setUser] = useState<IResponder>();
 
@@ -20,7 +21,7 @@ export const ProfileSettingsPage: FunctionComponent = () => {
         let fieldsWereUpdated = false;
         const payload: Record<string, string> = {};
         for (const [field, value] of Object.entries(values)) {
-            if (responderContext!.currentResponder!.user[field as keyof IResponder] !== value) {
+            if (user![field as keyof IResponder] !== value) {
                 fieldsWereUpdated = true;
                 payload[field] = value;
             }
@@ -36,15 +37,15 @@ export const ProfileSettingsPage: FunctionComponent = () => {
 
         if (code !== 0) return toast.error(data);
         toast("Your profile was updated successfully!");
-        await ResponderAccountService.whoami(responderContext as any);
+        await ResponderAccountService.whoami(auth as any);
     };
 
     // hooks
     useEffect(() => {
-        if (responderContext?.currentResponder) setUser(responderContext!.currentResponder!.user);
-    }, [JSON.stringify(responderContext?.currentResponder)]);
+        setUser(auth.user);
+    }, [JSON.stringify(auth.user)]);
 
-    if (!user?._id) return null;
+    if (!user) return null;
 
     return (
         <SettingsPageAccordion label={"Profile Details"}>
@@ -57,6 +58,7 @@ export const ProfileSettingsPage: FunctionComponent = () => {
                             middleName: user?.middleName ?? "",
                             lastName: user?.lastName ?? "",
                             address: user?.address ?? "",
+                            profilePicture: user?.profilePicture ?? "",
                         }}
                         validationSchema={ProfileDetailsValidations}
                         onSubmit={handleSubmit}
@@ -81,13 +83,12 @@ export const ProfileSettingsPage: FunctionComponent = () => {
                                         Save new changes
                                     </PrimaryButton>
                                 </div>
+                                <div className={`-top-7 left-[50%] -ml-[15%] xl:ml-0 xl:-top-6 xl:left-14 absolute`}>
+                                    <ChangeableProfilePicture onChange={(url) => formik.setFieldValue("profilePicture", url)} url={formik.values.profilePicture} />
+                                </div>
                             </form>
                         )}
                     </Formik>
-                </div>
-
-                <div className={`-top-7 left-[50%] -ml-[15%] xl:ml-0 xl:-top-6 xl:left-14 absolute`}>
-                    <ChangeableProfilePicture />
                 </div>
             </div>
         </SettingsPageAccordion>

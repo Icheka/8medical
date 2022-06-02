@@ -4,6 +4,7 @@ import { PrimaryButton } from "../../components/base";
 import { DashboardHeader } from "../../components/layout";
 import { VerificationNotificationModal, VerifiedBadge } from "../../components/verification";
 import { useResponder } from "../../context";
+import { useResponderAuth } from "../../context/responder.auth";
 import { ResponderAccountService } from "../../services";
 import { IResponder } from "../../types/service-types";
 import { BankSettingsPage } from "./Bank";
@@ -13,7 +14,7 @@ import { ProfileSettingsPage } from "./Profile";
 
 export const SettingsPage: FunctionComponent = () => {
     // state
-    const responderContext = useResponder();
+    const auth = useResponderAuth();
     const [user, setUser] = useState<IResponder>();
     const [showVerificationPopup, setShowVerificationPopup] = useState(false);
 
@@ -29,9 +30,9 @@ export const SettingsPage: FunctionComponent = () => {
 
     // hooks
     useEffect(() => {
-        if (!responderContext?.currentResponder?.user) return;
-        setUser(responderContext!.currentResponder!.user);
-    }, [JSON.stringify(responderContext?.currentResponder?.user)]);
+        if (!auth?.user) return;
+        setUser(auth.user);
+    }, [JSON.stringify(auth?.user)]);
 
     if (!user) return <div>Loading</div>;
 

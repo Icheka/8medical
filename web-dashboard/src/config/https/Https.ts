@@ -51,7 +51,7 @@ export class Https {
         if (error?.response?.status && ACCESS_TOKEN_ERROR_STATUSES.includes(error?.response?.status)) {
             this.onAuthError(error);
             // toast.error(`You must sign in to continue`);
-            if (this.signInRoute) window.location.href = this.signInRoute;
+            // if (this.signInRoute) window.location.href = this.signInRoute;
         }
     }
 

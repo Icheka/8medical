@@ -9,18 +9,17 @@ import { MdVpnKey } from "react-icons/md";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { OutlineButton, PrimaryButton } from "../components/base";
 import { IResponderSigninPayload } from "../types/service-types";
-import { ResponderAccountService } from "../services";
 import { toast } from "react-toastify";
-import { useResponder } from "../context";
 import { routes } from "../config";
 import { ForgotPasswordModal } from "../components/domains/ForgotPassword";
+import { useResponderAuth } from "../context/responder.auth";
 
 export const LoginPage: FunctionComponent = () => {
     // vars
     const navigate = useNavigate();
 
     // state
-    const responderContext = useResponder();
+    const auth = useResponderAuth();
     const [isLoading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -29,7 +28,7 @@ export const LoginPage: FunctionComponent = () => {
     const handleLogin = async (values: IResponderSigninPayload) => {
         setLoading(true);
 
-        const [code, data] = await ResponderAccountService.signin(values);
+        const [code, data] = await auth.login(values);
 
         setLoading(false);
 
@@ -37,18 +36,8 @@ export const LoginPage: FunctionComponent = () => {
             return toast.error(data);
         }
 
-        responderContext!.updateContext((draft) => {
-            draft!.currentResponder = data;
-        });
         navigate(routes.dashboard.index);
     };
-
-    // hooks
-    useEffect(() => {
-        if (responderContext?.isLoggedIn()) {
-            navigate(routes.responder.dashboardOverview);
-        }
-    }, [JSON.stringify(responderContext?.currentResponder?.token)]);
 
     return (
         <div>
