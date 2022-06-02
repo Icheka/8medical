@@ -10,6 +10,7 @@ export type RequestUser = {
 };
 export enum RequestUserRoles {
     responder = "responder",
+    admin = "admin"
 }
 
 class AuthMiddleware {
@@ -64,6 +65,10 @@ class AuthMiddleware {
 
     public static async responderAuth(req: Request, res: Response, next: NextFunction) {
         return await AuthMiddleware.authenticate(req, res, next, RequestUserRoles.responder);
+    }
+    
+    public static async adminAuth(req: Request, res: Response, next: NextFunction) {
+        return await AuthMiddleware.authenticate(req, res, next, RequestUserRoles.admin);
     }
 }
 
