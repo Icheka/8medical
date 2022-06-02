@@ -1,5 +1,6 @@
 export * from "./Admin";
 export * from "./ForgotPassword";
+export * from "./Institution";
 export * from "./GeospatialPoint";
 export * from "./Responder";
 export * from "./ResponderCalendar";

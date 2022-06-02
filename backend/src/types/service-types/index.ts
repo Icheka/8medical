@@ -4,3 +4,7 @@ export * from "./model";
 export * from "./Responder";
 export * from "./ResponderCalendar";
 export * from "./user";
+export * from "./Enrollee";
+export * from "./Institution";
+export * from "./Vehicle";
+export * from "./files";
