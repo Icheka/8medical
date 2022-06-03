@@ -10,9 +10,10 @@ export interface IInputField extends DetailedHTMLProps<InputHTMLAttributes<HTMLI
     variant?: "primary" | "clear";
     leftIcon?: ReactNode;
     rightIcon?: ReactNode;
+    noBorder?: boolean;
 }
 
-export const InputField: FunctionComponent<IInputField> = ({ className = "", leftIcon, rightIcon, showLabel, label, error, description, variant = "primary", ...props }) => {
+export const InputField: FunctionComponent<IInputField> = ({ className = "", leftIcon, rightIcon, noBorder, showLabel, label, error, description, variant = "primary", ...props }) => {
     const classNames = ["focus:outline-none"];
     if (variant === "clear") classNames.push("block w-full px-4 py-3 rounded-md !border-0 !outline-none text-base text-gray-900 placeholder-gray-500");
     if (variant === "primary") classNames.push("!border-0 !outline-none block w-full px-1 py-2 rounded-md placeholder-gray-400 sm:text-sm");
@@ -27,7 +28,7 @@ export const InputField: FunctionComponent<IInputField> = ({ className = "", lef
                 </>
             )}
             {label && <Label text={label} htmlFor={props.id} className={`sr-only`} />}
-            <div className={`w-full px-2 border border-[#DFE2E5] rounded-[8px] flex items-center space-x-2 bg-white`}>
+            <div className={`w-full px-2 ${!noBorder && "border border-[#DFE2E5]"} rounded-[8px] flex items-center space-x-2 bg-white`}>
                 {leftIcon}
                 <input className={classNames.join(" ")} {...props} />
                 {rightIcon}

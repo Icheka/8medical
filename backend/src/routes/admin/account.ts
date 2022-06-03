@@ -6,6 +6,7 @@ import { ForgotPasswordClass } from "../../controllers";
 import { IAdmin } from "../../types";
 import SchemaValidator from "../../helpers/joi";
 import { ChangePasswordValidationSchema } from "../../lib/validations";
+import { AccessTokenBlockList } from "../../models/schemas/AccessTokenBlockList";
 
 export const ACCOUNT_ROUTER = Router();
 
@@ -112,4 +113,15 @@ r.post("/", async (req, res) => {
     const d = await A.SignUp(req.body);
 
     return res.status(d.error ? 406 : 200).send(d);
+});
+
+// @route GET /api/admin/account/revoke
+// @desc Sign out as a Admin
+// @access Admin
+r.get("/revoke", AdminAuth, async (req, res) => {
+    res.clearCookie("admin-auth");
+    const token = new AccessTokenBlockList({ token: req.headers.authorization?.split(" ")[1] });
+    token.save();
+
+    return res.send();
 });

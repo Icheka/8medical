@@ -1,49 +1,48 @@
 import { createContext, FunctionComponent, useContext, useEffect, useMemo, useState } from "react";
-import { RouteProps, useLocation, useNavigate, Navigate, Route } from "react-router-dom";
+import { useLocation, useNavigate, Navigate} from "react-router-dom";
 import { Updater, useImmer } from "use-immer";
 import { routes } from "../config";
-import { LoginPage } from "../pages";
-import { ResponderAccountService } from "../services";
-import { IResponder, IResponderSigninPayload, IResponderSignupPayload } from "../types/service-types";
+import { AdminAccountService } from "../services";
+import { IAdmin, IAdminSigninPayload, IAdminSignupPayload } from "../types/service-types";
 
-interface IResponderAuthContext {
-    user?: IResponder;
-    setUser?: Updater<IResponder | undefined>;
+interface IAdminAuthContext {
+    user?: IAdmin;
+    setUser?: Updater<IAdmin | undefined>;
     loading: boolean;
     error?: any;
-    login: (p: IResponderSigninPayload) => Promise<[number, any]>;
-    signup: (p: IResponderSignupPayload) => void;
+    login: (p: IAdminSigninPayload) => Promise<[number, any]>;
+    signup: (p: IAdminSignupPayload) => void;
     logout: VoidFunction;
 }
 
-const AuthContext = createContext<IResponderAuthContext>({} as IResponderAuthContext);
+const AuthContext = createContext<IAdminAuthContext>({} as IAdminAuthContext);
 
-interface IResponderAuthProvider {
+interface IAdminAuthProvider {
     children?: any;
 }
 
-export const ResponderAuthProvider: FunctionComponent<IResponderAuthProvider> = ({ children }) => {
+export const AdminAuthProvider: FunctionComponent<IAdminAuthProvider> = ({ children }) => {
     // vars
     const navigate = useNavigate();
     const location = useLocation();
 
     // state
-    const [user, setUser] = useImmer<IResponder | undefined>(undefined);
+    const [user, setUser] = useImmer<IAdmin | undefined>(undefined);
     const [error, setError] = useState<any>();
     const [loading, setLoading] = useState(false);
     const [loadingInitial, setLoadingInitial] = useState(true);
 
     // utils
-    const login = async (p: IResponderSigninPayload) => {
+    const login = async (p: IAdminSigninPayload) => {
         setLoading(true);
 
-        return ResponderAccountService.signin(p)
+        return AdminAccountService.signin(p)
             .then(([code, data]) => {
                 if (code !== 0) return [code, data] as [number, any];
                 setUser(data.user);
-                localStorage.setItem("responder_auth", data.token);
+                localStorage.setItem("admin_auth", data.token);
 
-                navigate(routes.responder.dashboardOverview);
+                navigate(routes.admin.index);
                 return [code, data] as [number, any];
             })
             .catch((error) => {
@@ -52,16 +51,16 @@ export const ResponderAuthProvider: FunctionComponent<IResponderAuthProvider> = 
             })
             .finally(() => setLoading(false));
     };
-    const signup = async (p: IResponderSignupPayload) => {
+    const signup = async (p: IAdminSignupPayload) => {
         setLoading(true);
 
-        ResponderAccountService.signup(p)
+        AdminAccountService.signup(p)
             .then((data) => data)
             .catch((error) => setError(error))
             .finally(() => setLoading(false));
     };
     const logout = async () => {
-        ResponderAccountService.signout()
+        AdminAccountService.signout()
             .then(() => setUser(undefined))
             .catch((error) => setError(error));
     };
@@ -83,12 +82,10 @@ export const ResponderAuthProvider: FunctionComponent<IResponderAuthProvider> = 
         if (error) setError(null);
     }, [location.pathname]);
     useEffect(() => {
-        if (location.pathname.startsWith("/admin")) return;
-        ResponderAccountService.whoami()
+        AdminAccountService.whoami()
             .then(([code, data]) => {
-                console.log("==>", code);
-                if (code !== 0) return navigate(routes.responder.signin);
-                setUser(data as IResponder);
+                if (code !== 0) return navigate(routes.admin.signin);
+                setUser(data as IAdmin);
             })
             .catch((error) => setError(error))
             .finally(() => setLoadingInitial(false));
@@ -97,11 +94,11 @@ export const ResponderAuthProvider: FunctionComponent<IResponderAuthProvider> = 
     return <AuthContext.Provider value={memoisedValue}>{!loadingInitial && children}</AuthContext.Provider>;
 };
 
-export const useResponderAuth = () => useContext(AuthContext);
+export const useAdminAuth = () => useContext(AuthContext);
 
-export const ResponderProtectedRoute = (props: any) => {
-    const { user } = useResponderAuth();
+export const AdminProtectedRoute = (props: any) => {
+    const { user } = useAdminAuth();
 
-    if (!user) return <Navigate replace to={routes.responder.signin} />;
+    if (!user) return <Navigate replace to={routes.admin.signin} />;
     return props.element ?? props.children;
 };

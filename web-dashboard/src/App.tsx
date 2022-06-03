@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import "./assets/styles/global.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,9 +9,9 @@ import "react-date-range/dist/theme/default.css";
 import { ToastContainer } from "react-toastify";
 import { routes } from "./config";
 import { DashboardScaffold } from "./components/layout";
-import { LoginPage, PageUnfoundPage } from "./pages";
+import { AdminLoginPage, LoginPage, PageUnfoundPage } from "./pages";
 import { SignupPage } from "./pages/Signup";
-import { ResponderContextProvider } from "./context";
+import { AdminAuthProvider, AdminProtectedRoute, ResponderContextProvider } from "./context";
 // @ts-ignore
 import { WidgetLoader } from "react-cloudinary-upload-widget";
 import { AdminDashboardScaffold } from "./components/layout/admin";
@@ -24,20 +24,20 @@ function App() {
             <ToastContainer />
             <BrowserRouter>
                 <ResponderAuthProvider>
-                    {/* <ResponderContextProvider> */}
                     <Routes>
                         <Route path={`/`} element={<LoginPage />} />
                         <Route path={`/sign-in`} element={<LoginPage />} />
                         <Route path={`/sign-up`} element={<SignupPage />} />
-                        {/* <ResponderProtectedRoute path={routes.dashboard.index + "/*"} element={<DashboardScaffold />} /> */}
                         <Route path={routes.dashboard.index + "/*"} element={<ResponderProtectedRoute element={<DashboardScaffold />} />} />
                     </Routes>
-                    {/* <Routes>
-                            <Route path={"*"} element={<PageUnfoundPage />} />
-                            <Route path={routes.admin.index + "/*"} element={<AdminDashboardScaffold />} />
-                        </Routes> */}
-                    {/* </ResponderContextProvider> */}
                 </ResponderAuthProvider>
+                <AdminAuthProvider>
+                    <Routes>
+                        <Route path="/admin" element={<Navigate replace to={routes.admin.overview} />} />
+                        <Route path={`/admin/sign-in`} element={<AdminLoginPage />} />
+                        <Route path={routes.admin.overview + "/*"} element={<AdminProtectedRoute element={<AdminDashboardScaffold />} />} />
+                    </Routes>
+                </AdminAuthProvider>
             </BrowserRouter>
         </>
     );

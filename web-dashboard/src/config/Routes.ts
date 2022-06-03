@@ -21,7 +21,12 @@ export const routes = {
     },
     admin: {
         index: "/admin",
-        enrollees: "/admin/enrollees",
-        responders: "/admin/responders",
+        signin: "/admin/sign-in",
+
+        overview: "/admin/dashboard",
+        signout: "/admin/dashboard/sign-out",
+        enrollees: "/admin/dashboard/enrollees",
+        responders: "/admin/dashboard/responders",
+        vehicles: "/admin/dashboard/vehicles",
     },
 };

@@ -2,7 +2,7 @@ import Joi from "joi";
 import { TControllerReturnType } from "../../types";
 import Crypt from "../../helpers/crypt";
 import SchemaValidator from "../../helpers/joi";
-import { BaseModel } from "../../models";
+import { BaseModel, HydratedDocumentType } from "../../models";
 import { EmailLib } from "../../lib/email";
 import { SendMailWorker } from "../../lib/workers";
 
@@ -16,7 +16,7 @@ interface IConstructor<T, Y> {
         template: string;
     };
     customEmailer?: (account?: T) => void;
-    onSignup?: (account?: T) => void;
+    onSignup?: (account?: HydratedDocumentType<Y>) => void;
 }
 
 export class SignUpClass<T extends { email: string; password: string; firstName?: string }, Y> {
@@ -29,7 +29,7 @@ export class SignUpClass<T extends { email: string; password: string; firstName?
         template: string;
     };
     customEmailer?: (account?: T) => void;
-    onSignup?: (account?: T) => void;
+    onSignup?: (account?: HydratedDocumentType<Y>) => void;
 
     constructor({ payload, model, validator, verificationRoute, customEmailer, email, onSignup }: IConstructor<T, Y>) {
         this.payload = payload;
@@ -93,7 +93,7 @@ export class SignUpClass<T extends { email: string; password: string; firstName?
                 template,
             });
         }
-        if (this.onSignup) this.onSignup();
+        if (this.onSignup) this.onSignup(user);
 
         return { data: "You signed up successfully! An email with a link to verify your account has been sent to the address you provided." };
     }

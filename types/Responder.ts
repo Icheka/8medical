@@ -23,6 +23,7 @@ export interface IResponder extends IUser {
     bankName?: string;
     bankAccountName?: string;
     bankAccountNumber?: string;
+    dateOfBirth?: Date;
 }
 
 export interface IResponderSignupPayload {

@@ -98,6 +98,10 @@ export const ResponderSchema = new Schema<IResponder>(
             type: String,
             required: false,
         },
+        dateOfBirth: {
+            type: Date,
+            required: false,
+        },
     },
     {
         timestamps: true,

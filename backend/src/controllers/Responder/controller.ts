@@ -74,6 +74,20 @@ class Responder extends BaseModel<IResponder> {
         });
         return s.signup();
     }
+    // admin register
+    public async AdminRegister(payload: IResponderSignupPayload): Promise<TControllerReturnType> {
+        let user: HydratedDocumentType<IResponder> | undefined = undefined;
+        const s = new SignUpClass<IResponderSignupPayload, IResponder>({
+            model: _Responder,
+            payload,
+            verificationRoute: (id) => `${KEYS().APP_DOMAIN}/api/responder/account/verify/${id}`,
+            validator: ResponderValidations.SignUp,
+            onSignup: (account) => (user = account!),
+        });
+        const result = await s.signup();
+        if (result.error) return result;
+        return { data: user };
+    }
 }
 
 export const _Responder = new Responder({

@@ -5,4 +5,5 @@ export * from "./InputField";
 export * from "./Lightbox";
 export * from "./Links";
 export * from "./Modal";
+export * from "./Dropdowns";
 export * from "./Tables";

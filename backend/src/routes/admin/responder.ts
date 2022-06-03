@@ -22,10 +22,10 @@ r.get(`/`, AdminAuth, async (req, res) => {
 // @desc Register responder
 // @access Admin
 r.post(`/`, AdminAuth, async (req, res) => {
-    const d = await E.SignUp(req.body);
+    const d = await E.AdminRegister(req.body);
 
     if (d.error) return res.status(406).send(d);
-    res.send(d);
+    return res.send(d);
 });
 
 // @route GET /api/admin/responder/:id
@@ -52,6 +52,7 @@ r.delete(`/:id`, AdminAuth, async (req, res) => {
 // @desc Update responder by ID
 // @access Admin
 r.patch(`/:id`, AdminAuth, async (req, res) => {
+    console.log(req.body);
     const d = await E.UpdateOne(req.params.id, req.body);
 
     if (d.error) return res.status(406).send(d);

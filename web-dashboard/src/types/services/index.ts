@@ -8,6 +8,7 @@ export type TServicePath = {
 };
 
 const baseResponderPath = "/responder";
+const baseAdminPath = "/admin";
 
 export const SERVICE_PATHS = {
     Responder: {
@@ -58,9 +59,9 @@ export const SERVICE_PATHS = {
                     path: base,
                 },
                 fetchOne: {
-                    method: 'get',
-                    path: base.concat('/:id')
-                }
+                    method: "get",
+                    path: base.concat("/:id"),
+                },
             };
         },
         calendar: (): Record<string, TServicePath> => {
@@ -74,6 +75,98 @@ export const SERVICE_PATHS = {
                 addEvents: {
                     method: "post",
                     path: base,
+                },
+            };
+        },
+    },
+    Admin: {
+        account: (): Record<string, TServicePath> => {
+            const base = baseAdminPath.concat("/account");
+
+            return {
+                whoami: {
+                    method: "get",
+                    path: base,
+                },
+                signup: {
+                    method: "post",
+                    path: base,
+                },
+                signout: {
+                    method: "get",
+                    path: base.concat("/revoke"),
+                },
+                login: {
+                    method: "post",
+                    path: base.concat("/sign-in"),
+                },
+                update: {
+                    method: "patch",
+                    path: base,
+                },
+                export: {
+                    method: "get",
+                    path: base.concat("/export"),
+                },
+                resetPassword: {
+                    method: "post",
+                    path: base.concat("/password"),
+                },
+                changePassword: {
+                    method: "patch",
+                    path: base.concat("/password"),
+                },
+            };
+        },
+        responders: (): Record<string, TServicePath> => {
+            const base = baseAdminPath.concat("/responders");
+
+            return {
+                fetchAll: {
+                    method: "get",
+                    path: base,
+                },
+                create: {
+                    method: "post",
+                    path: base,
+                },
+                fetchById: {
+                    method: "get",
+                    path: base.concat("/_id_"),
+                },
+                updateById: {
+                    method: "patch",
+                    path: base.concat("/_id_"),
+                },
+                deleteById: {
+                    method: "delete",
+                    path: base.concat("/_id_"),
+                },
+            };
+        },
+        vehicles: (): Record<string, TServicePath> => {
+            const base = baseAdminPath.concat("/vehicles");
+
+            return {
+                fetchAll: {
+                    method: "get",
+                    path: base,
+                },
+                create: {
+                    method: "post",
+                    path: base,
+                },
+                fetchById: {
+                    method: "get",
+                    path: base.concat("/_id_"),
+                },
+                updateById: {
+                    method: "patch",
+                    path: base.concat("/_id_"),
+                },
+                deleteById: {
+                    method: "delete",
+                    path: base.concat("/_id_"),
                 },
             };
         },

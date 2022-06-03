@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useState } from "react";
+import { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { BellIcon, MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
@@ -9,9 +9,13 @@ import { BiPhoneCall } from "react-icons/bi";
 import { routes, _8MedicalLinks } from "../../../config";
 import { FormatNigerianNumber } from "../../../utils";
 import { Logo } from "../../brand";
-import { AdminDashboardOverview, EnrolleePage, EnrolleesPage, EarningsPage, VehiclesPage } from "../../../pages/Admin";
+import { AdminDashboardOverview, EnrolleePage, ResponderDetailsPage, EnrolleesPage, EarningsPage, VehiclesPage, AdminLogoutPage } from "../../../pages/Admin";
 import { RespondersPage } from "../../../pages/Admin/Responders";
 import { CreateEnrolleePage } from "../../../pages/Admin/CreateEnrolleePage";
+import { useAdminAuth } from "../../../context";
+import { IAdmin } from "../../../types/service-types";
+import { Page } from "../Page";
+import { CreateResponderPage } from "../../../pages/Admin/CreateResponderPage";
 
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
@@ -27,8 +31,8 @@ const userNavigation = [
     { name: "Sign out", href: "#" },
 ];
 const accountNavigation = [
-    { name: "Settings", href: "admin/settings", icon: IMAGES.Settings },
-    { name: "Logout", href: "admin/logout", icon: IMAGES.Logout },
+    { name: "Settings", href: "settings", icon: IMAGES.Settings },
+    { name: "Logout", href: "sign-out", icon: IMAGES.Logout },
 ];
 
 function classNames(...classes: Array<string>) {
@@ -39,35 +43,38 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
     // vars
     const navigate = useNavigate();
     const location = useLocation();
+    const auth = useAdminAuth();
 
     navigation = navigation.map((nav, i) => {
         nav.current = false;
 
         const path = location.pathname;
 
-        if (i === 0 && path === "/admin") {
+        if (i === 0 && path === "/admin/dashboard") {
             nav.current = true;
             return nav;
         }
 
-        nav.current = path === "/admin/".concat(nav.href);
+        nav.current = path === "/admin/dashboard".concat(nav.href);
         return nav;
     });
 
     // state
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [showVerificationPopup, setShowVerificationPopup] = useState(false);
+    const [user, setUser] = useState<IAdmin>();
 
     // hooks
+    useEffect(() => {
+        setUser(auth?.user);
+    }, [JSON.stringify(auth.user)]);
 
-    if (!isLoggedIn) return <h1>Loading</h1>;
+    if (!user) return <Page loading />;
 
     return (
-        <>
+        <Page loading={!user}>
             <div className={`bg-white p-6 h-screen`}>
                 <Transition.Root show={sidebarOpen} as={Fragment}>
-                    <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
+                    <Dialog as="div" className="fixed inset-0 flex z-40 xl:hidden" onClose={setSidebarOpen}>
                         <Transition.Child
                             as={Fragment}
                             enter="transition-opacity ease-linear duration-300"
@@ -109,15 +116,6 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                                     <Logo />
                                 </div>
                                 <div className="mt-5 flex-1 h-0 overflow-y-auto space-y-6">
-                                    {/* <div className={`pl-2`}>
-                                        <VerifiedBadge onClick={() => setShowVerificationPopup(true)} />
-                                        <VerificationNotificationModal
-                                            isOpen={showVerificationPopup}
-                                            onClose={() => setShowVerificationPopup(false)}
-                                            isVerified={user!.accountVerified}
-                                            verifiedAt={user!.verifiedAt}
-                                        />
-                                    </div> */}
                                     <nav className="px-2 space-y-10 flex-1">
                                         {navigation.map((item) => (
                                             <NavLink key={item.name} to={item.href}>
@@ -171,21 +169,12 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                 </Transition.Root>
 
                 {/* Static sidebar for desktop */}
-                <div className="hidden overflow-hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 mb-6 min-h-screen">
+                <div className="hidden overflow-hidden xl:flex xl:w-64 xl:flex-col xl:fixed xl:inset-y-0 mb-6 min-h-screen">
                     {/* Sidebar component, swap this element with another sidebar if you like */}
                     <div className="flex flex-col flex-grow pt-5 bg-[#f7f7f7] rounded-xl overflow-y-auto mt-6 mr-6">
                         <div className={`transform scale-75 -ml-4`}>
                             <Logo />
                         </div>
-                        {/* <div className={`mt-4 pl-2`}>
-                            <VerifiedBadge onClick={() => setShowVerificationPopup(true)} />
-                            <VerificationNotificationModal
-                                isOpen={showVerificationPopup}
-                                onClose={() => setShowVerificationPopup(false)}
-                                isVerified={user!.accountVerified}
-                                verifiedAt={user!.verifiedAt}
-                            />
-                        </div> */}
                         <div className="mt-8 flex-1 flex flex-col relative">
                             <nav className="px-2 pb-4 space-y-5">
                                 {navigation.map((item) => (
@@ -235,9 +224,9 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                         </div>
                     </div>
                 </div>
-                <div className="md:pl-64 flex flex-col flex-1">
+                <div className="xl:pl-64 flex flex-col flex-1">
                     <div className="sticky top-0 z-10 flex-shrink-0 flex h-20 bg-[#f7f7f7] rounded-xl">
-                        <button type="button" className="px-4 border-r border-gray-200 text-gray-500 md:hidden" onClick={() => setSidebarOpen(true)}>
+                        <button type="button" className="px-4 border-r border-gray-200 text-gray-500 xl:hidden" onClick={() => setSidebarOpen(true)}>
                             <span className="sr-only">Open sidebar</span>
                             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
                         </button>
@@ -261,7 +250,7 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                                     </div>
                                 </form>
                             </div>
-                            <div className="flex items-center md:ml-6 divide-x divide-[#C5C5C5] space-x-4">
+                            <div className="flex items-center xl:ml-6 divide-x divide-[#C5C5C5] space-x-4">
                                 <button type="button" className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     <span className="sr-only">View notifications</span>
                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -272,15 +261,11 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                                     <div>
                                         <div className="max-w-xsc flex items-center space-x-3 bg-transparent text-sm rounded-full">
                                             <span className={`overflow-hidden bg-gray-300 rounded-full`}>
-                                                <img
-                                                    className="h-12 w-12 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                    alt=""
-                                                />
+                                                <img className="h-12 w-12 rounded-full" src={""} alt={`${user.firstName} ${user.lastName}`} />
                                             </span>
                                             <div className={`flex flex-col items-start`}>
-                                                {/* <div className={`text-[#343434] text-md font-bold line-clamp-2`}>{`${user!.firstName} ${user!.lastName}`}</div>
-                                                <div className={`text-[#100DB1] text-sm uppercase`}>{user?.responderTypes ? user?.responderTypes[0] : "Responder"}</div> */}
+                                                <div className={`text-[#343434] text-md font-bold line-clamp-2`}>{`${user!.firstName} ${user!.lastName}`}</div>
+                                                <div className={`text-[#100DB1] text-sm uppercase`}>{"Administrator"}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -296,12 +281,18 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                                 <div className="py-4">
                                     <Routes>
                                         <Route index element={<AdminDashboardOverview />} />
+                                        
                                         <Route path={`enrollees`} element={<EnrolleesPage />} />
                                         <Route path={`enrollees/add`} element={<CreateEnrolleePage />} />
                                         <Route path={`enrollees/details/:id`} element={<EnrolleePage />} />
+                                        
                                         <Route path={`responders`} element={<RespondersPage />} />
+                                        <Route path={`responders/add`} element={<CreateResponderPage />} />
+                                        <Route path={`responders/details/:id`} element={<ResponderDetailsPage />} />
+                                        
                                         <Route path={`vehicles`} element={<VehiclesPage />} />
                                         <Route path={`earnings`} element={<EarningsPage />} />
+                                        <Route path={`sign-out`} element={<AdminLogoutPage />} />
                                     </Routes>
                                 </div>
                                 {/* END PAGE CONTENT  */}
@@ -310,6 +301,6 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                     </main>
                 </div>
             </div>
-        </>
+        </Page>
     );
 };
