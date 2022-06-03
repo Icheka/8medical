@@ -25,7 +25,7 @@ function App() {
             <BrowserRouter>
                 <ResponderAuthProvider>
                     <Routes>
-                        <Route path={`/`} element={<LoginPage />} />
+                        <Route path={`/`} element={<Navigate replace to={"dashboard"} />} />
                         <Route path={`/sign-in`} element={<LoginPage />} />
                         <Route path={`/sign-up`} element={<SignupPage />} />
                         <Route path={routes.dashboard.index + "/*"} element={<ResponderProtectedRoute element={<DashboardScaffold />} />} />

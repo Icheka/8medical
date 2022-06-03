@@ -1,5 +1,5 @@
 import { createContext, FunctionComponent, useContext, useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate, Navigate} from "react-router-dom";
+import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { Updater, useImmer } from "use-immer";
 import { routes } from "../config";
 import { AdminAccountService } from "../services";
@@ -82,6 +82,7 @@ export const AdminAuthProvider: FunctionComponent<IAdminAuthProvider> = ({ child
         if (error) setError(null);
     }, [location.pathname]);
     useEffect(() => {
+        if (!location.pathname.startsWith("/admin")) return;
         AdminAccountService.whoami()
             .then(([code, data]) => {
                 if (code !== 0) return navigate(routes.admin.signin);
