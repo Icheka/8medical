@@ -9,11 +9,6 @@ import { ChangeableProfilePicture } from "../../components/profile-picture";
 import { AdminRespondersService } from "../../services";
 import { IResponder } from "../../types/service-types";
 
-interface IField {
-    label: string;
-    name: string;
-    type?: "text" | "email" | "number" | "date";
-}
 
 const genders: Array<IOption> = [
     { value: "male", label: "Male" },
@@ -40,7 +35,7 @@ export const ResponderDetailsPage: FunctionComponent = () => {
     };
     const handleSubmit = (values: Partial<IResponder>) => {
         if (values.dateOfBirth) values.dateOfBirth = new Date(values.dateOfBirth);
-        console.log(values.dateOfBirth);
+        
         setIsSubmitting(true);
         AdminRespondersService.updateById(id, values)
             .then(([code, data]) => {
@@ -58,7 +53,7 @@ export const ResponderDetailsPage: FunctionComponent = () => {
     const age = (date?: Date) => {
         if (!date) return;
         date = new Date(date);
-        console.log(date);
+        
         return differenceInYears(new Date(), date);
     };
 

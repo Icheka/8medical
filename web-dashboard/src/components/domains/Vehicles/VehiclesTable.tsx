@@ -12,7 +12,7 @@ interface IVehiclesTable {
 export const VehiclesTable: FunctionComponent<IVehiclesTable> = ({ limitRows }) => {
     // vars
     const navigate = useNavigate();
-    const headers = ["Vehicle ID", "Responder", "Type", "Model", "Cost per KM", "Status", ""];
+    const headers = ["Vehicle ID", "Responder", "Type", "Model", "Cost per KM", "Status"];
 
     // state
     const [rows, setRows] = useState<Array<Array<string | ReactNode>>>([]);
