@@ -1,4 +1,5 @@
 export * from "./CreateEnrolleePage";
+export * from "./CreateVehiclePage";
 export * from "./EnrolleePage";
 export * from "./Enrollees";
 export * from "./EarningsPage";

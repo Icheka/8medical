@@ -9,7 +9,7 @@ import { BiPhoneCall } from "react-icons/bi";
 import { routes, _8MedicalLinks } from "../../../config";
 import { FormatNigerianNumber } from "../../../utils";
 import { Logo } from "../../brand";
-import { AdminDashboardOverview, EnrolleePage, ResponderDetailsPage, EnrolleesPage, EarningsPage, VehiclesPage, AdminLogoutPage } from "../../../pages/Admin";
+import { AdminDashboardOverview, EnrolleePage, ResponderDetailsPage, EnrolleesPage, EarningsPage, VehiclesPage, AdminLogoutPage, CreateVehiclePage } from "../../../pages/Admin";
 import { RespondersPage } from "../../../pages/Admin/Responders";
 import { CreateEnrolleePage } from "../../../pages/Admin/CreateEnrolleePage";
 import { useAdminAuth } from "../../../context";
@@ -291,6 +291,8 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                                         <Route path={`responders/details/:id`} element={<ResponderDetailsPage />} />
                                         
                                         <Route path={`vehicles`} element={<VehiclesPage />} />
+                                        <Route path={`vehicles/add`} element={<CreateVehiclePage />} />
+
                                         <Route path={`earnings`} element={<EarningsPage />} />
                                         <Route path={`sign-out`} element={<AdminLogoutPage />} />
                                     </Routes>
