@@ -9,7 +9,20 @@ import { BiPhoneCall } from "react-icons/bi";
 import { routes, _8MedicalLinks } from "../../../config";
 import { FormatNigerianNumber } from "../../../utils";
 import { Logo } from "../../brand";
-import { AdminDashboardOverview, EnrolleePage, ResponderDetailsPage, EnrolleesPage, EarningsPage, VehiclesPage, AdminLogoutPage, CreateVehiclePage } from "../../../pages/Admin";
+import {
+    AdminDashboardOverview,
+    EnrolleePage,
+    ResponderDetailsPage,
+    EnrolleesPage,
+    EarningsPage,
+    VehiclesPage,
+    AdminLogoutPage,
+    CreateVehiclePage,
+    InstitutionsPage,
+    CreateInstitutionPage,
+    MissionsPage,
+    CreateMissionPage,
+} from "../../../pages/Admin";
 import { RespondersPage } from "../../../pages/Admin/Responders";
 import { CreateEnrolleePage } from "../../../pages/Admin/CreateEnrolleePage";
 import { useAdminAuth } from "../../../context";
@@ -20,6 +33,7 @@ import { CreateResponderPage } from "../../../pages/Admin/CreateResponderPage";
 let navigation = [
     { name: "Overview", href: "", icon: IMAGES.DashboardOverview, current: false },
     { name: "Enrollees", href: "enrollees", icon: IMAGES.Riders, current: false },
+    { name: "Missions", href: "missions", icon: IMAGES.Riders, current: false },
     { name: "Responders", href: "responders", icon: IMAGES.Calendar, current: false },
     { name: "Vehicles", href: "vehicles", icon: IMAGES.DashboardOverview, current: false },
     { name: "Institutions", href: "institutions", icon: IMAGES.Riders, current: false },
@@ -281,17 +295,23 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                                 <div className="py-4">
                                     <Routes>
                                         <Route index element={<AdminDashboardOverview />} />
-                                        
+
                                         <Route path={`enrollees`} element={<EnrolleesPage />} />
                                         <Route path={`enrollees/add`} element={<CreateEnrolleePage />} />
                                         <Route path={`enrollees/details/:id`} element={<EnrolleePage />} />
-                                        
+
                                         <Route path={`responders`} element={<RespondersPage />} />
                                         <Route path={`responders/add`} element={<CreateResponderPage />} />
                                         <Route path={`responders/details/:id`} element={<ResponderDetailsPage />} />
-                                        
+
                                         <Route path={`vehicles`} element={<VehiclesPage />} />
                                         <Route path={`vehicles/add`} element={<CreateVehiclePage />} />
+
+                                        <Route path={`institutions`} element={<InstitutionsPage />} />
+                                        <Route path={`institutions/add`} element={<CreateInstitutionPage />} />
+
+                                        <Route path={`missions`} element={<MissionsPage />} />
+                                        <Route path={`missions/add`} element={<CreateMissionPage />} />
 
                                         <Route path={`earnings`} element={<EarningsPage />} />
                                         <Route path={`sign-out`} element={<AdminLogoutPage />} />

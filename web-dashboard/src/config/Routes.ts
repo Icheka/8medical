@@ -28,5 +28,7 @@ export const routes = {
         enrollees: "/admin/dashboard/enrollees",
         responders: "/admin/dashboard/responders",
         vehicles: "/admin/dashboard/vehicles",
+        institutions: "/admin/dashboard/institutions",
+        missions: "/admin/dashboard/missions",
     },
 };

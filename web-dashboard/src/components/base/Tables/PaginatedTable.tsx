@@ -81,7 +81,7 @@ const ArrowButton: FunctionComponent<IArrowButton> = ({ direction, onClick, disa
         <button
             disabled={disabled}
             className={`w-8 h-8 flex justify-center ${
-                disabled ? "text-gray-300" : "text-purple-500 hover:bg-purple-100"
+                disabled ? "text-gray-300" : "text-purple-500 hover:bg-purple-100 border border-purple-500"
             } text-sm items-center bg-white rounded-lg border border-gray-200 transition duration-300`}
             onClick={onClick}
         >

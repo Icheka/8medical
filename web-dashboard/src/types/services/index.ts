@@ -192,5 +192,49 @@ export const SERVICE_PATHS = {
                 },
             };
         },
+        institutions: (): Record<string, TServicePath> => {
+            const base = baseAdminPath.concat("/institutions");
+
+            return {
+                fetchAll: {
+                    method: "get",
+                    path: base,
+                },
+                create: {
+                    method: "post",
+                    path: base,
+                },
+                fetchById: {
+                    method: "get",
+                    path: base.concat("/_id_"),
+                },
+                updateById: {
+                    method: "patch",
+                    path: base.concat("/_id_"),
+                },
+            };
+        },
+        missions: (): Record<string, TServicePath> => {
+            const base = baseAdminPath.concat("/missions");
+
+            return {
+                fetchAll: {
+                    method: "get",
+                    path: base,
+                },
+                create: {
+                    method: "post",
+                    path: base,
+                },
+                fetchById: {
+                    method: "get",
+                    path: base.concat("/_id_"),
+                },
+                updateById: {
+                    method: "patch",
+                    path: base.concat("/_id_"),
+                },
+            };
+        },
     },
 };

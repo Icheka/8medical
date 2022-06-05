@@ -4,24 +4,24 @@ import { toast } from "react-toastify";
 import { Dropdown, FormikField, IOption, PrimaryButton } from "../../components/base";
 import { SelectResponder } from "../../components/base/AutoComplete";
 import { AdminDashboardHeader, Page } from "../../components/layout";
-import { AdminVehiclesService } from "../../services";
-import { EVehicleType, IVehicle } from "../../types/service-types";
+import { AdminInstitutionsService } from "../../services";
+import { EInstitutionType, IInstitution } from "../../types/service-types";
 import { capitalize } from "capitalization";
 
-const vehicleTypes = Object.values(EVehicleType);
+const institutionTypes = Object.values(EInstitutionType);
 
-export const CreateVehiclePage: FunctionComponent = () => {
+export const CreateInstitutionPage: FunctionComponent = () => {
     // state
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     // utils
-    const handleSubmit = (values: Partial<IVehicle>) => {
+    const handleSubmit = (values: Partial<IInstitution>) => {
         setIsSubmitting(true);
 
-        AdminVehiclesService.create(values)
+        AdminInstitutionsService.create(values)
             .then(([code, data]) => {
                 if (code !== 0) return toast.error(data);
-                toast(`New vehicle added successfully!`);
+                toast(`New institution added successfully!`);
             })
             .catch((err) => null)
             .finally(() => setIsSubmitting(false));
@@ -29,12 +29,14 @@ export const CreateVehiclePage: FunctionComponent = () => {
 
     return (
         <Page loading={false}>
-            <AdminDashboardHeader title={"Add Vehicle"} hideActionButtons />
+            <AdminDashboardHeader title={'Add Institution'} hideActionButtons />
             <Formik
                 initialValues={{
-                    assignedTo: "",
-                    registrationPlate: "",
-                    type: EVehicleType.ambulance,
+                    name: "",
+                    type: EInstitutionType.hospital,
+                    address: '',
+                    email: '',
+                    phone: ''
                 }}
                 onSubmit={handleSubmit}
             >
@@ -46,18 +48,20 @@ export const CreateVehiclePage: FunctionComponent = () => {
                         }}
                     >
                         <div className={`grid grid-cols-1 lg:grid-cols-2 lg:gap-x-5 gap-y-4`}>
-                            <FormikField label={"Registration Number"} name={"registrationPlate"} showLabel />
+                            <FormikField label={"Name"} name={"name"} showLabel />
                             <Dropdown
-                                fieldLabel="Vehicle Type"
+                                fieldLabel="Institution Type"
                                 showFieldLabel
-                                label={capitalize(formik.values.type ?? "")}
-                                options={Object.values(EVehicleType).map((type) => ({
+                                label={capitalize(formik.values.type ?? '')}
+                                options={Object.values(EInstitutionType).map((type) => ({
                                     label: capitalize(type),
                                     value: type,
                                 }))}
-                                onSelect={(index) => formik.setFieldValue("type", vehicleTypes[index])}
+                                onSelect={(index) => formik.setFieldValue("type", institutionTypes[index])}
                             />
-                            <SelectResponder onChange={(responder: IOption) => formik.setFieldValue("assignedTo", responder.value)} fieldLabel={"Assign Responder"} showFieldLabel />
+                            <FormikField label={"Address"} name={"address"} showLabel />
+                            <FormikField label={"Email"} type={'email'} name={"email"} showLabel />
+                            <FormikField label={"Phone Number"} type={'tel'} name={"phone"} showLabel />
                         </div>
                         <div className={`mt-6`}>
                             <PrimaryButton loading={isSubmitting} type={"submit"} className={`px-6 py-1`} text={"Save"} />

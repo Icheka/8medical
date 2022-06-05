@@ -12,7 +12,7 @@ export const MissionValidations = {
             .optional()
             .valid(...Object.values(EMissionStatus)),
         address: joi.string().required(),
-        totalEarning: joi.number().optional().positive(),
+        totalEarning: joi.number().optional().positive().allow(0),
         description: joi.string().required(),
         rideType: joi
             .string()
