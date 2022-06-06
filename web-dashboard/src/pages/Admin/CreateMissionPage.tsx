@@ -1,13 +1,14 @@
 import { Formik } from "formik";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Dropdown, FormikField, IOption, PrimaryButton } from "../../components/base";
 import { SelectResponder } from "../../components/base/AutoComplete";
 import { AdminDashboardHeader, Page } from "../../components/layout";
-import { AdminMissionsService } from "../../services";
-import { EMissionStatus, EMissionType, IMission } from "../../types/service-types";
+import { AdminMissionsService, AdminRespondersService } from "../../services";
+import { EMissionStatus, EMissionType, IMission, IResponder } from "../../types/service-types";
 import { capitalize } from "capitalization";
 import * as Yup from "yup";
+import { FaTimesCircle } from "react-icons/fa";
 
 const missionTypes = Object.values(EMissionType);
 
@@ -20,6 +21,7 @@ const validation = Yup.object({
 export const CreateMissionPage: FunctionComponent = () => {
     // state
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [responders, setResponders] = useState<Array<IResponder>>([]);
 
     // utils
     const handleSubmit = (values: Partial<IMission>) => {
@@ -33,6 +35,20 @@ export const CreateMissionPage: FunctionComponent = () => {
             .catch((err) => null)
             .finally(() => setIsSubmitting(false));
     };
+    const getResponderFromId = (id: string) => responders.find((r) => r._id === id);
+    const fetchResponders = async () => {
+        AdminRespondersService.fetchAll()
+            .then(([code, data]) => {
+                if (code !== 0) return;
+                setResponders(data);
+            })
+            .catch((err) => null);
+    };
+
+    // hooks
+    useEffect(() => {
+        fetchResponders();
+    }, []);
 
     return (
         <Page loading={false}>
@@ -45,7 +61,7 @@ export const CreateMissionPage: FunctionComponent = () => {
                     totalEarning: 0,
                     description: "",
                     startTime: new Date(),
-                    pendingResponderRequests: []
+                    pendingResponderRequests: [],
                 }}
                 validationSchema={validation}
                 onSubmit={handleSubmit}
@@ -88,7 +104,23 @@ export const CreateMissionPage: FunctionComponent = () => {
                                 onSelect={(index) => formik.setFieldValue("status", Object.values(EMissionStatus)[index])}
                             />
                             <FormikField label={"Start Time"} name={"startTime"} showLabel type={"datetime-local"} />
-                            {/* <SelectResponder onChange={(responder: IOption) => formik.setFieldValue("assignedTo", responder.value)} fieldLabel={"Assign Responder"} showFieldLabel /> */}
+                            <div>
+                                <SelectResponder
+                                    onChange={(responder: IOption) => formik.setFieldValue("pendingResponderRequests", [...formik.values.pendingResponderRequests!, responder.value])}
+                                    fieldLabel={"Assign Responders"}
+                                    showFieldLabel
+                                />
+                                <div className={`mt-2 flex space-x-3`}>
+                                    {formik.values.pendingResponderRequests!.map((r) => (
+                                        <div className={`bg-indigo-600 rounded-xl pl-3 pr-7 py-1 text-sm font-medium text-white relative`}>
+                                            {getResponderFromId(r)?.firstName} {getResponderFromId(r)?.lastName}
+                                            <button onClick={() => formik.setFieldValue("pendingResponderRequests", formik.values.pendingResponderRequests!.filter((t) => t !== r))} className={`absolute top-2 right-2`}>
+                                                <FaTimesCircle className={`text-sm text-white`} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                         <div className={`mt-6`}>
                             <PrimaryButton loading={isSubmitting} type={"submit"} className={`px-6 py-1`} text={"Save"} />

@@ -3,7 +3,7 @@ import { AdminRespondersService } from "../../../services";
 import { IResponder } from "../../../types/service-types";
 import { AutoCompleteDropdown, IAutoCompleteDropdown } from "./AutoCompleteDropdown";
 
-export const SelectResponder: FunctionComponent<Omit<IAutoCompleteDropdown, 'options'>> = (props) => {
+export const SelectResponder: FunctionComponent<Omit<IAutoCompleteDropdown, "options">> = (props) => {
     // state
     const [responders, setResponders] = useState<Array<IResponder>>([]);
 

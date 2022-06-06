@@ -69,7 +69,15 @@ export const NotificationsHandler: FunctionComponent<INotificationsHandler> = ({
                         <div onClick={() => navigate(`${routes.responder.ridesPage}/${n.payload._id}`)}>
                             <NotificationWithActionButtons
                                 show
-                                blurb={`Address: ${n.payload.address}\nDescription: ${n.payload.description}`}
+                                blurb={
+                                    <div>
+                                        <strong>Address:</strong> {n.payload.address}
+                                        <br />
+                                        <strong>Description:</strong> {n.payload.description}
+                                        <br />
+                                        <strong>Type:</strong> {n.payload.rideType}
+                                    </div>
+                                }
                                 title={"New mission!"}
                                 showImage
                                 imageURL={IMAGES.Logo}

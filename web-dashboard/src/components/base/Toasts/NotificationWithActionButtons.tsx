@@ -7,7 +7,7 @@ export interface INotificationWithActionButtons {
     showImage?: boolean;
     imageURL?: string;
     title?: string;
-    blurb?: string;
+    blurb?: string | ReactNode;
     onClose?: VoidFunction;
     buttons?: Array<ReactNode>;
     show: boolean;
