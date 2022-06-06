@@ -6,7 +6,7 @@ interface IPaginatedTable extends IStripedTable {
     showControls?: boolean;
 }
 
-export const PaginatedTable: FunctionComponent<IPaginatedTable> = ({ showControls = true, rows, ...stripedTableProps }) => {
+export const PaginatedTable: FunctionComponent<IPaginatedTable> = ({ showControls = true, rows, keys = [], ...stripedTableProps }) => {
     // vars
     const perPage = 10;
 
@@ -14,9 +14,11 @@ export const PaginatedTable: FunctionComponent<IPaginatedTable> = ({ showControl
     const [page, setPage] = useState<{
         page: number;
         rows: Array<Array<string | ReactNode>>;
+        keys?: Array<any>;
     }>({
         page: 1,
         rows: [],
+        keys: []
     });
 
     // utils
@@ -28,6 +30,7 @@ export const PaginatedTable: FunctionComponent<IPaginatedTable> = ({ showControl
         setPage({
             page: newPage,
             rows: rows.slice(newIndex, newIndex + perPage),
+            keys: keys.slice(newIndex, newIndex + perPage),
         });
     };
     const paginateLeft = () => {
@@ -37,6 +40,7 @@ export const PaginatedTable: FunctionComponent<IPaginatedTable> = ({ showControl
         setPage({
             page: newPage,
             rows: rows.slice(newIndex, newIndex + perPage),
+            keys: keys.slice(newIndex, newIndex + perPage),
         });
     };
     const calculateMinIndexForPage = (page: number) => {
@@ -45,12 +49,12 @@ export const PaginatedTable: FunctionComponent<IPaginatedTable> = ({ showControl
 
     // hooks
     useEffect(() => {
-        setPage({ page: page.page, rows: rows.slice(calculateMinIndexForPage(page.page), perPage) });
+        setPage({ page: page.page, rows: rows.slice(calculateMinIndexForPage(page.page), perPage), keys: keys.slice(calculateMinIndexForPage(page.page), perPage) });
     }, [rows.length]);
 
     return (
         <div>
-            <StripedTable rows={page.rows} {...stripedTableProps} />
+            <StripedTable rows={page.rows} keys={page.keys} {...stripedTableProps} />
             {showControls && (
                 <div className={`flex space-x-2 items-center justify-end mt-4`}>
                     <ArrowButton disabled={page.page <= 1} direction={"left"} onClick={paginateLeft} />

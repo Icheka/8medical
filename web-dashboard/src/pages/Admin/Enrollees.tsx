@@ -5,7 +5,7 @@ import { AdminDashboardHeader } from "../../components/layout";
 export const EnrolleesPage: FunctionComponent = () => {
     return (
         <div>
-            <AdminDashboardHeader title={"Enrollees"} />
+            <AdminDashboardHeader hideActionButtons title={"Enrollees"} />
             <EnrolleesTable />
         </div>
     );

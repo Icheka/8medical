@@ -97,11 +97,13 @@ export const ResponderDetailsPage: FunctionComponent = () => {
                             <Input
                                 label="Gender"
                                 customValue={
-                                    <Dropdown
+                                    <div className={`max-w-[200px]`}>
+                                        <Dropdown
                                         onSelect={(index: number) => formik.setFieldValue("gender", genders[index].value)}
                                         label={formik.values.gender ? `${formik.values.gender.charAt(0).toUpperCase()}${formik.values.gender.slice(1)}` : undefined}
                                         options={genders}
                                     />
+                                    </div>
                                 }
                             />
                             <Input type={"email"} label="Email Address" name={"email"} />
@@ -109,7 +111,7 @@ export const ResponderDetailsPage: FunctionComponent = () => {
                             <Input label="Address" name={"address"} />
                         </div>
                         <div className={`flex justify-end mt-4`}>
-                            <PrimaryButton type={"submit"} loading={isSubmitting} className={`px-5 py-1`} text={"Save"} />
+                            <PrimaryButton type={"submit"} loading={isSubmitting} className={`px-5 py-1`} text={"Save Changes"} />
                         </div>
                     </form>
                 )}

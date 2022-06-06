@@ -7,7 +7,7 @@ import { AdminDashboardHeader } from "../../components/layout";
 export const MissionsPage: FunctionComponent = () => {
     return (
         <div>
-            <AdminDashboardHeader title={"Missions"} />
+            <AdminDashboardHeader hideActionButtons title={"Missions"} />
             <AdminMissionsTable />
             <div className={`flex`}>
                 <Link to={"add"}>

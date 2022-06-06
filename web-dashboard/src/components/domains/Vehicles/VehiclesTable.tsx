@@ -34,7 +34,7 @@ export const VehiclesTable: FunctionComponent<IVehiclesTable> = ({ limitRows }) 
 
             return [
                 vehicle.registrationPlate,
-                `${vehicle.responder?.firstName ?? ''} ${vehicle.responder?.lastName ?? ''}`,
+                `${vehicle.responder?.firstName ?? ""} ${vehicle.responder?.lastName ?? ""}`,
                 vehicle.type,
                 "",
                 vehicle.costPerKm,
@@ -59,7 +59,7 @@ export const VehiclesTable: FunctionComponent<IVehiclesTable> = ({ limitRows }) 
                 ))}
                 rows={limitRows ? rows.slice(0, limitRows) : rows}
                 keys={vehicles.map((vehicle) => vehicle._id)}
-                onRowClick={(id) => navigate(`${routes.admin.vehicles}/details/${id}`)}
+                // onRowClick={(id) => navigate(`${routes.admin.vehicles}/details/${id}`)}
                 showControls={!limitRows}
             />
         </>

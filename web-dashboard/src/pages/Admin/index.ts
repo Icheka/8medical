@@ -8,6 +8,7 @@ export * from "./EarningsPage";
 export * from "./InstitutionsPage";
 export * from "./Login";
 export * from "./Logout";
+export * from "./MissionDetailsPage";
 export * from "./MissionsPage";
 export * from "./Overview";
 export * from "./Responders";

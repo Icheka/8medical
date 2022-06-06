@@ -8,7 +8,7 @@ import { routes } from "../../config";
 export const RespondersPage: FunctionComponent = () => {
     return (
         <div>
-            <AdminDashboardHeader title={"Responders"} />
+            <AdminDashboardHeader hideActionButtons title={"Responders"} />
             <RespondersTable />
             <div className={`mt-5`}>
                 <Link to={routes.admin.responders + "/add"}>

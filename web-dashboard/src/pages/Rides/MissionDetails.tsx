@@ -12,7 +12,6 @@ import { IMission } from "../../types/service-types";
 export const MissionDetails: FunctionComponent = () => {
     // vars
     const navigate = useNavigate();
-    const headers = ["Time", "Location", "Amount Earned", "Date", "Description"];
     const { id } = useParams();
 
     // state

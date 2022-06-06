@@ -34,16 +34,16 @@ export const AdminDashboardOverview: FunctionComponent = () => {
     return (
         <div>
             <div className={`flex flex-col w-full gap-y-10 h-full`}>
-                <div className={`flex flex-col justify-between items-start w-full space-y-4`}>
+                <div className={`flex flex-col justify-between items-start w-full h-full space-y-4`}>
                     <div className={`capitalize font-medium`}>Site statistics</div>
-                    <div className={`hidden lg:flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 h-[128px] sm:h-[70px]`}>
+                    <div className={`flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 sm:h-[70px]`}>
                         <BalanceCard label="enrollees" value={siteStatistics[0]} icon={IMAGES.AccountBalance} background={"blue"} />
                         <BalanceCard label="responders" value={siteStatistics[1]} icon={IMAGES.MoneyWithdrawn} background={"blue"} />
                         <BalanceCard label="institutions" value={siteStatistics[2]} icon={IMAGES.MoneyEarned} background={"blue"} />
                         <BalanceCard label="Revenue/earnings" value={siteStatistics[3]} icon={IMAGES.MoneyEarned} background={"blue"} />
                     </div>
                     <div className={`capitalize font-medium pt-3`}>ride statistics</div>
-                    <div className={`hidden lg:flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 h-[128px] sm:h-[70px]`}>
+                    <div className={`flex flex-col sm:flex-row justify-between items-start w-full gap-y-4 sm:gap-y-0 sm:gap-x-4 sm:h-[70px]`}>
                         <BalanceCard label="Calls" value={rideStatistics[0]} icon={IMAGES.AccountBalance} background={"green"} />
                         <BalanceCard label="Active responses" value={rideStatistics[1]} icon={IMAGES.MoneyWithdrawn} background={"green"} />
                         <BalanceCard label="dispatched calls" value={rideStatistics[2]} icon={IMAGES.MoneyEarned} background={"green"} />

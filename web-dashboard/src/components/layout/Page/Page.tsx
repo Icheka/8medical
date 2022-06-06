@@ -16,7 +16,7 @@ export const Page: FunctionComponent<IPage> = ({ children, loading }) => {
 };
 
 const Loader: FunctionComponent = () => (
-    <div className={`min-h-[80vh] bg-purple-50/70 w-full absolute inset-0 z-[100] flex justify-center `}>
+    <div className={`min-h-[80vh] bg-purple-50/70 w-full absolute inset-0 z-10 flex justify-center `}>
         <ReactLoading type={"spin"} className={`fixed top-96`} color={"purple"} />
     </div>
 );

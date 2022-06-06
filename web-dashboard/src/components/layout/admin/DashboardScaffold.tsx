@@ -22,6 +22,7 @@ import {
     CreateInstitutionPage,
     MissionsPage,
     CreateMissionPage,
+    AdminMissionDetailsPage,
 } from "../../../pages/Admin";
 import { RespondersPage } from "../../../pages/Admin/Responders";
 import { CreateEnrolleePage } from "../../../pages/Admin/CreateEnrolleePage";
@@ -311,6 +312,7 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                                         <Route path={`institutions/add`} element={<CreateInstitutionPage />} />
 
                                         <Route path={`missions`} element={<MissionsPage />} />
+                                        <Route path={`missions/details/:id`} element={<AdminMissionDetailsPage />} />
                                         <Route path={`missions/add`} element={<CreateMissionPage />} />
 
                                         <Route path={`earnings`} element={<EarningsPage />} />
