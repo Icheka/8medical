@@ -25,6 +25,7 @@ export const EnrolleesTable: FunctionComponent<IEnrolleesTable> = ({ limitRows, 
         const [code, data] = await AdminEnrolleesService.fetchAll();
         if (code !== 0) return;
 
+        data.reverse();
         setRows(cleanseEnrolleesData(data));
         setEnrollees(data);
     };

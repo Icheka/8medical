@@ -26,6 +26,7 @@ export const InstitutionsPage: FunctionComponent = () => {
         AdminInstitutionsService.fetchAll()
             .then(([code, data]) => {
                 if (code !== 0) return;
+                data.reverse();
                 setInstitutions(data);
                 setRows(prepareRows(data));
             })

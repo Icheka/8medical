@@ -260,5 +260,19 @@ export const SERVICE_PATHS = {
                 },
             };
         },
+        site: (): Record<string, TServicePath> => {
+            const base = baseAdminPath.concat("/site");
+
+            return {
+                siteStatistics: {
+                    method: "get",
+                    path: base.concat("/site-statistics"),
+                },
+                rideStatistics: {
+                    method: "get",
+                    path: base.concat("/ride-statistics"),
+                },
+            };
+        },
     },
 };

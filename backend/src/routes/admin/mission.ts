@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { _Mission } from "../../controllers";
-import { HydratedDocumentType } from "models";
-import { IMission } from "types";
+import { HydratedDocumentType } from "../../models";
+import { IMission } from "../../types";
 
 export const MISSION_ROUTER = Router();
 

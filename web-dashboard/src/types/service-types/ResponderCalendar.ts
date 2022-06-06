@@ -12,4 +12,5 @@ export interface IResponderCalendar extends IModelDocument {
     end: Date;
     title: string;
     responderId: string;
+    missionId: string;
 }

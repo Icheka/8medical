@@ -1,4 +1,5 @@
 import { IModelDocument } from "./model";
+import { IResponder } from "./Responder";
 
 export enum EVehicleType {
     ambulance = "ambulance",
@@ -11,4 +12,5 @@ export interface IVehicle extends IModelDocument {
     type: EVehicleType;
     costPerKm?: number;
     status: string;
+    responder?: IResponder;
 }

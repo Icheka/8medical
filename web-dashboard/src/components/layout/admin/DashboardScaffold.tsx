@@ -44,9 +44,9 @@ const userNavigation = [
     { name: "Settings", href: "#" },
     { name: "Sign out", href: "#" },
 ];
-const accountNavigation = [
-    { name: "Settings", href: "settings", icon: IMAGES.Settings },
-    { name: "Logout", href: "sign-out", icon: IMAGES.Logout },
+const accountNavigation: Array<{name: string, href: string, icon: any}> = [
+    // { name: "Settings", href: "settings", icon: IMAGES.Settings },
+    // { name: "Logout", href: "sign-out", icon: IMAGES.Logout },
 ];
 
 function classNames(...classes: Array<string>) {
@@ -208,7 +208,7 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                                 ))}
                             </nav>
                             <nav className={`px-4 mt-10 space-y-5`}>
-                                <div className={`font-bold text-sm text-gray-800`}>Account</div>
+                                {/* <div className={`font-bold text-sm text-gray-800`}>Account</div> */}
                                 {accountNavigation.map(({ name, href, ...item }, i) => (
                                     <Link className={`flex items-center space-x-4 text-[#979797] text-sm`} to={href} key={i}>
                                         <span className={`w-6 h-6 flex items-center justify-center`}>
@@ -245,7 +245,7 @@ export const AdminDashboardScaffold: FunctionComponent = () => {
                             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
                         </button>
                         <div className="flex-1 px-4 flex justify-between py-4">
-                            <div className="w-10/12 xl:w-8/12 flex rounded-lg overflow-hidden px-3 py-1 bg-white border border-[#C5C5C5]">
+                            <div className="w-10/12 invisible xl:w-8/12 flex rounded-lg overflow-hidden px-3 py-1 bg-white border border-[#C5C5C5]">
                                 <form className="w-full flex md:ml-0" action="#" method="GET">
                                     <label htmlFor="search-field" className="sr-only">
                                         Search

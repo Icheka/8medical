@@ -46,3 +46,10 @@ export interface IMission extends IModelDocument {
     responderPermutations: IResponderPermutations;
     completed?: boolean;
 }
+
+export interface IMissionNote extends IModelDocument {
+    missionId: string;
+    responderId?: string;
+    adminId?: string;
+    text: string;
+}

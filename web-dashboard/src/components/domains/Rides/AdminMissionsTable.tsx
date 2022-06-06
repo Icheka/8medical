@@ -25,6 +25,7 @@ export const AdminMissionsTable: FunctionComponent<IMissionsTable> = ({ limitRow
         const [code, data] = await AdminMissionsService.fetchAll();
         if (code !== 0) return;
 
+        data.reverse();
         setRows(cleanseMissionsData(data));
         setMissions(data);
     };

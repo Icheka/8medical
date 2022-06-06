@@ -45,6 +45,7 @@ export const CreateMissionPage: FunctionComponent = () => {
                     totalEarning: 0,
                     description: "",
                     startTime: new Date(),
+                    pendingResponderRequests: []
                 }}
                 validationSchema={validation}
                 onSubmit={handleSubmit}

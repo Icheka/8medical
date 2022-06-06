@@ -23,6 +23,7 @@ export const VehiclesTable: FunctionComponent<IVehiclesTable> = ({ limitRows }) 
         const [code, data] = await AdminVehiclesService.fetchAll();
         if (code !== 0) return;
 
+        data.reverse();
         setRows(cleanseVehiclesData(data));
         setVehicles(data);
     };
@@ -33,7 +34,7 @@ export const VehiclesTable: FunctionComponent<IVehiclesTable> = ({ limitRows }) 
 
             return [
                 vehicle.registrationPlate,
-                "",
+                `${vehicle.responder?.firstName ?? ''} ${vehicle.responder?.lastName ?? ''}`,
                 vehicle.type,
                 "",
                 vehicle.costPerKm,

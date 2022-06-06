@@ -31,6 +31,7 @@ export const RespondersTable: FunctionComponent<IRespondersTable> = ({ limitRows
         const [code, data] = await AdminRespondersService.fetchAll();
         if (code !== 0) return;
 
+        data.reverse();
         setRows(cleanseRespondersData(data));
         setResponders(data);
     };
