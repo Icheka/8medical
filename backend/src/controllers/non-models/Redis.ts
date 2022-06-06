@@ -18,7 +18,7 @@ export class RedisClient {
         try {
             if (KEYS.REDIS.url)
                 this.client = new IORedis(KEYS.REDIS.url, {
-                    maxRetriesPerRequest: null,
+                    maxRetriesPerRequest: 5,
                     tls: {
                         rejectUnauthorized: false,
                     },
@@ -27,7 +27,7 @@ export class RedisClient {
                 this.client = new IORedis({
                     host: KEYS.REDIS.host,
                     port: Number(KEYS.REDIS.port ?? 0),
-                    maxRetriesPerRequest: null,
+                    maxRetriesPerRequest: 5,
                 });
         } catch (err) {
             console.log("Redis connection error >>", err);
@@ -50,14 +50,5 @@ export class RedisClient {
         } catch (e) {
             return null;
         }
-    }
-
-    public static async currencyRates() {
-        return (await new RedisClient().get("CURRENCY_RATES")) as null | {
-            from: "USD";
-            to: "NGN";
-            rate: number;
-            date: string;
-        };
     }
 }
