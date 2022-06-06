@@ -75,7 +75,7 @@ export const NotificationsHandler: FunctionComponent<INotificationsHandler> = ({
                                         <br />
                                         <strong>Description:</strong> {n.payload.description}
                                         <br />
-                                        <strong>Type:</strong> {n.payload.rideType}
+                                        <strong>Type:</strong> {capitalize(n.payload.rideType)}
                                     </div>
                                 }
                                 title={"New mission!"}
