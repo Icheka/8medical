@@ -61,7 +61,7 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
                 title: "Available for missions",
                 type: EResponderCalendarEventType.available,
             }));
-        const [code, data] = await ResponderCalendarService.addEvents(events);
+        const [code, data] = await ResponderCalendarService.updateEvents(events);
         setSaving(false);
 
         if (code !== 0) return toast.error("An error occurred. Please, try again.");
@@ -141,6 +141,9 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
     const clearUnsavedSelections = () => {
         setRanges([defaultSelection, ...savedRanges]);
     };
+    const clearAllSelections = () => {
+        setRanges([defaultSelection]);
+    };
 
     // hooks
     useEffect(() => {
@@ -204,18 +207,23 @@ export const SelectAvailability: FunctionComponent<ISelectAvailability> = ({ sho
                         </div>
                     </div>
                     <div className={`flex justify-between mt-8`}>
-                        <div className={`flex justify-between space-x-4`}>
+                        <div className={`flex flex-col space-y-4`}>
                             <PrimaryButton
                                 onClick={clearUnsavedSelections}
                                 className={`px-5 !rounded-0 py-1 bg-red-400 border-red-400 hover:bg-red-500 border-none outline-none`}
                                 text={"Clear unsaved selections"}
+                            />
+                            <PrimaryButton
+                                onClick={clearAllSelections}
+                                className={`px-5 !rounded-0 py-1 bg-red-400 border-red-400 hover:bg-red-500 border-none outline-none`}
+                                text={"Clear all selections"}
                             />
                         </div>
                         {/* {ranges.filter((range) => range.saved).length !== savedRanges.length ||
                             (ranges.length > 1 && ranges[0].default && savedRanges.length === 0 && (
                                 <PrimaryButton loading={saving} onClick={saveChanges} className={`px-5 !rounded-0 py-1`} text={"Save"} />
                             ))} */}
-                        <PrimaryButton loading={saving} onClick={saveChanges} className={`px-5 !rounded-0 py-1`} text={"Save"} />
+                        <PrimaryButton loading={saving} onClick={saveChanges} className={`px-5 !rounded-0 py-1 max-h-8`} text={"Save"} />
                     </div>
                 </div>
 

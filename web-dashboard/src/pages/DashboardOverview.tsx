@@ -44,7 +44,7 @@ export const DashboardOverview: FunctionComponent = () => {
                     <div className={``}>
                         <Card className={`w-full !h-full bg-purple-100 p-4 !rounded-xl`}>
                             <div className={`overflow-hidden`}>
-                                <div className={`-mt-[90px] h-[305px] md:-mt-[40px] lg:h-[350px] lg:-mt-[80px] xl:-mt-[80px] xl:h-[305px] w-full`}>
+                                <div className={`-mt-[80px] h-[350px] md:-mt-[40px] lg:h-[360px] lg:-mt-[80px] xl:-mt-[80px] xl:h-[340px] w-full`}>
                                     <ResponderCalendar />
                                 </div>
                             </div>

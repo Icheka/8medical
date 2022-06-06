@@ -7,7 +7,7 @@ import "react-pure-modal/dist/react-pure-modal.min.css";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { ToastContainer } from "react-toastify";
-import { routes } from "./config";
+import { keys, routes } from "./config";
 import { DashboardScaffold } from "./components/layout";
 import { AdminLoginPage, LoginPage, PageUnfoundPage } from "./pages";
 import { SignupPage } from "./pages/Signup";
@@ -16,6 +16,10 @@ import { AdminAuthProvider, AdminProtectedRoute, ResponderContextProvider } from
 import { WidgetLoader } from "react-cloudinary-upload-widget";
 import { AdminDashboardScaffold } from "./components/layout/admin";
 import { ResponderAuthProvider, ResponderProtectedRoute } from "./context/responder.auth";
+import socketClient from "socket.io-client";
+import { NotificationsHandler } from "./utils";
+
+export const io = socketClient(process.env.REACT_APP_API_URL!);
 
 function App() {
     return (
@@ -30,6 +34,7 @@ function App() {
                         <Route path={`/sign-up`} element={<SignupPage />} />
                         <Route path={routes.dashboard.index + "/*"} element={<ResponderProtectedRoute element={<DashboardScaffold />} />} />
                     </Routes>
+                    <NotificationsHandler io={io} />
                 </ResponderAuthProvider>
                 <AdminAuthProvider>
                     <Routes>

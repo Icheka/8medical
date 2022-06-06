@@ -7,6 +7,10 @@ export const ResponderCalendarSchema = new Schema<IResponderCalendar>(
             type: String,
             required: true,
         },
+        missionId: {
+            type: String,
+            required: true,
+        },
         title: {
             type: String,
             required: true,

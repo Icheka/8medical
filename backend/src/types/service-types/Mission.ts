@@ -40,8 +40,16 @@ export interface IMission extends IModelDocument {
     stops: Array<IGeospatialPoint>;
     totalEarning?: number;
     description: string;
-    team: Array<IMissionTeamMember>;
-    respondersContacted: Array<string>;
+    confirmedResponderRequests: Array<string>;
+    pendingResponderRequests: Array<string>;
     rideType: EMissionType;
     responderPermutations: IResponderPermutations;
+    completed?: boolean;
+}
+
+export interface IMissionNote extends IModelDocument {
+    missionId: string;
+    responderId?: string;
+    adminId?: string;
+    text: string;
 }

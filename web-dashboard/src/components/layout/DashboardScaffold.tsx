@@ -250,7 +250,7 @@ export const DashboardScaffold: FunctionComponent = () => {
                             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
                         </button>
                         <div className="flex-1 px-4 flex justify-between py-4">
-                            <div className="w-10/12 xl:w-8/12 flex rounded-lg overflow-hidden px-3 py-1 bg-white border border-[#C5C5C5]">
+                            <div className="w-10/12 invisible xl:w-8/12 flex rounded-lg overflow-hidden px-3 py-1 bg-white border border-[#C5C5C5]">
                                 <form className="w-full flex md:ml-0" action="#" method="GET">
                                     <label htmlFor="search-field" className="sr-only">
                                         Search

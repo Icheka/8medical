@@ -155,6 +155,15 @@ export class BaseModel<T> implements IBaseModel<T> {
             return { error: err as string, data: null };
         }
     };
+    
+    DeleteManyBy: (query: Partial<Record<keyof T, any>>) => Promise<DeleteOpReturnType<T>> = async (query) => {
+        try {
+            const res = await this.model.deleteMany(query);
+            return { data: res };
+        } catch (err) {
+            return { error: err as string, data: null };
+        }
+    };
 
     DeleteAll: () => Promise<DeleteOpReturnType<T>> = async () => {
         try {

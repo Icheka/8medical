@@ -71,8 +71,16 @@ class Responder extends BaseModel<IResponder> {
             payload,
             verificationRoute: (id) => `${KEYS().APP_DOMAIN}/api/responder/account/verify/${id}`,
             validator: ResponderValidations.SignUp,
+            onSignup(account?) {
+                if (!account) return;
+                account.emailVerified = true;
+                account.save();
+            },
         });
-        return s.signup();
+        let { data, error } = await s.signup();
+        if (!error) data = "Thank you for signing up to 8Medical. Sign in with the credentials you created to access your dashboard";
+
+        return { data, error };
     }
     // admin register
     public async AdminRegister(payload: IResponderSignupPayload): Promise<TControllerReturnType> {

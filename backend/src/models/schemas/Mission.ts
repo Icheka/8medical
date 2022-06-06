@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { EMissionStatus, EMissionType, IMissionTeamMember, IMission, EResponderTypes } from "../../types";
+import { EMissionStatus, EMissionType, IMissionTeamMember, IMission, EResponderTypes, IMissionNote } from "../../types";
 import { GeospatialPointSchema } from ".";
 
 export const MissionSchema = new Schema<IMission>(
@@ -33,7 +33,7 @@ export const MissionSchema = new Schema<IMission>(
             type: String,
             required: true,
         },
-        respondersContacted: {
+        pendingResponderRequests: {
             type: [String],
             required: true,
             default: [],
@@ -43,8 +43,8 @@ export const MissionSchema = new Schema<IMission>(
             enum: Object.values(EMissionType),
             required: true,
         },
-        team: {
-            type: [],
+        confirmedResponderRequests: {
+            type: [String],
             required: true,
             default: [],
         },
@@ -58,6 +58,36 @@ export const MissionSchema = new Schema<IMission>(
                 paramedic: 0,
             },
         },
+        completed: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
+    },
+    {
+        timestamps: true,
+    }
+);
+
+export const MissionNoteSchema = new Schema<IMissionNote>(
+    {
+        adminId: {
+            type: String,
+            required: false,
+        },
+        responderId: {
+            type: String,
+            required: false,
+        },
+        missionId: {
+            type: String,
+            required: true,
+        },
+        text: {
+            type: String,
+            required: true,
+            default: "",
+        },
     },
     {
         timestamps: true,
@@ -65,4 +95,4 @@ export const MissionSchema = new Schema<IMission>(
 );
 
 export const MissionModel = model("Mission", MissionSchema);
-    
+export const MissionNoteModel = model("MissionNote", MissionNoteSchema);

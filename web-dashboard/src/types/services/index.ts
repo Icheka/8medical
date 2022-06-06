@@ -62,6 +62,26 @@ export const SERVICE_PATHS = {
                     method: "get",
                     path: base.concat("/:id"),
                 },
+                update: {
+                    method: "patch",
+                    path: base.concat("/:id"),
+                },
+                accept: {
+                    method: "patch",
+                    path: base.concat("/:id/accept"),
+                },
+                reject: {
+                    method: "patch",
+                    path: base.concat("/:id/reject"),
+                },
+                addNote: {
+                    method: "post",
+                    path: base.concat("/:id/note"),
+                },
+                getNote: {
+                    method: "get",
+                    path: base.concat("/:id/note"),
+                },
             };
         },
         calendar: (): Record<string, TServicePath> => {
@@ -74,6 +94,10 @@ export const SERVICE_PATHS = {
                 },
                 addEvents: {
                     method: "post",
+                    path: base,
+                },
+                updateEvents: {
+                    method: "patch",
                     path: base,
                 },
             };

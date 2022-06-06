@@ -23,6 +23,8 @@ export const RidesTable: FunctionComponent<IRidesTable> = ({ limitRows }) => {
         const [code, data] = await ResponderMissionsService.fetchMissions();
         if (code !== 0) return;
 
+        data.reverse();
+
         setRows(cleanseMissionsData(data));
         setMissions(data);
     };

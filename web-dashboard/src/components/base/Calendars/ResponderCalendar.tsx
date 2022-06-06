@@ -48,7 +48,7 @@ export const ResponderCalendar: FunctionComponent<IResponderCalendarView> = ({ v
             <div className={`mb-4`}>
                 <PrimaryButton onClick={() => setShowSelectAvailaibilty(true)} className={`px-3 py-1`} text={"Select availability"} />
             </div>
-            <div className={`h-[310px] lg:h-full`}>
+            <div className={`h-[340px] lg:h-full`}>
                 <CalendarView events={events} />
             </div>
             <SelectAvailability showModal={showSelectAvailaibilty} onClose={handleSelectAvailabilityClose} />

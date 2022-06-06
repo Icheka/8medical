@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { _Mission } from "../../controllers";
+import { HydratedDocumentType } from "models";
+import { IMission } from "types";
 
 export const MISSION_ROUTER = Router();
 
@@ -12,7 +14,7 @@ const M = _Mission;
 r.post("/", async (req, res) => {
     const d = await _Mission.createMission(req.body);
 
-    if (d.error) return res.send(d.data).status(406);
+    if (d.error) return res.send(d.error).status(406);
     return res.send(d.data);
 });
 
@@ -52,6 +54,14 @@ r.delete("/:id", async (req, res) => {
 // @desc Update mission by ID
 // @access Admin
 r.patch("/:id", async (req, res) => {
-    const d = await _Mission.UpdateOne(req.params.id, req.body);
+    const id = req.params.id as string;
+    const oldMission = await _Mission.FetchOne(id);
+    const d = await _Mission.UpdateOne(id, req.body);
+
+    if (!d.error && d.data) {
+        const mission = d.data as HydratedDocumentType<IMission>;
+        if (mission!.completed || mission!.pendingResponderRequests.length !== 0) _Mission.sendIONotificatioForPendingResponders(id, mission);
+    }
+
     return res.send(d).status(d.error ? 406 : 200);
 });

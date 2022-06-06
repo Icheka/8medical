@@ -20,6 +20,18 @@ r.post(`/`, ResponderAuth, async (req, res) => {
     return res.send(d).status(d.error ? 406 : 200);
 });
 
+// @route PATCH /api/responder/events
+// @desc Update calendar
+// @access Responder
+r.patch(`/`, ResponderAuth, async (req, res) => {
+    const userId = req.context.user!._id as string
+    const events = req.body.events.map((event: any) => ({ ...event, responderId: userId }));
+
+    await R.DeleteManyBy({ responderId: userId });
+    const d = await R.InsertMany(events);
+    return res.send(d).status(d.error ? 406 : 200);
+});
+
 // @route GET /api/responder/events
 // @desc Fetch my events
 // @access Responder

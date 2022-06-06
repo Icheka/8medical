@@ -33,6 +33,7 @@ export interface IResponderSignupPayload {
     email: string;
     password: string;
     phone: string;
+    responderTypes?: Array<EResponderTypes>;
 }
 
 export interface IResponderSigninPayload {

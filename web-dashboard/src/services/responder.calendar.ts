@@ -20,4 +20,13 @@ export class ResponderCalendarService {
             },
         });
     }
+   
+    public static async updateEvents(events: Array<Partial<IResponderCalendar>>) {
+        return ResponderHttps.query({
+            service: calendar.updateEvents,
+            body: {
+                events,
+            },
+        });
+    }
 }

@@ -9,6 +9,7 @@ export const ResponderValidations = {
         middleName: nameValidation.optional().allow(""),
         email: emailValidationSchema.required(),
         password: passwordValidation.required(),
-        phone: joi.string().optional().min(6).max(16).allow(null, ''),
+        phone: joi.string().optional().min(6).max(16).allow(null, ""),
+        responderTypes: joi.array().optional()
     }),
 };

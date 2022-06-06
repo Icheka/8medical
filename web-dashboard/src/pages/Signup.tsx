@@ -6,14 +6,17 @@ import { LoginValidations } from "../formik-validations";
 import { BiEnvelope } from "react-icons/bi";
 import { MdVpnKey } from "react-icons/md";
 import { AiFillEye } from "react-icons/ai";
-import { OutlineButton, PrimaryButton } from "../components/base";
+import { Dropdown, OutlineButton, PrimaryButton } from "../components/base";
 import { PurpleLink } from "../components/base/Links";
 import { routes, _8MedicalLinks } from "../config";
 import { Logo } from "../components/brand";
-import { IResponderSignupPayload } from "../types/service-types";
+import { EResponderTypes, IResponderSignupPayload } from "../types/service-types";
 import { ResponderAccountService } from "../services";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { capitalize } from "capitalization";
+
+const responderTypes = Object.values(EResponderTypes);
 
 export const SignupPage: FunctionComponent = () => {
     // vars
@@ -22,11 +25,11 @@ export const SignupPage: FunctionComponent = () => {
     // state
     const [isSaving, setIsSaving] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false)
+    const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
 
     // utils
     const handleSave = async (values: IResponderSignupPayload) => {
-        if (!hasAcceptedTerms) return toast.error('You need to read and agree to our Terms of Conditions to sign up');
+        if (!hasAcceptedTerms) return toast.error("You need to read and agree to our Terms of Conditions to sign up");
 
         setIsSaving(true);
         const [code, data] = await ResponderAccountService.signup(values);
@@ -49,6 +52,7 @@ export const SignupPage: FunctionComponent = () => {
                                 firstName: "",
                                 lastName: "",
                                 phone: "",
+                                responderTypes: [],
                             }}
                             validationSchema={LoginValidations}
                             onSubmit={handleSave}
@@ -68,6 +72,16 @@ export const SignupPage: FunctionComponent = () => {
                                     <div className={`w-full space-y-4`}>
                                         <FormikField placeholder={"First name here"} name={"firstName"} label={"First Name"} showLabel leftIcon={<BiEnvelope color={"#DFE2E6"} />} />
                                         <FormikField placeholder={"Last name here"} name={"lastName"} label={"Last Name"} showLabel leftIcon={<BiEnvelope color={"#DFE2E6"} />} />
+                                        <Dropdown
+                                            options={responderTypes.map((t) => ({
+                                                value: t,
+                                                label: capitalize(t),
+                                            }))}
+                                            fieldLabel={"Sign up as..."}
+                                            showFieldLabel
+                                            label="Sign up as..."
+                                            onSelect={(i) => formik.setFieldValue("responderTypes", [responderTypes[i]])}
+                                        />
                                         <FormikField placeholder={"Your E-Email"} name={"email"} label={"E-Mail"} showLabel leftIcon={<BiEnvelope color={"#DFE2E6"} />} />
                                         <FormikField
                                             placeholder={"Your Password"}
@@ -76,7 +90,7 @@ export const SignupPage: FunctionComponent = () => {
                                             showLabel
                                             leftIcon={<MdVpnKey color={`#DFE2E6`} />}
                                             rightIcon={
-                                                <button>
+                                                <button onClick={() => setShowPassword(!showPassword)} type={"button"}>
                                                     <AiFillEye color={`#DFE2E6`} />
                                                 </button>
                                             }
@@ -98,7 +112,7 @@ export const SignupPage: FunctionComponent = () => {
                                             className={`w-full py-3 flex justify-center items-center font-bold text-md`}
                                             text={"Log in"}
                                         />
-                                        <PrimaryButton type={"submit"} className={`w-full py-3 flex justify-center items-center font-bold text-md`} text={"Sign up"} />
+                                        <PrimaryButton loading={isSaving} type={"submit"} className={`w-full py-3 flex justify-center items-center font-bold text-md`} text={"Sign up"} />
                                     </div>
                                 </form>
                             )}

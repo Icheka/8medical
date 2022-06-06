@@ -1,10 +1,16 @@
-import { createContext, FunctionComponent, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, Dispatch, FunctionComponent, SetStateAction, useContext, useEffect, useMemo, useState } from "react";
 import { RouteProps, useLocation, useNavigate, Navigate, Route } from "react-router-dom";
 import { Updater, useImmer } from "use-immer";
 import { routes } from "../config";
 import { LoginPage } from "../pages";
 import { ResponderAccountService } from "../services";
 import { IResponder, IResponderSigninPayload, IResponderSignupPayload } from "../types/service-types";
+import { INotification } from "../types/service-types/Notification";
+
+export interface IScopedNotification extends INotification {
+    key?: any;
+    onClose?: VoidFunction;
+}
 
 interface IResponderAuthContext {
     user?: IResponder;
@@ -14,6 +20,8 @@ interface IResponderAuthContext {
     login: (p: IResponderSigninPayload) => Promise<[number, any]>;
     signup: (p: IResponderSignupPayload) => void;
     logout: VoidFunction;
+    notifications: Array<IScopedNotification>;
+    setNotifications: Dispatch<SetStateAction<IScopedNotification[]>>;
 }
 
 const AuthContext = createContext<IResponderAuthContext>({} as IResponderAuthContext);
@@ -32,6 +40,7 @@ export const ResponderAuthProvider: FunctionComponent<IResponderAuthProvider> = 
     const [error, setError] = useState<any>();
     const [loading, setLoading] = useState(false);
     const [loadingInitial, setLoadingInitial] = useState(true);
+    const [notifications, setNotifications] = useState<Array<IScopedNotification>>([]);
 
     // utils
     const login = async (p: IResponderSigninPayload) => {
@@ -74,8 +83,10 @@ export const ResponderAuthProvider: FunctionComponent<IResponderAuthProvider> = 
             signup,
             logout,
             setUser,
+            notifications,
+            setNotifications,
         }),
-        [user, loading, error]
+        [user, loading, error, notifications.length]
     );
 
     // hooks
