@@ -16,11 +16,19 @@ export class RedisClient {
         this.url = url;
 
         try {
-            this.client = new IORedis({
-                host: KEYS.REDIS.host,
-                port: Number(KEYS.REDIS.port ?? 0),
-                maxRetriesPerRequest: null,
-            });
+            if (KEYS.REDIS.url)
+                this.client = new IORedis(KEYS.REDIS.url, {
+                    maxRetriesPerRequest: null,
+                    tls: {
+                        rejectUnauthorized: false,
+                    },
+                });
+            else
+                this.client = new IORedis({
+                    host: KEYS.REDIS.host,
+                    port: Number(KEYS.REDIS.port ?? 0),
+                    maxRetriesPerRequest: null,
+                });
         } catch (err) {
             console.log("Redis connection error >>", err);
             this.client = new IORedis();
